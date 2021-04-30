@@ -1,6 +1,11 @@
 #include <iostream>
+#include "../header/Zentrale.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+
+    // Create the Zentrale and start the execution of code.
+    Zentrale zentrale;
+    zentrale.start();
+
     return 0;
 }
