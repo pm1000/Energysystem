@@ -4,12 +4,13 @@
 
 #include "../header/Haushalt.h"
 
-Haushalt::Haushalt(int id) {
+Haushalt::Haushalt(int id, std::string name) {
     this->id = id;
     this->type = "Haushalt";
     this->completeConsumption = 0.0;
     this->weekday = Weekday::Monday;
     this->time = 0;
+    this->name = name;
 }
 
 Haushalt::~Haushalt() {

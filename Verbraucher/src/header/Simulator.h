@@ -9,14 +9,18 @@
 #include "iostream"
 #include "unistd.h"
 #include "thread"
+#include "UDPKommunikation.h"
+#include "ZentralenKommunikation.h"
 
 class Simulator {
 
 private:
     Verbraucher* verbraucher;
+    UDPKommunikation* interface;
+    std::string messageToJSON(std::string type, std::string name, int id, double value);
     void simulate();
 public:
-    Simulator(Verbraucher *verbraucher);
+    Simulator(Verbraucher *verbraucher, std::string communicationType, int port, std::string address);
 
     virtual ~Simulator();
 

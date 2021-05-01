@@ -6,7 +6,7 @@
 
 int main() {
     srand(0);
-    Verbraucher* haushalt = new Unternehmen(123);
+    Verbraucher* haushalt = new Unternehmen(123, "FLEISCHER");
 
     /*for (int i = 0; i < 365; ++i){
         for (int j = 0; j < 24; ++j){
@@ -14,7 +14,7 @@ int main() {
             std::cout << cons << " kW/h" << std::endl;
         }
     }*/
-    Simulator* sim = new Simulator(haushalt);
+    Simulator* sim = new Simulator(haushalt,"UDP",5000,"127.0.0.1");
     sim->start();
 
     std::cout << "Complete Consumption: " << haushalt->getCompleteConsumption() <<std::endl;

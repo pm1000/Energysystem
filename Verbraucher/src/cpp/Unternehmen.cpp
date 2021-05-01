@@ -4,13 +4,14 @@
 
 #include "../header/Unternehmen.h"
 
-Unternehmen::Unternehmen(int id) {
+Unternehmen::Unternehmen(int id, std::string name) {
     this->id = id;
     this->type = "Unternehmen";
     this->completeConsumption = 0.0;
     this->weekday = Weekday::Monday;
     this->time = 0;
     this->consumptionSeed = rand() % 20000 + 100;
+    this->name = name;
 }
 
 
@@ -75,5 +76,5 @@ double Unternehmen::getCompleteConsumption() const {
 }
 
 std::string Unternehmen::getType() {
-    return std::string();
+    return type;
 }

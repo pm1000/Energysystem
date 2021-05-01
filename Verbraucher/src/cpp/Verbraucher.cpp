@@ -14,3 +14,7 @@ double Verbraucher::getCompleteConsumption() const{
     return this->completeConsumption;
 }
 
+const std::string &Verbraucher::getName() const {
+    return name;
+}
+

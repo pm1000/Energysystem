@@ -10,7 +10,7 @@
 class Haushalt : public Verbraucher{
 
 public:
-    Haushalt(int id);
+    Haushalt(int id, std::string name);
 
     ~Haushalt() override;
 

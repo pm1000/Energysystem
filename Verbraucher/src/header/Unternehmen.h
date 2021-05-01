@@ -13,7 +13,7 @@ private:
 
 public:
 
-    Unternehmen(int id);
+    Unternehmen(int id, std::string name);
 
     ~Unternehmen() override;
 

@@ -17,7 +17,7 @@ protected:
     double completeConsumption;
     Weekday weekday;
     short time;
-
+    std::string name;
 
 public:
     virtual ~Verbraucher();
@@ -26,6 +26,7 @@ public:
     virtual double getCompleteConsumption() const;
     virtual std::string getType() = 0;
     int getId() const;
+    const std::string &getName() const;
 
 
 };
