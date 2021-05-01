@@ -22,7 +22,7 @@ private:
     // TODO: tcp socket object here
 
     // Thread state
-    bool interrupted;
+    bool stopped;
 
 
 public:
@@ -33,7 +33,7 @@ public:
 
     // Thread functions
     void operator()();
-    void interrupt();
+    void stop();
 
 };
 

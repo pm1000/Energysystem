@@ -5,9 +5,17 @@
 #ifndef ZENTRALE_UDPSERVER_H
 #define ZENTRALE_UDPSERVER_H
 
+#define MESSAGE_SIZE 1500
+
 #include <string>
 #include <iostream>
 #include <thread>
+
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+
 #include "UDPCallback.h"
 
 using namespace std;
@@ -18,12 +26,12 @@ using namespace std;
 class UDPServer {
 private:
     void run();
-    UDPCallback* callback{};
+    UDPCallback* callback {};
 
-    // TODO: udp socket object here
+    int socket_fd {-1};
 
     // Thread state
-    bool interrupted{};
+    bool stopped {false};
 
 public:
     UDPServer();
@@ -34,7 +42,7 @@ public:
 
     // Thread functions
     void operator()();
-    void interrupt();
+    void stop();
 };
 
 

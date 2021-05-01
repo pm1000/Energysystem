@@ -23,21 +23,28 @@ Zentrale::~Zentrale() = default;
  */
 void Zentrale::start() {
 
-    // TODO: try-catch clauses
-
-    cout << "[Zentrale] Start function called. Starting threads." << endl << endl;
-
     // Call initialization
+    cout << "[Zentrale] Start function called. Starting threads." << endl << endl;
     this->udpServer.init(8000);
     this->udpServer.setCallback(this);
     this->webserver.init(9000);
 
+
     // Start threads
-    thread webServerThread(ref(this->webserver));
-    thread udpServerThread(ref(this->udpServer));
+    try {
+        thread webServerThread(ref(this->webserver));
+        thread udpServerThread(ref(this->udpServer));
+        webServerThread.detach();
+        udpServerThread.detach();
+    } catch (system_error &e) {
+        cerr << e.what() << endl;
+        exit(1);
+    }
+
 
     // Wait for all threads
-    this_thread::sleep_for(chrono::seconds(2));
+    this_thread::sleep_for(chrono::milliseconds(500));
+
 
     // User input
     string input;
@@ -51,10 +58,8 @@ void Zentrale::start() {
 
     // Stop everything here
     cout << "[Zentrale] Stopping all services." << endl;
-    this->webserver.interrupt();
-    this->udpServer.interrupt();
-    webServerThread.join();
-    udpServerThread.join();
+    this->webserver.stop();
+    this->udpServer.stop();
 
 
     // Clear all fields

@@ -7,7 +7,7 @@
 /**
  * Constructor
  */
-Webserver::Webserver() : interrupted(false) {
+Webserver::Webserver() : stopped(false) {
 
 }
 
@@ -36,7 +36,7 @@ void Webserver::run() {
     // Console log.
     cout << "[Webserver] Thread started. Entering while loop." << endl;
 
-    while (!this->interrupted) {
+    while (!this->stopped) {
 
         // TODO: accept function for the tcp connection here
         std::this_thread::sleep_for(std::chrono::seconds(5));
@@ -46,12 +46,12 @@ void Webserver::run() {
 
 
 /**
- * Set the interrupted state for this thread.
+ * Set the stopped state for this thread.
  *
  * @param value
  */
-void Webserver::interrupt() {
-    this->interrupted = true;
+void Webserver::stop() {
+    this->stopped = true;
 }
 
 
