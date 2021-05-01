@@ -5,9 +5,23 @@
 #ifndef VERBRAUCHER_UNTERNEHMEN_H
 #define VERBRAUCHER_UNTERNEHMEN_H
 
+#include "Verbraucher.h"
 
-class Unternehmen {
+class Unternehmen : public Verbraucher{
+private:
+    int consumptionSeed;
 
+public:
+
+    Unternehmen(int id);
+
+    ~Unternehmen() override;
+
+    double getLastHourConsumption() override;
+
+    double getCompleteConsumption() const override;
+
+    std::string getType() override;
 };
 
 

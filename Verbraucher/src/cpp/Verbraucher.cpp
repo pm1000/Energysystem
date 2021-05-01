@@ -4,9 +4,7 @@
 
 #include "../header/Verbraucher.h"
 
-Verbraucher::~Verbraucher() {
-
-}
+Verbraucher::~Verbraucher() = default;
 
 int Verbraucher::getId() const {
     return id;

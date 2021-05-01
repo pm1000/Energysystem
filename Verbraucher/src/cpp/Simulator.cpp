@@ -18,7 +18,7 @@ void Simulator::start() {
             t1.join();
         }
 
-    } catch (std::exception e) {
+    } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
 }

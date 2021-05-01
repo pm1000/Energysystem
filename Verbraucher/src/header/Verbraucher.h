@@ -14,10 +14,6 @@ class Verbraucher {
 protected:
     std::string type;
     int id;
-public:
-    int getId() const;
-
-protected:
     double completeConsumption;
     Weekday weekday;
     short time;
@@ -29,6 +25,7 @@ public:
     virtual double getLastHourConsumption() = 0;
     virtual double getCompleteConsumption() const;
     virtual std::string getType() = 0;
+    int getId() const;
 
 
 };
