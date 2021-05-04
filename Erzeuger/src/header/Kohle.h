@@ -6,8 +6,17 @@
 #define ERZEUGER_KOHLE_H
 
 
-class Kohle {
+#include "Erzeuger.h"
 
+class Kohle : public  Erzeuger{
+private:
+    double maximumGeneration;
+
+public:
+    Kohle(int id, std::string name, double maximumGeneration);
+    virtual ~Kohle();
+
+    double getLastHourGeneration() override;
 };
 
 

@@ -17,21 +17,21 @@ UDPKommunikation::~UDPKommunikation() {
 
 void UDPKommunikation::initSocket() {
     //create socket
-    this->socketFD = socket(AF_INET, SOCK_DGRAM, 0);
+    try {
+        this->socketFD = socket(AF_INET, SOCK_DGRAM, 0);
 
-    client.sin_family = AF_INET;
-    inet_pton(AF_INET, address.c_str(), &client.sin_addr.s_addr);
-    client.sin_port = htons(port);
-    /*int res = bind(this->socketFD, (struct sockaddr*) &client, sizeof(struct sockaddr_in));
-    if (res < 0) {
-        throw std::runtime_error("Socked bind not successful");
-    }*/
+        client.sin_family = AF_INET;
+        inet_pton(AF_INET, address.c_str(), &client.sin_addr.s_addr);
+        client.sin_port = htons(port);
+    }catch (std::exception &e){
+        std::cerr << "Failed to initiate the socket." << std::endl << e.what() << std::endl;
+    }
 }
 
 void UDPKommunikation::sendData(std::string message) {
     try {
         sendto(socketFD,message.c_str(),message.size(),0,(struct sockaddr*) &client, sizeof (struct sockaddr));
     }catch (std::exception &e){
-        std::cout << e.what() << std::endl;
+        std::cout << "Failed to send data." << std::endl << e.what() << std::endl;
     }
 }

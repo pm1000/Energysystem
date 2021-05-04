@@ -6,8 +6,20 @@
 #define ERZEUGER_SOLAR_H
 
 
-class Solar {
+#include "Erzeuger.h"
+#include "time.h"
 
+class Solar : public Erzeuger{
+private:
+    int hour;
+    int hourCount;
+    int size;
+
+public:
+    Solar(int id, std::string name, int size);
+    virtual ~Solar();
+
+    double getLastHourGeneration() override;
 };
 
 

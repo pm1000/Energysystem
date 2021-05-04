@@ -6,8 +6,18 @@
 #define ERZEUGER_WIND_H
 
 
-class Wind {
+#include "Erzeuger.h"
 
+class Wind : public Erzeuger{
+private:
+    int size;
+
+public:
+    Wind(int id, std::string name, int size);
+
+    virtual ~Wind();
+
+    double getLastHourGeneration() override;
 };
 
 
