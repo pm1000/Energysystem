@@ -7,7 +7,13 @@
 /**
  * Constructor
  */
-Zentrale::Zentrale(){
+Zentrale::Zentrale() {
+
+    // Init all services
+    this->udpServer.init(5000);
+    this->udpServer.setCallback(this);
+    this->webserver.init(9000);
+
     komponentenController = new KomponentenController();
 };
 
@@ -27,11 +33,8 @@ Zentrale::~Zentrale(){
  */
 void Zentrale::start() {
 
-    // Call initialization
+    // Console log
     cout << "[Zentrale] Start function called. Starting threads." << endl << endl;
-    this->udpServer.init(5000);
-    this->udpServer.setCallback(this);
-    this->webserver.init(5000);
 
 
     // Start threads
@@ -46,7 +49,7 @@ void Zentrale::start() {
     }
 
 
-    // Wait for all threads
+    // Wait for all threads to be started
     this_thread::sleep_for(chrono::milliseconds(500));
 
 

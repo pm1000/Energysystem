@@ -9,6 +9,11 @@
 #include <iostream>
 #include <thread>
 
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+
 
 using namespace std;
 
@@ -19,7 +24,8 @@ class Webserver {
 private:
     void run();
 
-    // TODO: tcp socket object here
+    int socket_fd {-1};
+
 
     // Thread state
     bool stopped;
