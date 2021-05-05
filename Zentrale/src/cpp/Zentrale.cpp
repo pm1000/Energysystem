@@ -10,8 +10,7 @@
 Zentrale::Zentrale() {
 
     // Create komponentenController
-    komponentenController = new KomponentenController();
-
+    komponentenController = KomponentenController::getInstance();
     // Init all services
     this->udpServer.init(5000);
     this->udpServer.setCallback(this->komponentenController);

@@ -7,15 +7,28 @@
 
 
 #include "../Komponenten/KomponentenController.h"
+#include "string"
+
+using std::string;
 
 class HTMLGenerator {
 private:
     KomponentenController* komponentenController;
 
+    string generateHeader();
+    string openBody();
+    string closeBody();
+    string generateMainTab();
+    string generateTableHead(string type);
+    string closeTable();
+    string generateTableRow(string type, string name, int id, double value, unsigned long long time);
+    string generateSubTabs(string type);
 public:
 
     HTMLGenerator(KomponentenController* komponentenController);
     virtual ~HTMLGenerator();
+
+    string generateMainPage();
 
 };
 

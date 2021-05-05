@@ -14,23 +14,26 @@
 #include "../UDPServer/UDPCallback.h"
 #include "vector"
 
+
 class KomponentenController : public UDPCallback, public HTTPCallback {
     //todo for yannick: mach das ding mal als singelton pattern
 private:
     std::unordered_map<int, Komponente*> komponenten;
     std::mutex mtx;
     std::unordered_map<std::string, int> nameMapping;
+    KomponentenController() = default;
+    static KomponentenController* instance;
 
 public:
-    KomponentenController();
+    static KomponentenController* getInstance();
     virtual ~KomponentenController();
-
     void processMessage(std::string message) override;
     Komponente* getKomponenteById(int id) override;
     Komponente* getKomponenteByName (string name) override;
     std::vector<std::string> getKomponentenNamen();
     std::vector<int> getKomponentenIDs();
-
+    std::vector<Komponente*> getErzeuger();
+    std::vector<Komponente*> getVerbraucher();
 };
 
 
