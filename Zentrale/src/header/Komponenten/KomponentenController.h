@@ -10,8 +10,8 @@
 #include "Erzeuger.h"
 #include "Verbraucher.h"
 #include "mutex"
-#include "HTTPCallback.h"
-#include "UDPCallback.h"
+#include "../WebServer/HTTPCallback.h"
+#include "../UDPServer/UDPCallback.h"
 
 class KomponentenController : public UDPCallback, public HTTPCallback {
 private:

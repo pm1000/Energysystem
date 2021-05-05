@@ -2,7 +2,7 @@
 // Created by yabr on 05.05.21.
 //
 
-#include "../header/HTTPIntepreter.h"
+#include "../../header/WebServer/HTTPIntepreter.h"
 
 /**
  * Constructor.

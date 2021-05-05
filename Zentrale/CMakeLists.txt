@@ -7,5 +7,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package (Threads REQUIRED)
 
-add_executable(Zentrale src/cpp/main.cpp src/cpp/Zentrale.cpp src/header/Zentrale.h src/cpp/Webserver.cpp src/header/Webserver.h src/cpp/Komponente.cpp src/header/Komponente.h src/cpp/Erzeuger.cpp src/header/Erzeuger.h src/cpp/Verbraucher.cpp src/header/Verbraucher.h src/cpp/UDPServer.cpp src/header/UDPServer.h src/header/UDPCallback.h src/cpp/HTTPIntepreter.cpp src/header/HTTPIntepreter.h src/header/HTTPCallback.h  src/cpp/KomponentenController.cpp src/header/KomponentenController.h)
+add_executable(Zentrale src/cpp/main.cpp src/cpp/Zentrale.cpp src/header/Zentrale.h src/cpp/WebServer/Webserver.cpp src/header/WebServer/Webserver.h src/cpp/Komponenten/Komponente.cpp src/header/Komponenten/Komponente.h src/cpp/Komponenten/Erzeuger.cpp src/header/Komponenten/Erzeuger.h src/cpp/Komponenten/Verbraucher.cpp src/header/Komponenten/Verbraucher.h src/cpp/UDPServer/UDPServer.cpp src/header/UDPServer/UDPServer.h src/header/UDPServer/UDPCallback.h src/cpp/WebServer/HTTPIntepreter.cpp src/header/WebServer/HTTPIntepreter.h src/header/WebServer/HTTPCallback.h src/cpp/Komponenten/KomponentenController.cpp src/header/Komponenten/KomponentenController.h)
 target_link_libraries(Zentrale ${CMAKE_THREAD_LIBS_INIT})

@@ -2,62 +2,59 @@
 // Created by philipp on 30.04.21.
 //
 
-#include "../header/UDPServer.h"
-
-
-/**
- * Constructor.
- */
-UDPServer::UDPServer() = default;
+#include "../../header/WebServer/Webserver.h"
+#include "../../header/WebServer/HTTPIntepreter.h"
 
 /**
- * Destructor.
+ * Constructor
  */
-UDPServer::~UDPServer() = default;
+Webserver::Webserver() : stopped(false) {
 
-
-
-/**
- * Callable to start a thread.
- */
-void UDPServer::operator()() {
-    this->run();
 }
 
 
 
 /**
- * Started with the thread.
+ * Destructor
  */
-void UDPServer::run() {
+Webserver::~Webserver() = default;
+
+
+
+/**
+ * Thread entrypoint.
+ */
+void Webserver::operator()() {
+    this->run();
+}
+
+
+/**
+ * Function to run in a separate thread.
+ */
+void Webserver::run() {
 
     // Console log.
-    cout << "[UDP Server] Thread started. Entering while loop." << endl;
+    cout << "[Webserver] Thread started. Entering while loop." << endl;
 
-    // Endless loop until this thread becomes stopped.
     while (!this->stopped) {
 
         // Get client information.
         sockaddr_in client_addr {};
         int addr_len = sizeof(sockaddr_in);
 
-        // Save the message.
-        char buffer[MESSAGE_SIZE];
-        ssize_t bytesReceived = recvfrom(this->socket_fd, buffer, MESSAGE_SIZE, 0, (sockaddr*) &client_addr, (socklen_t*) &addr_len);
-
-        // Error handling.
-        if (bytesReceived < 0) {
+        // Accept incoming connections
+        int newSock_fd = accept(this->socket_fd, (sockaddr *) &client_addr, (socklen_t *) &addr_len);
+        if (newSock_fd < 0) {
             int errorNr = errno;
-            cerr << "Socket receive failed with err no: " << errorNr << endl;
+            cerr << "Socket accept failed with err no: " << errorNr << endl;
         }
 
-        // Forward incoming messages to the callback function.
-        if (bytesReceived > 0) {
-            this->callback->processMessage(string(buffer));
-        }
+        HTTPIntepreter intepreter(this->callback, newSock_fd);
+
+        thread httpThread(intepreter);
+        httpThread.detach();
     }
-
-    cout << "[UDP Server] Exited while loop." << endl;
 }
 
 
@@ -67,7 +64,7 @@ void UDPServer::run() {
  *
  * @param value
  */
-void UDPServer::stop() {
+void Webserver::stop() {
 
     // Set flag.
     this->stopped = true;
@@ -87,25 +84,14 @@ void UDPServer::stop() {
 
 
 /**
- * Set the callback function.
+ * Initialization for the webserver.
  *
- * @param callback Provide a function pointer to the callback function.
+ * @param port Provide a port for the webserver.
  */
-void UDPServer::setCallback(UDPCallback* callback) {
-    this->callback = callback;
-}
-
-
-
-/**
- * Bind port.
- *
- * @param port
- */
-void UDPServer::init(int port) {
+void Webserver::init(int port) {
 
     // Create the socket.
-    this->socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
+    this->socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (this->socket_fd < 0) {
         int errorNr = errno;
         cerr << "Socket call failed with err no: " << errorNr << endl;
@@ -123,5 +109,23 @@ void UDPServer::init(int port) {
         cerr << "Socket bind failed with err no: " << errorNr << endl;
         exit(1);
     }
+
+    // Listen for incoming connections
+    result = listen(this->socket_fd, 5);
+    if (result < 0) {
+        int errorNr = errno;
+        cerr << "Socket listen failed with err no: " << errorNr << endl;
+        exit(1);
+    }
 }
 
+
+
+/**
+ * Set the callback.
+ *
+ * @param callback
+ */
+void Webserver::setCallback(HTTPCallback *callback) {
+    this->callback = callback;
+}

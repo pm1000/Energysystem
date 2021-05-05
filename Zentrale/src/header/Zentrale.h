@@ -9,11 +9,11 @@
 #include <thread>
 #include <iostream>
 
-#include "Webserver.h"
-#include "Komponente.h"
-#include "UDPCallback.h"
-#include "UDPServer.h"
-#include "KomponentenController.h"
+#include "WebServer/Webserver.h"
+#include "Komponenten/Komponente.h"
+#include "UDPServer/UDPCallback.h"
+#include "UDPServer/UDPServer.h"
+#include "Komponenten/KomponentenController.h"
 
 using namespace std;
 

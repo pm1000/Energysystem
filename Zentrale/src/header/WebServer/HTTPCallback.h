@@ -6,7 +6,7 @@
 #define ZENTRALE_HTTPCALLBACK_H
 
 #include <string>
-#include "Komponente.h"
+#include "../Komponenten/Komponente.h"
 
 using namespace std;
 

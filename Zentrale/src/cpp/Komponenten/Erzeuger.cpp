@@ -2,7 +2,7 @@
 // Created by philipp on 30.04.21.
 //
 
-#include "../header/Erzeuger.h"
+#include "../../header/Komponenten/Erzeuger.h"
 
 Erzeuger::Erzeuger(std::string type, std::string name, int id) {
     this->name = name;

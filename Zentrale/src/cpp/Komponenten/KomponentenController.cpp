@@ -2,7 +2,7 @@
 // Created by philipp on 05.05.21.
 //
 
-#include "../header/KomponentenController.h"
+#include "../../header/Komponenten/KomponentenController.h"
 
 KomponentenController::KomponentenController() {
 

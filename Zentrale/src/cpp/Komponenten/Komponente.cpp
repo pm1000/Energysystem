@@ -2,7 +2,7 @@
 // Created by philipp on 30.04.21.
 //
 
-#include "../header/Komponente.h"
+#include "../../header/Komponenten/Komponente.h"
 
 Komponente::Komponente() {}
 
