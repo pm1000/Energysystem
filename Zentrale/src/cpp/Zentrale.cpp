@@ -11,8 +11,9 @@ Zentrale::Zentrale() {
 
     // Init all services
     this->udpServer.init(5000);
-    this->udpServer.setCallback(this);
+    this->udpServer.setCallback(this->komponentenController);
     this->webserver.init(9000);
+    this->webserver.setCallback(this->komponentenController);
 
     komponentenController = new KomponentenController();
 };
@@ -71,19 +72,4 @@ void Zentrale::start() {
 
     // Clear all fields
     //cout << "[Zentrale] Clearing all fields." << endl;
-}
-
-
-
-/**
- * Process incoming messages here.
- *
- * @param message The message in JSON format.
- */
-void Zentrale::processMessage(string message) {
-
-    // TODO: Match the message to all components
-    cout << "[Zentrale] Received Message from UDP Server." << endl;
-    thread t1(&KomponentenController::processMessage, komponentenController, message);
-    t1.detach();
 }

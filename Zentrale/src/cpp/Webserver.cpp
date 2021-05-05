@@ -3,6 +3,7 @@
 //
 
 #include "../header/Webserver.h"
+#include "../header/HTTPIntepreter.h"
 
 /**
  * Constructor
@@ -49,7 +50,9 @@ void Webserver::run() {
             cerr << "Socket accept failed with err no: " << errorNr << endl;
         }
 
-        thread httpThread;
+        HTTPIntepreter intepreter(this->callback, newSock_fd);
+
+        thread httpThread(intepreter);
         httpThread.detach();
     }
 }
@@ -114,4 +117,15 @@ void Webserver::init(int port) {
         cerr << "Socket listen failed with err no: " << errorNr << endl;
         exit(1);
     }
+}
+
+
+
+/**
+ * Set the callback.
+ *
+ * @param callback
+ */
+void Webserver::setCallback(HTTPCallback *callback) {
+    this->callback = callback;
 }

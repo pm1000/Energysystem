@@ -88,9 +88,19 @@ void KomponentenController::processMessage(std::string message) {
     }
 }
 
-Komponente *KomponentenController::getKomponenteByID(int id) {
+
+
+Komponente *KomponentenController::getKomponenteById(int id) {
     auto it = komponenten.find(id);
     if (it == komponenten.end())
         return nullptr;
     return it->second;
+}
+
+
+
+Komponente *KomponentenController::getKomponenteByName(string name) {
+
+    // TODO: Implement function -> Philipp, this is your task :D
+    return nullptr;
 }

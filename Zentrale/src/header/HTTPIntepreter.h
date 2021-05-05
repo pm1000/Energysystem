@@ -29,6 +29,8 @@ private:
     HTTPCallback* callback = nullptr;
     int sock_id {-1};
 
+    string processHTTP(unordered_map<string, string> &headers);
+
     void run();
 
 public:

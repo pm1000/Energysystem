@@ -21,7 +21,7 @@ using namespace std;
 /**
  * Class Zentrale is used to manage all components for udp and the webserver for http/tcp.
  */
-class Zentrale : public UDPCallback {
+class Zentrale {
 private:
     // Server for incoming connections.
     UDPServer udpServer = UDPServer();
@@ -33,9 +33,6 @@ public:
     Zentrale();
     virtual ~Zentrale();
     void start();
-
-    // Callback function for incoming udp messages.
-    void processMessage(string message) override;
 };
 
 
