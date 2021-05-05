@@ -8,6 +8,7 @@
 
 #include "../Komponenten/KomponentenController.h"
 #include "string"
+#include "algorithm"
 
 using std::string;
 
@@ -25,7 +26,7 @@ private:
     string generateSubTabs(string type);
 public:
 
-    HTMLGenerator(KomponentenController* komponentenController);
+    HTMLGenerator();
     virtual ~HTMLGenerator();
 
     string generateMainPage();

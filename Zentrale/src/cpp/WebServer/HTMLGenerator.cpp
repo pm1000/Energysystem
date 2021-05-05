@@ -4,16 +4,21 @@
 
 #include "../../header/WebServer/HTMLGenerator.h"
 
-HTMLGenerator::HTMLGenerator(KomponentenController *komponentenController) {
+HTMLGenerator::HTMLGenerator(){
     komponentenController = KomponentenController::getInstance();
-}
+};
 
 HTMLGenerator::~HTMLGenerator() {
 
 }
 
 string HTMLGenerator::generateMainPage() {
-    return std::string();
+    string s = generateHeader();
+    s += openBody();
+    s += generateMainTab();
+    s += closeBody();
+    std::replace(s.begin(), s.end(), '\n', ' ');
+    return s;
 }
 
 string HTMLGenerator::generateHeader() {
@@ -53,7 +58,7 @@ string HTMLGenerator::generateMainTab() {
         <button class="tabButton" onclick="openMainTab(event, 'Erzeuger') ">Erzeuger</button>
         <button class="tabButton" onclick="openMainTab(event, 'Verbraucher') ">Verbraucher</button>
         <section class="mainTabContent" id="Erzeuger">
-                <h3>Erzeuger</h3>")";
+                <h3>Erzeuger</h3>)";
     s+= generateSubTabs("Erzeuger");
     s += R"(        </section>
 
@@ -108,20 +113,20 @@ string HTMLGenerator::generateTableHead(string type) {
     s += "<tr>";
     s += R"(<th>)";
     s += "Typ";
-    s += R"(<\th>)";
+    s += R"(</th>)";
     s += R"(<th>)";
     s += "Name";
-    s += R"(<\th>)";
+    s += R"(</th>)";
     s += R"(<th>)";
     s += "ID";
-    s += R"(<\th>)";
+    s += R"(</th>)";
     s += R"(<th>)";
     s += headerText;
-    s += R"(<\th>)";
+    s += R"(</th>)";
     s += R"(<th>)";
     s += "Zeitpunkt";
-    s += R"(<\th>)";
-    s += R"(<\tr>)";
+    s += R"(</th>)";
+    s += R"(</tr>)";
     return s;
 }
 
@@ -130,20 +135,20 @@ string HTMLGenerator::generateTableRow(string type, string name, int id, double 
     s += "<tr>";
     s += "<td>";
     s += type;
-    s += R"(<\td>)";
+    s += R"(</td>)";
     s += "<td>";
     s += name;
-    s += R"(<\td>)";
+    s += R"(</td>)";
     s += "<td>";
     s += to_string(id);
-    s += R"(<\td>)";
+    s += R"(</td>)";
     s += "<td>";
     s += to_string(value);
-    s += R"(<\td>)";
+    s += R"(</td>)";
     s += "<td>";
     s += to_string(time);
-    s += R"(<\td>)";
-    s += R"(<\tr>)";
+    s += R"(</td>)";
+    s += R"(</tr>)";
     return s;
 }
 

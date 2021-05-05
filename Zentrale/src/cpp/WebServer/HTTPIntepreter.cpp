@@ -22,7 +22,6 @@ HTTPIntepreter::HTTPIntepreter(HttpContextHandlerController *context, int sockId
 HTTPIntepreter::~HTTPIntepreter() = default;
 
 
-
 /**
  * Method to start in a thread.
  */

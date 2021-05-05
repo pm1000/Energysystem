@@ -3,6 +3,7 @@
 //
 
 #include "../header/Zentrale.h"
+#include "../header/WebServer/HTMLGenerator.h"
 
 /**
  * Constructor
@@ -24,9 +25,13 @@ Zentrale::Zentrale() {
     class MainPage : public HttpContextHandler {
     public:
         string getContent(string &args) override {
-            return "Main-Page";
+            HTMLGenerator html;
+            return html.generateMainPage();
         }
     };
+
+
+
 
     // Init all services
     this->udpServer.setCallback(this->komponentenController);
