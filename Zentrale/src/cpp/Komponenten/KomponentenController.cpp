@@ -113,3 +113,17 @@ Komponente *KomponentenController::getKomponenteByName(string name) {
         return it2->second;
     }
 }
+
+std::vector<std::string> KomponentenController::getKomponentenNamen() {
+    std::vector<std::string> names;
+    for (auto it = nameMapping.begin(); it != nameMapping.end(); ++it)
+        names.push_back(it->first);
+    return names;
+}
+
+std::vector<int> KomponentenController::getKomponentenIDs() {
+    std::vector<int> ids;
+    for (auto it = nameMapping.begin(); it != nameMapping.end(); ++it)
+        ids.push_back(it->second);
+    return ids;
+}
