@@ -9,13 +9,14 @@
  */
 Zentrale::Zentrale() {
 
+    // Create komponentenController
+    komponentenController = new KomponentenController();
+
     // Init all services
     this->udpServer.init(5000);
     this->udpServer.setCallback(this->komponentenController);
     this->webserver.init(9000);
     this->webserver.setCallback(this->komponentenController);
-
-    komponentenController = new KomponentenController();
 };
 
 
