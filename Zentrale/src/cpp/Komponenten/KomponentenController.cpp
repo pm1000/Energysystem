@@ -4,9 +4,7 @@
 
 #include "../../header/Komponenten/KomponentenController.h"
 
-KomponentenController::KomponentenController() {
-
-}
+KomponentenController* KomponentenController::instance = nullptr;
 
 KomponentenController::~KomponentenController() {
 
@@ -112,4 +110,42 @@ Komponente *KomponentenController::getKomponenteByName(string name) {
             return nullptr;
         return it2->second;
     }
+}
+
+std::vector<std::string> KomponentenController::getKomponentenNamen() {
+    std::vector<std::string> names;
+    for (auto it = nameMapping.begin(); it != nameMapping.end(); ++it)
+        names.push_back(it->first);
+    return names;
+}
+
+std::vector<int> KomponentenController::getKomponentenIDs() {
+    std::vector<int> ids;
+    for (auto it = nameMapping.begin(); it != nameMapping.end(); ++it)
+        ids.push_back(it->second);
+    return ids;
+}
+
+std::vector<Komponente *> KomponentenController::getErzeuger() {
+    std::vector<Komponente*> list;
+    for (auto it = komponenten.begin(); it != komponenten.end(); ++it){
+        if (it->second->getType() != "Haushalt" && it->second->getType() != "Unternehmen")
+            list.push_back(it->second);
+    }
+    return list;
+}
+
+std::vector<Komponente *> KomponentenController::getVerbraucher() {
+    std::vector<Komponente*> list;
+    for (auto it = komponenten.begin(); it != komponenten.end(); ++it){
+        if (it->second->getType() == "Haushalt" || it->second->getType() == "Unternehmen")
+            list.push_back(it->second);
+    }
+    return list;
+}
+
+KomponentenController* KomponentenController::getInstance() {
+    if (KomponentenController::instance == nullptr)
+        KomponentenController::instance = new KomponentenController();
+    return KomponentenController::instance ;
 }

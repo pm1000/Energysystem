@@ -1,5 +1,7 @@
 #include <iostream>
 #include "../header/Zentrale.h"
+#include "../header/Komponenten/KomponentenController.h"
+
 
 int main() {
 

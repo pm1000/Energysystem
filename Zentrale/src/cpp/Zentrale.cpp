@@ -10,7 +10,7 @@
 Zentrale::Zentrale() {
 
     // Create komponentenController
-    komponentenController = new KomponentenController();
+    komponentenController = KomponentenController::getInstance();
 
     // Create default context
     class ErrorHandler: public HttpContextHandler {

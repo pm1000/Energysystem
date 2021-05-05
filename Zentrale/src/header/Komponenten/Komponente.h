@@ -16,6 +16,7 @@ protected:
     int id;
     std::map<unsigned long long,double> values;
     std::mutex mtx;
+
 public:
 
     Komponente();
@@ -26,6 +27,7 @@ public:
     virtual void addNewValue(unsigned long long timestamp, double value);
     virtual double getLatestValue() const;
     const std::string &getName() const;
+    int getId() const;
 };
 
 

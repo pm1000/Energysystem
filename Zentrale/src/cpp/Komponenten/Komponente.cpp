@@ -31,3 +31,7 @@ const std::string &Komponente::getName() const {
     return name;
 }
 
+int Komponente::getId() const {
+    return id;
+}
+
