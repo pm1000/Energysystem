@@ -30,21 +30,24 @@ void Simulator::start() {
 
 void Simulator::simulate() {
     double cons = erzeuger->getLastHourGeneration();
-    std::string message = messageToJSON(erzeuger->getType(), erzeuger->getName(), erzeuger->getID(), cons);
+    unsigned long long t = std::chrono::system_clock::now().time_since_epoch().count();
+    std::string message = messageToJSON(erzeuger->getType(), erzeuger->getName(), erzeuger->getID(), cons, t);
     interface->sendData(message);
     std::cout << cons << " kW/h" << std::endl;
 }
 
-std::string Simulator::messageToJSON(std::string type, std::string name, int id, double value) {
+std::string Simulator::messageToJSON(std::string type, std::string name, int id, double value, unsigned long long time) {
     std::string message = "{";
     message += "\"type\": ";
     message += "\"" + type + "\", ";
     message += "\"name\": ";
     message += "\"" + name + "\", ";
     message += "\"id\": ";
-    message += std::to_string(id) + ",";
+    message += std::to_string(id) + ", ";
     message += "\"value\": ";
-    message += std::to_string(value);
+    message += std::to_string(value) + ", ";
+    message += "\"time\": ";
+    message += std::to_string(time);
     message += "}";
     return message;
 }

@@ -13,6 +13,7 @@
 #include "Komponente.h"
 #include "UDPCallback.h"
 #include "UDPServer.h"
+#include "KomponentenController.h"
 
 using namespace std;
 
@@ -25,9 +26,7 @@ private:
     // Server for incoming connections.
     UDPServer udpServer = UDPServer();
     Webserver webserver = Webserver();
-
-    // Save all component information and save the threads.
-    vector<Komponente*> komponentenListe;
+    KomponentenController* komponentenController;
 
 
 public:

@@ -5,7 +5,7 @@
 #include "../header/Simulator.h"
 
 int main() {
-    srand(0);
+    srand(time(NULL));
     Verbraucher* haushalt = new Unternehmen(123, "FLEISCHER");
 
     /*for (int i = 0; i < 365; ++i){

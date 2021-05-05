@@ -17,7 +17,7 @@ class Simulator {
 private:
     Erzeuger* erzeuger;
     UDPKommunikation* interface;
-    std::string messageToJSON(std::string type, std::string name, int id, double value);
+    std::string messageToJSON(std::string type, std::string name, int id, double value, unsigned long long t);
     void simulate();
 public:
     Simulator(Erzeuger *erzeuger, std::string communicationType, int port, std::string address);

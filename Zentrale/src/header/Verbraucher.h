@@ -6,7 +6,18 @@
 #define ZENTRALE_VERBRAUCHER_H
 
 
-class Verbraucher {
+#include "Komponente.h"
+
+class Verbraucher : public Komponente{
+
+private:
+public:
+    Verbraucher();
+    Verbraucher(int id, std::string name, std::string type);
+
+    virtual ~Verbraucher();
+
+    std::string getType() override;
 
 };
 

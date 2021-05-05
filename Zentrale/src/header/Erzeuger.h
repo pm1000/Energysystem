@@ -10,17 +10,10 @@ class Erzeuger : public Komponente{
 
 public:
 
-    Erzeuger(std::string type, std::string name);
-
-    ~Erzeuger() override;
+    Erzeuger(std::string type, std::string name, int id);
+    ~Erzeuger();
 
     std::string getType() override;
-
-    const std::map<std::string, double> &getValues() const override;
-
-    void addNewValue(std::string date, double value) override;
-
-    double getLatestValue() const override;
 
 };
 

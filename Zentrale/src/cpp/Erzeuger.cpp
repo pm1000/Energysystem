@@ -4,9 +4,10 @@
 
 #include "../header/Erzeuger.h"
 
-Erzeuger::Erzeuger(std::string type, std::string name) {
+Erzeuger::Erzeuger(std::string type, std::string name, int id) {
     this->name = name;
     this->type = type;
+    this->id = id;
 }
 
 Erzeuger::~Erzeuger() {
@@ -14,17 +15,5 @@ Erzeuger::~Erzeuger() {
 }
 
 std::string Erzeuger::getType() {
-    return "Erzeuger";
-}
-
-const std::map<std::string, double> &Erzeuger::getValues() const {
-    return Komponente::getValues();
-}
-
-void Erzeuger::addNewValue(std::string date, double value) {
-    Komponente::addNewValue(date, value);
-}
-
-double Erzeuger::getLatestValue() const {
-    return Komponente::getLatestValue();
+    return type;
 }

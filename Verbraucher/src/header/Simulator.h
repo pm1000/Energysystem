@@ -11,13 +11,14 @@
 #include "thread"
 #include "UDPKommunikation.h"
 #include "ZentralenKommunikation.h"
+#include <chrono>
 
 class Simulator {
 
 private:
     Verbraucher* verbraucher;
     UDPKommunikation* interface;
-    std::string messageToJSON(std::string type, std::string name, int id, double value);
+    std::string messageToJSON(std::string type, std::string name, int id, double value, unsigned long long time);
     void simulate();
 public:
     Simulator(Verbraucher *verbraucher, std::string communicationType, int port, std::string address);

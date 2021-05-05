@@ -10,14 +10,17 @@ Komponente::~Komponente() {
 
 }
 
-const std::map<std::string, double> &Komponente::getValues() const {
+const std::map<unsigned long long, double> &Komponente::getValues() const {
     return values;
 }
 
-void Komponente::addNewValue(std::string date, double value) {
-    if (this->values.find(date) == this->values.end())
-        this->values.insert({date,value});
+void Komponente::addNewValue(unsigned long long timestamp, double value) {
+    mtx.lock();
+    if (this->values.find(timestamp) == this->values.end())
+        this->values.insert({timestamp,value});
+    mtx.unlock();
 }
+
 
 double Komponente::getLatestValue() const {
     //todo

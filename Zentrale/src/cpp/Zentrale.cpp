@@ -7,14 +7,18 @@
 /**
  * Constructor
  */
-Zentrale::Zentrale() = default;
+Zentrale::Zentrale(){
+    komponentenController = new KomponentenController();
+};
 
 
 
 /**
  * Destructor.
  */
-Zentrale::~Zentrale() = default;
+Zentrale::~Zentrale(){
+    delete komponentenController;
+};
 
 
 
@@ -25,9 +29,9 @@ void Zentrale::start() {
 
     // Call initialization
     cout << "[Zentrale] Start function called. Starting threads." << endl << endl;
-    this->udpServer.init(8000);
+    this->udpServer.init(5000);
     this->udpServer.setCallback(this);
-    this->webserver.init(9000);
+    this->webserver.init(5000);
 
 
     // Start threads
@@ -63,8 +67,7 @@ void Zentrale::start() {
 
 
     // Clear all fields
-    cout << "[Zentrale] Clearing all fields." << endl;
-    this->komponentenListe.clear();
+    //cout << "[Zentrale] Clearing all fields." << endl;
 }
 
 
@@ -78,4 +81,6 @@ void Zentrale::processMessage(string message) {
 
     // TODO: Match the message to all components
     cout << "[Zentrale] Received Message from UDP Server." << endl;
+    thread t1(&KomponentenController::processMessage, komponentenController, message);
+    t1.detach();
 }
