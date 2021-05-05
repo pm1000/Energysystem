@@ -74,8 +74,10 @@ void KomponentenController::processMessage(std::string message) {
             } else {
                 k = new Erzeuger(type, name, id);
             }
-
+            nameMapping.insert({name,id});
+            komponenten.insert({id,k});
             k->addNewValue(time, value);
+
         } else{
             it->second->addNewValue(time, value);
         }
@@ -101,6 +103,13 @@ Komponente *KomponentenController::getKomponenteById(int id) {
 
 Komponente *KomponentenController::getKomponenteByName(string name) {
 
-    // TODO: Implement function -> Philipp, this is your task :D
-    return nullptr;
+    auto it = nameMapping.find(name);
+    if (it == nameMapping.end())
+        return nullptr;
+    else{
+        auto it2 = komponenten.find(it->second);
+        if (it2 == komponenten.end())
+            return nullptr;
+        return it2->second;
+    }
 }

@@ -17,7 +17,7 @@ class KomponentenController : public UDPCallback, public HTTPCallback {
 private:
     std::unordered_map<int, Komponente*> komponenten;
     std::mutex mtx;
-
+    std::unordered_map<std::string, int> nameMapping;
 
 public:
     KomponentenController();

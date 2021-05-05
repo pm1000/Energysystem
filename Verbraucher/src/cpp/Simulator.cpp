@@ -19,6 +19,7 @@ void Simulator::start() {
     try {
         while(true) {
             std::thread t1(&Simulator::simulate, this);
+            //t1.detach();
             sleep(2);
             t1.join();
         }
