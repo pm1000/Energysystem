@@ -12,11 +12,29 @@ Zentrale::Zentrale() {
     // Create komponentenController
     komponentenController = new KomponentenController();
 
+    // Create default context
+    class ErrorHandler: public HttpContextHandler {
+    public:
+        string getContent(string &args) override {
+            return "Error 404: Page not found.";
+        }
+    };
+
+    // Main Page
+    class MainPage : public HttpContextHandler {
+    public:
+        string getContent(string &args) override {
+            return "Main-Page";
+        }
+    };
+
     // Init all services
-    this->udpServer.init(5000);
     this->udpServer.setCallback(this->komponentenController);
+    this->udpServer.init(5000);
+
+    this->webserver.setContextNotFoundErrorPage(new ErrorHandler());
+    this->webserver.addContext("/", new MainPage());
     this->webserver.init(9000);
-    this->webserver.setCallback(this->komponentenController);
 };
 
 

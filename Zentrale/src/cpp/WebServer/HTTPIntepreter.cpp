@@ -10,7 +10,7 @@
  * @param callback
  * @param sockId
  */
-HTTPIntepreter::HTTPIntepreter(HTTPCallback *callback, int sockId) : callback(callback), sock_id(sockId) {
+HTTPIntepreter::HTTPIntepreter(HttpContextHandlerController *context, int sockId) : controller(context), sock_id(sockId) {
 
 }
 
@@ -124,8 +124,14 @@ void HTTPIntepreter::operator()() {
  */
 string HTTPIntepreter::processHTTP(unordered_map<string, string> &headers) {
 
-    // TODO: Process the incoming message request, call the callback function with parameters
-    return "It works!";
+    string path = headers.at("GET");
+    path = path.substr(0, path.find(' '));
+
+    long argStart = path.find('?');
+    string args = (argStart == -1) ? "" : path.substr(argStart + 1);
+    path = path.substr(0, argStart);
+
+    return this->controller->getContent(path, args);
 }
 
 

@@ -13,7 +13,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
-#include "HTTPCallback.h"
+#include "HttpContextHandlerController.h"
 
 
 using namespace std;
@@ -21,12 +21,11 @@ using namespace std;
 /**
  * Webserver implementation for incoming http/tcp connections.
  */
-class Webserver {
+class Webserver : public HttpContextHandlerController {
 private:
     void run();
 
     int socket_fd {-1};
-    HTTPCallback * callback = nullptr;
 
     // Thread state
     bool stopped;
@@ -37,7 +36,6 @@ public:
     virtual ~Webserver();
 
     void init(int port);
-    void setCallback(HTTPCallback* callback);
 
     // Thread functions
     void operator()();

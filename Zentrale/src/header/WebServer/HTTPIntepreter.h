@@ -15,7 +15,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#include "HTTPCallback.h"
+#include "HttpContextHandlerController.h"
 
 using namespace std;
 
@@ -26,7 +26,7 @@ using namespace std;
 class HTTPIntepreter {
 
 private:
-    HTTPCallback* callback = nullptr;
+    HttpContextHandlerController* controller = nullptr;
     int sock_id {-1};
 
     string processHTTP(unordered_map<string, string> &headers);
@@ -34,7 +34,7 @@ private:
     void run();
 
 public:
-    HTTPIntepreter(HTTPCallback *callback, int sockId);
+    HTTPIntepreter(HttpContextHandlerController *controller, int sockId);
     virtual ~HTTPIntepreter();
     void operator()();
 };

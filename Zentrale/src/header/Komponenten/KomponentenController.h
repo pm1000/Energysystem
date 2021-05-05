@@ -10,10 +10,10 @@
 #include "Erzeuger.h"
 #include "Verbraucher.h"
 #include "mutex"
-#include "../WebServer/HTTPCallback.h"
+#include "../WebServer/HttpDataCallback.h"
 #include "../UDPServer/UDPCallback.h"
 
-class KomponentenController : public UDPCallback, public HTTPCallback {
+class KomponentenController : public UDPCallback, public HttpDataCallback {
 private:
     std::unordered_map<int, Komponente*> komponenten;
     std::mutex mtx;

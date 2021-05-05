@@ -8,7 +8,7 @@
 using namespace std;
 
 /**
- * UDP callback for incoming udp messages
+ * UDP contextController for incoming udp messages
  */
  class UDPCallback {
  public:

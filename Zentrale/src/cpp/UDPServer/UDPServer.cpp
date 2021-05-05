@@ -51,7 +51,7 @@ void UDPServer::run() {
             cerr << "Socket receive failed with err no: " << errorNr << endl;
         }
 
-        // Forward incoming messages to the callback function.
+        // Forward incoming messages to the contextController function.
         if (bytesReceived > 0) {
             this->callback->processMessage(string(buffer));
         }
@@ -87,9 +87,9 @@ void UDPServer::stop() {
 
 
 /**
- * Set the callback function.
+ * Set the contextController function.
  *
- * @param callback Provide a function pointer to the callback function.
+ * @param callback Provide a function pointer to the contextController function.
  */
 void UDPServer::setCallback(UDPCallback* callback) {
     this->callback = callback;

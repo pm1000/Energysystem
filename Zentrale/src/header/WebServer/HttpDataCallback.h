@@ -2,8 +2,8 @@
 // Created by yabr on 05.05.21.
 //
 
-#ifndef ZENTRALE_HTTPCALLBACK_H
-#define ZENTRALE_HTTPCALLBACK_H
+#ifndef ZENTRALE_HTTPDATACALLBACK_H
+#define ZENTRALE_HTTPDATACALLBACK_H
 
 #include <string>
 #include "../Komponenten/Komponente.h"
@@ -14,7 +14,7 @@ using namespace std;
 /**
  * Method for http callbacks to collect data for incoming http/tcp connections
  */
-class HTTPCallback {
+class HttpDataCallback {
 
 public:
     virtual Komponente* getKomponenteById (int id) = 0;
@@ -22,4 +22,4 @@ public:
 };
 
 
-#endif //ZENTRALE_HTTPCALLBACK_H
+#endif //ZENTRALE_HTTPDATACALLBACK_H

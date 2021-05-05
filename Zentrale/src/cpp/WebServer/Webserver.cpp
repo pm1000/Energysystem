@@ -50,7 +50,7 @@ void Webserver::run() {
             cerr << "Socket accept failed with err no: " << errorNr << endl;
         }
 
-        HTTPIntepreter intepreter(this->callback, newSock_fd);
+        HTTPIntepreter intepreter(this, newSock_fd);
 
         thread httpThread(intepreter);
         httpThread.detach();
@@ -73,7 +73,7 @@ void Webserver::stop() {
     int closeResult = close(this->socket_fd);
     if (closeResult < 0) {
         int errorNr = errno;
-        cerr << "Socket call failed with err no: " << errorNr << endl;
+        cerr << "Socket close failed with err no: " << errorNr << endl;
         exit(1);
     }
 
@@ -117,15 +117,4 @@ void Webserver::init(int port) {
         cerr << "Socket listen failed with err no: " << errorNr << endl;
         exit(1);
     }
-}
-
-
-
-/**
- * Set the callback.
- *
- * @param callback
- */
-void Webserver::setCallback(HTTPCallback *callback) {
-    this->callback = callback;
 }
