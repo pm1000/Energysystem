@@ -46,10 +46,10 @@ void HTTPIntepreter::run() {
 
         messageReadSoFar.append(buffer, readResult);
         messageReadSoFar.erase(remove(messageReadSoFar.begin(), messageReadSoFar.end(), '\r'), messageReadSoFar.end());
-        unsigned long endOfHttp = messageReadSoFar.find("\n\n");
-        if (messageReadSoFar.find("\n\n") > 0) {
+        long endOfHttp = messageReadSoFar.find(string("\n\n"));
+        if (endOfHttp > 0) {
             completeMessage = messageReadSoFar.substr(0, endOfHttp);
-            messageReadSoFar = messageReadSoFar.substr(endOfHttp);
+            messageReadSoFar = messageReadSoFar.substr(endOfHttp + 2);
             messageComplete = true;
         }
     }
