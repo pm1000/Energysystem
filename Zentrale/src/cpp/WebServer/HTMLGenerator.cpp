@@ -57,8 +57,9 @@ string HTMLGenerator::generateHeader(bool mainPage, string title) {
     string header = R"(<!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <meta charset="UTF-8">
     <title>)";
     header += title;
@@ -72,13 +73,13 @@ string HTMLGenerator::generateHeader(bool mainPage, string title) {
         var i, tabcontent, tablinks;
 
 
-        tabcontent = document.getElementsByClassName('mainTabContent');
+        tabcontent = document.getElementsByClassName('mdl-tabs mdl-js-tabs mdl-js-ripple-effect');
         for (i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = 'none';
         }
 
 
-        tablinks = document.getElementsByClassName('tabButton');
+        tablinks = document.getElementsByClassName('mdl-button mdl-js-button mdl-js-ripple-effect');
         for (i = 0; i < tablinks.length; i++) {
             tablinks[i].className = tablinks[i].className.replace(' active', '');
         }
@@ -92,14 +93,14 @@ string HTMLGenerator::generateHeader(bool mainPage, string title) {
 
 string HTMLGenerator::generateMainTab() {
     string s = R"(    <article class="mainTabPage">
-        <button class="tabButton" onclick="openMainTab(event, 'Erzeuger') ">Erzeuger</button>
-        <button class="tabButton" onclick="openMainTab(event, 'Verbraucher') ">Verbraucher</button>
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" onclick="openMainTab(event, 'Erzeuger') ">Erzeuger</button>
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" onclick="openMainTab(event, 'Verbraucher') ">Verbraucher</button>
         <section class="mainTabContent" id="Erzeuger">
                 <h3>Erzeuger</h3>)";
     s+= generateSubTabs("Erzeuger");
     s += R"(        </section>
 
-        <section class="mainTabContent" id="Verbraucher">
+        <section class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect" id="Verbraucher">
             <h3>Verbraucher</h3>)";
     s+= generateSubTabs("Verbraucher");
     s+= R"(        </section>
@@ -148,7 +149,7 @@ string HTMLGenerator::generateTableHead(string& type) {
     else
         headerText = "Verbrauch";
 
-    string s = R"(<table style="width:100%">)";
+    string s = R"(<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">)";
     s += "<tr>";
     s += R"(<th>)";
     s += "Typ";

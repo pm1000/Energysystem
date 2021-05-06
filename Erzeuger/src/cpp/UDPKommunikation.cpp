@@ -18,7 +18,6 @@ void UDPKommunikation::initSocket() {
     //create socket
     try {
         this->socketFD = socket(AF_INET, SOCK_DGRAM, 0);
-
         client.sin_family = AF_INET;
         inet_pton(AF_INET, address.c_str(), &client.sin_addr.s_addr);
         client.sin_port = htons(port);
