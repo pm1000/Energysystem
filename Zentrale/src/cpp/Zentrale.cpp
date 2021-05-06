@@ -30,7 +30,38 @@ Zentrale::Zentrale() {
         }
     };
 
+    class SubPage : public HttpContextHandler {
+    public:
+        string getContent(string &args) override {
+            HTMLGenerator html;
 
+            //format: name=FLEISCHER&history=true
+            //keywords: name, history
+            string name;
+            bool history = true;
+
+            size_t pos = args.find("name");
+            if (pos != std::string::npos) {
+                pos += 5;
+                while (pos < args.length() && args[pos] != '&') {
+                    name += args[pos];
+                    ++pos;
+                }
+            }
+
+            string tmp;
+            pos = args.find("history");
+            if (pos != std::string::npos){
+                pos += 9;
+                while (pos < args.length() && args[pos] != '&'){
+                    tmp += args[pos];
+                    ++pos;
+                }
+            }
+
+            return html.generateSubPage(name, history);
+        }
+    };
 
 
     // Init all services
@@ -39,6 +70,7 @@ Zentrale::Zentrale() {
 
     this->webserver.setContextNotFoundErrorPage(new ErrorHandler());
     this->webserver.addContext("/", new MainPage());
+    this->webserver.addContext("/SubPage", new SubPage());
     this->webserver.init(9000);
 };
 

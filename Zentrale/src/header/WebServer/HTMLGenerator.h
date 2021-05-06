@@ -9,6 +9,7 @@
 #include "../Komponenten/KomponentenController.h"
 #include "string"
 #include "algorithm"
+#include "chrono"
 
 using std::string;
 
@@ -16,21 +17,22 @@ class HTMLGenerator {
 private:
     KomponentenController* komponentenController;
 
-    string generateHeader();
-    string openBody();
+    string generateHeader(bool mainPage, string title);
+    string openBody(bool mainPage);
     string closeBody();
     string generateMainTab();
-    string generateTableHead(string type);
+    string generateTableHead(string& type);
     string closeTable();
-    string generateTableRow(string type, string name, int id, double value, unsigned long long time);
+    string generateTableRow(string& type, string name, int id, double value, unsigned long long time);
     string generateSubTabs(string type);
+
 public:
 
     HTMLGenerator();
     virtual ~HTMLGenerator();
 
     string generateMainPage();
-
+    string generateSubPage(string& name, bool history);
 };
 
 

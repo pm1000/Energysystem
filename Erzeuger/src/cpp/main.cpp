@@ -10,7 +10,7 @@
 
 int main() {
     srand(time(NULL));
-    Erzeuger* erzeuger = new Solar(123, "aaa", 1);
+    Erzeuger* erzeuger = new Solar(111, "aaa", 1000);
 
     Simulator* sim = new Simulator(erzeuger,"UDP",5000,"127.0.0.1");
     sim->start();
