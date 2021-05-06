@@ -76,7 +76,7 @@ void HTTPIntepreter::run() {
     string header, answer;
     if (headers.contains("GET")) {
         answer = processHTTP(headers);
-        header = "HTTP/1.1 200 Ok\r\nContent-Type: text/html\r\nContent-Length: " + to_string(answer.length()) + "\r\n\r\n";
+        header = "HTTP/1.1 200 Ok\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: " + to_string(answer.length()) + "\r\n\r\n";
     } else {
         answer = "";
         header = "HTTP/1.1 501 Not Implemented\r\n\r\n";

@@ -18,6 +18,7 @@ string HTMLGenerator::generateMainPage() {
     s += generateMainTab();
     s += closeBody();
     std::replace(s.begin(), s.end(), '\n', ' ');
+    std::replace(s.begin(), s.end(), '\"', '"');
     return s;
 }
 
@@ -25,29 +26,30 @@ string HTMLGenerator::generateHeader() {
     string header = R"(<!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <meta charset="UTF-8">
     <title>Zentrale</title>
 </head>
 <script>
     function openMainTab(evt, type) {
-        // Declare all variables
+
         var i, tabcontent, tablinks;
 
-        // Get all elements with class="tabcontent" and hide them
-        tabcontent = document.getElementsByClassName("mainTabContent");
+
+        tabcontent = document.getElementsByClassName('mainTabContent');
         for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
+            tabcontent[i].style.display = 'none';
         }
 
-        // Get all elements with class="tablinks" and remove the class "active"
-        tablinks = document.getElementsByClassName("tabButton");
+
+        tablinks = document.getElementsByClassName('tabButton');
         for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
+            tablinks[i].className = tablinks[i].className.replace(' active', '');
         }
 
-        // Show the current tab, and add an "active" class to the button that opened the tab
-        document.getElementById(type).style.display = "block";
-        evt.currentTarget.className += " active";
+        document.getElementById(type).style.display = 'block';
+        evt.currentTarget.className += ' active';
     }
 </script>)";
     return header;
@@ -88,6 +90,7 @@ string HTMLGenerator::generateSubTabs(string type) {
             s += generateTableRow(t, name, id, it->second, it->first);
         }
     }
+    s += closeTable();
     return s;
 }
 
