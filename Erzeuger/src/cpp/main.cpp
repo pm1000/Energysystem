@@ -38,6 +38,7 @@ int main(int argc, char* args[]) {
     // Check for ip and port
     if (!argsMap.contains("ip") || !argsMap.contains("port")) {
         cout << "Ziel-Ip (ip=...) und Ziel-Port (port=...) muss gegeben sein." << endl;
+        return 1;
     }
 
     // Creation phase

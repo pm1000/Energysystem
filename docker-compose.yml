@@ -10,11 +10,11 @@ services:
   verbraucher1:
     image: verbraucher:latest
     restart: "no"
-
-  verbraucher2:
-    image: verbraucher:latest
-    restart: "no"
+    network_mode: "host"
+    command: ["ip=127.0.0.1", "port=5000"]
 
   erzeuger1:
     image: erzeuger:latest
     restart: "no"
+    network_mode: "host"
+    command: ["ip=127.0.0.1", "port=5000"]
