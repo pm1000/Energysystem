@@ -4,7 +4,12 @@
 
 #include "../header/Unternehmen.h"
 
-Unternehmen::Unternehmen(int id, std::string name) {
+
+
+/**
+ *
+ */
+Unternehmen::Unternehmen(int id, string name) {
     this->id = id;
     this->type = "Unternehmen";
     this->completeConsumption = 0.0;
@@ -15,10 +20,19 @@ Unternehmen::Unternehmen(int id, std::string name) {
 }
 
 
+
+/**
+ *
+ */
 Unternehmen::~Unternehmen() {
 
 }
 
+
+
+/**
+ *
+ */
 double Unternehmen::getLastHourConsumption() {
     int randomNum = rand() % 100 + 1;
     double consumption = 0.0;
@@ -71,10 +85,20 @@ double Unternehmen::getLastHourConsumption() {
     return consumption;
 }
 
+
+
+/**
+ *
+ */
 double Unternehmen::getCompleteConsumption() const {
     return Verbraucher::getCompleteConsumption();
 }
 
-std::string Unternehmen::getType() {
+
+
+/**
+ *
+ */
+string Unternehmen::getType() {
     return type;
 }

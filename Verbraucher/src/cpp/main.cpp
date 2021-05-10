@@ -1,23 +1,36 @@
 #include <iostream>
+#include <csignal>
 #include "../header/Verbraucher.h"
-#include "../header/Haushalt.h"
 #include "../header/Unternehmen.h"
 #include "../header/Simulator.h"
 
-int main() {
-    srand(time(NULL));
-    Verbraucher* haushalt = new Unternehmen(123, "FLEISCHER");
+/**
+ * Global variable
+ */
+Simulator* sim;
 
-    /*for (int i = 0; i < 365; ++i){
-        for (int j = 0; j < 24; ++j){
-            double cons = haushalt->getLastHourConsumption();
-            std::cout << cons << " kW/h" << std::endl;
-        }
-    }*/
-    Simulator* sim = new Simulator(haushalt,"UDP",5000,"127.0.0.1");
+/**
+ * Signal handler for SIGTERM
+ */
+void sigTermHandler (int sigNr) {
+    sim->stop();
+}
+
+
+int main() {
+
+    // Verbraucher erstellen
+    srand(time(NULL));
+    Verbraucher* verbraucher = new Unternehmen(123, "FLEISCHER");
+    sim = new Simulator(verbraucher, "UDP", 5000, "127.0.0.1");
+
+    // Signal handler mit SIGTERM
+    signal(SIGTERM, sigTermHandler);
+
+    // Start in endless loop
     sim->start();
 
-    std::cout << "Complete Consumption: " << haushalt->getCompleteConsumption() <<std::endl;
+    std::cout << "Complete Consumption: " << verbraucher->getCompleteConsumption() << std::endl;
 
     delete sim;
     return 0;
