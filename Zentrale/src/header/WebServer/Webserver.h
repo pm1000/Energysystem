@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include "HttpContextHandlerController.h"
+#include "../../header/WebServer/HTTPIntepreter.h"
 
 
 using namespace std;

@@ -32,7 +32,7 @@ void UDPServer::operator()() {
 void UDPServer::run() {
 
     // Console log.
-    cout << "[UDP Server] Thread started. Entering while loop." << endl;
+    cout << "[UDPServer] Thread started. Entering while loop." << endl;
 
     // Endless loop until this thread becomes stopped.
     while (!this->stopped) {
@@ -48,16 +48,30 @@ void UDPServer::run() {
         // Error handling.
         if (bytesReceived < 0) {
             int errorNr = errno;
-            cerr << "Socket receive failed with err no: " << errorNr << endl;
-        }
+            if (errorNr != 11) {
+                cerr << "[UDPServer] Socket receive failed with err no: " << errorNr << endl;
+            }
+        } else {
 
-        // Forward incoming messages to the contextController function.
-        if (bytesReceived > 0) {
-            this->callback->processMessage(string(buffer));
+            // Forward incoming messages to the contextController function.
+            if (bytesReceived > 0) {
+                this->callback->processMessage(string(buffer));
+            }
         }
     }
 
-    cout << "[UDP Server] Exited while loop." << endl;
+    cout << "[UDPServer] Stopping UDPServer" << endl;
+
+    // Close the socket.
+    int closeResult = close(this->socket_fd);
+    if (closeResult < 0) {
+        int errorNr = errno;
+        cerr << "[UDPServer] Socket close failed with err no: " << errorNr << endl;
+        exit(1);
+    }
+
+    // Remove the file descriptor.
+    this->socket_fd = -1;
 }
 
 
@@ -68,20 +82,8 @@ void UDPServer::run() {
  * @param value
  */
 void UDPServer::stop() {
-
     // Set flag.
     this->stopped = true;
-
-    // Close the socket.
-    int closeResult = close(this->socket_fd);
-    if (closeResult < 0) {
-        int errorNr = errno;
-        cerr << "Socket call failed with err no: " << errorNr << endl;
-        exit(1);
-    }
-
-    // Remove the file descriptor.
-    this->socket_fd = -1;
 }
 
 
@@ -108,7 +110,16 @@ void UDPServer::init(int port) {
     this->socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
     if (this->socket_fd < 0) {
         int errorNr = errno;
-        cerr << "Socket call failed with err no: " << errorNr << endl;
+        cerr << "[UDPServer] Socket call failed with err no: " << errorNr << endl;
+        exit(1);
+    }
+
+    // Set socket timeout
+    struct timeval timeout{1,0};
+    int timeoutResult = setsockopt(this->socket_fd, SOL_SOCKET, SO_RCVTIMEO, (char*) &timeout, sizeof(timeout));
+    if (timeoutResult < 0) {
+        int errorNr = errno;
+        cerr << "[Webserver] Socket set timeout failed with err no: " << errorNr << endl;
         exit(1);
     }
 
@@ -120,7 +131,7 @@ void UDPServer::init(int port) {
     int result = bind(this->socket_fd, (struct sockaddr*) &server_addr, sizeof(struct sockaddr_in));
     if (result < 0) {
         int errorNr = errno;
-        cerr << "Socket bind failed with err no: " << errorNr << endl;
+        cerr << "[UDPServer] Socket bind failed with err no: " << errorNr << endl;
         exit(1);
     }
 }

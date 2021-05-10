@@ -33,6 +33,7 @@ public:
     Zentrale();
     virtual ~Zentrale();
     void start();
+    void stop();
 };
 
 
