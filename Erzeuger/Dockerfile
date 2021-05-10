@@ -35,4 +35,4 @@ COPY --from=buildStage /app/Erzeuger /app/
 # Start the app
 WORKDIR /app
 ENTRYPOINT ["./Erzeuger"]
-CMD [""]
+CMD ["ip=127.0.0.1", "port=5000"]

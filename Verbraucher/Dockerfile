@@ -35,4 +35,4 @@ COPY --from=buildStage /app/Verbraucher /app/
 # Start the app
 WORKDIR /app
 ENTRYPOINT ["./Verbraucher"]
-CMD [""]
+CMD ["ip=127.0.0.1", "port=5000"]
