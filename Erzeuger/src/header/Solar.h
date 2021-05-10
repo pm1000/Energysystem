@@ -9,14 +9,19 @@
 #include "Erzeuger.h"
 #include "time.h"
 
-class Solar : public Erzeuger{
+using namespace std;
+
+/**
+ *
+ */
+class Solar : public Erzeuger {
 private:
     int hour;
     int hourCount;
     int size;
 
 public:
-    Solar(int id, std::string name, int size);
+    Solar(int id, string name, int size);
     virtual ~Solar();
 
     double getLastHourGeneration() override;

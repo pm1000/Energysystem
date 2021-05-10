@@ -4,7 +4,11 @@
 
 #include "../header/Atom.h"
 
-Atom::Atom(int id, std::string name, double maxGeneration) {
+
+/**
+ *
+ */
+Atom::Atom(int id, string name, double maxGeneration) {
     this->id = id;
     this->name = name;
     this->maximumGeneration = maxGeneration;
@@ -14,14 +18,22 @@ Atom::Atom(int id, std::string name, double maxGeneration) {
     this->type = "Atom";
 }
 
-Atom::~Atom() {
 
-}
 
+/**
+ *
+ */
+Atom::~Atom() = default;
+
+
+
+/**
+ *
+ */
 double Atom::getLastHourGeneration() {
     if (!status) //turned off
         return 0;
-    else{
+    else {
         completeGeneration += maximumGeneration;
         return maximumGeneration;
     }

@@ -8,12 +8,17 @@
 #include "string"
 #include "random"
 
+using namespace std;
+
+/**
+ *
+ */
 class Erzeuger {
 protected:
-    std::string type;
+    string type;
     int id;
     double completeGeneration;
-    std::string name;
+    string name;
     bool turnOffPossible;
     bool status;
 
@@ -22,9 +27,9 @@ public:
 
     virtual double getLastHourGeneration() = 0;
     virtual double getCompleteGeneration() const;
-    std::string getType();
+    string getType();
     int getID() const;
-    std::string getName() const;
+    string getName() const;
     bool isTurnOffPossible() const;
     bool isStatus() const;
     void switchStatus();

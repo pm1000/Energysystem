@@ -8,12 +8,17 @@
 
 #include "Erzeuger.h"
 
-class Kohle : public  Erzeuger{
+using namespace std;
+
+/**
+ *
+ */
+class Kohle : public  Erzeuger {
 private:
     double maximumGeneration;
 
 public:
-    Kohle(int id, std::string name, double maximumGeneration);
+    Kohle(int id, string name, double maximumGeneration);
     virtual ~Kohle();
 
     double getLastHourGeneration() override;

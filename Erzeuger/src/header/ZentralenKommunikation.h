@@ -8,19 +8,22 @@
 
 #include "string"
 
+using namespace std;
+
+/**
+ *
+ */
 class ZentralenKommunikation {
 protected:
-    std::string address;
-    int port;
+    string address;
+    int port{};
 
 public:
     ZentralenKommunikation();
-
     virtual ~ZentralenKommunikation();
-    virtual void sendData(std::string message) = 0;
 
+    virtual void sendData(string message) = 0;
 };
-
 
 
 #endif //ERZEUGER_ZENTRALENKOMMUNIKATION_H

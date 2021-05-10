@@ -4,7 +4,11 @@
 
 #include "../header/Solar.h"
 
-Solar::Solar(int id, std::string name, int size) {
+
+/**
+ *
+ */
+Solar::Solar(int id, string name, int size) {
     this->id = id;
     this->name = name;
     this->size = size;
@@ -16,10 +20,18 @@ Solar::Solar(int id, std::string name, int size) {
     this->type = "Solar";
 }
 
-Solar::~Solar() {
 
-}
 
+/**
+ *
+ */
+Solar::~Solar() = default;
+
+
+
+/**
+ *
+ */
 double Solar::getLastHourGeneration() {
     double production = 0;
     if (hourCount <= 2160) { //1st 3 month

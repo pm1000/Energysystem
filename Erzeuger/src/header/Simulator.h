@@ -12,20 +12,25 @@
 #include "UDPKommunikation.h"
 #include "ZentralenKommunikation.h"
 
-class Simulator {
+using namespace std;
 
+/**
+ *
+ */
+class Simulator {
 private:
     Erzeuger* erzeuger;
     UDPKommunikation* interface;
-    std::string messageToJSON(std::string type, std::string name, int id, double value, unsigned long long t);
+    string messageToJSON(string type, string name, int id, double value, unsigned long long t);
     void simulate();
-public:
-    Simulator(Erzeuger *erzeuger, std::string communicationType, int port, std::string address);
+    bool stopped = false;
 
+public:
+    Simulator(Erzeuger *erzeuger, string communicationType, int port, string address);
     virtual ~Simulator();
 
     void start();
-
+    void stop();
 };
 
 

@@ -4,7 +4,11 @@
 
 #include "../header/Kohle.h"
 
-Kohle::Kohle(int id, std::string name, double maximumGeneration){
+
+/**
+ *
+ */
+Kohle::Kohle(int id, string name, double maximumGeneration){
     this->id = id;
     this->name = name;
     this->maximumGeneration = maximumGeneration;
@@ -14,10 +18,18 @@ Kohle::Kohle(int id, std::string name, double maximumGeneration){
     this->type = "Kohle";
 }
 
-Kohle::~Kohle() {
 
-}
 
+/**
+ *
+ */
+Kohle::~Kohle() = default;
+
+
+
+/**
+ *
+ */
 double Kohle::getLastHourGeneration() {
     if (!status)
         return 0;
