@@ -3,7 +3,6 @@
 //
 
 #include "../header/Zentrale.h"
-#include "../header/WebServer/HTMLGenerator.h"
 
 /**
  * Constructor

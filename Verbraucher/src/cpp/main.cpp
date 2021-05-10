@@ -1,5 +1,6 @@
 #include <iostream>
 #include <csignal>
+#include <unordered_map>
 #include "../header/Verbraucher.h"
 #include "../header/Unternehmen.h"
 #include "../header/Simulator.h"
@@ -17,12 +18,31 @@ void sigTermHandler (int sigNr) {
 }
 
 
-int main() {
+using namespace std;
+
+/**
+ *
+ */
+int main(int argc, char* args[]) {
+
+    // Get all args
+    unordered_map<string, string> argsMap;
+    for (int i = 1; i < argc; i++) {
+        string currentArg = args[i];
+        int pos = currentArg.find('=');
+        auto arg = make_pair(currentArg.substr(0, pos), currentArg.substr(pos + 1));
+        argsMap.insert(arg);
+    }
+
+    // Check for ip and port
+    if (!argsMap.contains("ip") || !argsMap.contains("port")) {
+        cout << "Ziel-Ip (ip=...) und Ziel-Port (port=...) muss gegeben sein." << endl;
+    }
 
     // Verbraucher erstellen
     srand(time(NULL));
     Verbraucher* verbraucher = new Unternehmen(123, "FLEISCHER");
-    sim = new Simulator(verbraucher, "UDP", 5000, "127.0.0.1");
+    sim = new Simulator(verbraucher, "UDP", stoi(argsMap.at("port")), argsMap.at("ip"));
 
     // Signal handler mit SIGTERM
     signal(SIGTERM, sigTermHandler);
