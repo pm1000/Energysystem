@@ -69,7 +69,7 @@ Zentrale::Zentrale() {
 
     this->webserver.setContextNotFoundErrorPage(new ErrorHandler());
     this->webserver.addContext("/", new MainPage());
-    this->webserver.addContext("/SubPage", new SubPage());
+    this->webserver.addContext("/Detail", new SubPage());
     this->webserver.init(9000);
 };
 
