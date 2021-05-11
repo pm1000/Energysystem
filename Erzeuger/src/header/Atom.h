@@ -8,16 +8,20 @@
 
 #include "Erzeuger.h"
 
-class Atom : public Erzeuger{
+using namespace std;
+
+/**
+ *
+ */
+class Atom : public Erzeuger {
 private:
     double maximumGeneration;
 
 public:
-    Atom(int id, std::string name, double maxGeneration);
+    Atom(int id, string name, double maxGeneration);
     virtual ~Atom();
 
     double getLastHourGeneration() override;
-
 };
 
 

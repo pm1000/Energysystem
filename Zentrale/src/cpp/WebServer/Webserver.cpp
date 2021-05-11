@@ -3,7 +3,6 @@
 //
 
 #include "../../header/WebServer/Webserver.h"
-#include "../../header/WebServer/HTTPIntepreter.h"
 
 /**
  * Constructor
@@ -47,14 +46,29 @@ void Webserver::run() {
         int newSock_fd = accept(this->socket_fd, (sockaddr *) &client_addr, (socklen_t *) &addr_len);
         if (newSock_fd < 0) {
             int errorNr = errno;
-            cerr << "Socket accept failed with err no: " << errorNr << endl;
+            if (errorNr != 11) { //ERR_SOCK_WOULD_BLOCK
+                cerr << "[Webserver] Socket accept failed with err no: " << errorNr << endl;
+            }
+        } else {
+
+            HTTPIntepreter intepreter(this, newSock_fd);
+            thread httpThread(intepreter);
+            httpThread.detach();
         }
-
-        HTTPIntepreter intepreter(this, newSock_fd);
-
-        thread httpThread(intepreter);
-        httpThread.detach();
     }
+
+    cout << "[Webserver] Stopping WebServer" << endl;
+
+    // Close the socket.
+    int closeResult = close(this->socket_fd);
+    if (closeResult < 0) {
+        int errorNr = errno;
+        cerr << "[Webserver] Socket close failed with err no: " << errorNr << endl;
+        exit(1);
+    }
+
+    // Remove the file descriptor.
+    this->socket_fd = -1;
 }
 
 
@@ -65,20 +79,8 @@ void Webserver::run() {
  * @param value
  */
 void Webserver::stop() {
-
     // Set flag.
     this->stopped = true;
-
-    // Close the socket.
-    int closeResult = close(this->socket_fd);
-    if (closeResult < 0) {
-        int errorNr = errno;
-        cerr << "Socket close failed with err no: " << errorNr << endl;
-        exit(1);
-    }
-
-    // Remove the file descriptor.
-    this->socket_fd = -1;
 }
 
 
@@ -94,7 +96,16 @@ void Webserver::init(int port) {
     this->socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (this->socket_fd < 0) {
         int errorNr = errno;
-        cerr << "Socket call failed with err no: " << errorNr << endl;
+        cerr << "[Webserver] Socket call failed with err no: " << errorNr << endl;
+        exit(1);
+    }
+
+    // Set socket timeout
+    struct timeval timeout{1,0};
+    int timeoutResult = setsockopt(this->socket_fd, SOL_SOCKET, SO_RCVTIMEO, (char*) &timeout, sizeof(timeout));
+    if (timeoutResult < 0) {
+        int errorNr = errno;
+        cerr << "[Webserver] Socket set timeout failed with err no: " << errorNr << endl;
         exit(1);
     }
 
@@ -106,7 +117,7 @@ void Webserver::init(int port) {
     int result = bind(this->socket_fd, (struct sockaddr*) &server_addr, sizeof(struct sockaddr_in));
     if (result < 0) {
         int errorNr = errno;
-        cerr << "Socket bind failed with err no: " << errorNr << endl;
+        cerr << "[Webserver] Socket bind failed with err no: " << errorNr << endl;
         exit(1);
     }
 
@@ -114,7 +125,7 @@ void Webserver::init(int port) {
     result = listen(this->socket_fd, 5);
     if (result < 0) {
         int errorNr = errno;
-        cerr << "Socket listen failed with err no: " << errorNr << endl;
+        cerr << "[Webserver] Socket listen failed with err no: " << errorNr << endl;
         exit(1);
     }
 }

@@ -7,18 +7,21 @@
 
 #include "Verbraucher.h"
 
-class Haushalt : public Verbraucher{
+using namespace std;
+
+/**
+ *
+ */
+class Haushalt : public Verbraucher {
+private:
 
 public:
-    Haushalt(int id, std::string name);
-
+    Haushalt(int id, string name);
     ~Haushalt() override;
 
     double getLastHourConsumption() override;
-
     double getCompleteConsumption() const override;
-
-    std::string getType() override;
+    string getType() override;
 };
 
 

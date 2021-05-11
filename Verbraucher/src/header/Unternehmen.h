@@ -7,21 +7,22 @@
 
 #include "Verbraucher.h"
 
-class Unternehmen : public Verbraucher{
+using namespace std;
+
+/**
+ *
+ */
+class Unternehmen : public Verbraucher {
 private:
     int consumptionSeed;
 
 public:
-
-    Unternehmen(int id, std::string name);
-
+    Unternehmen(int id, string name);
     ~Unternehmen() override;
 
     double getLastHourConsumption() override;
-
     double getCompleteConsumption() const override;
-
-    std::string getType() override;
+    string getType() override;
 };
 
 

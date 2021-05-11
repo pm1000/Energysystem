@@ -4,7 +4,11 @@
 
 #include "../header/Wind.h"
 
-Wind::Wind(int id, std::string name, int size) {
+
+/**
+ *
+ */
+Wind::Wind(int id, string name, int size) {
     this->id = id;
     this->name = name;
     this->size = size;
@@ -14,10 +18,18 @@ Wind::Wind(int id, std::string name, int size) {
     this->type = "Wind";
 }
 
-Wind::~Wind() {
 
-}
 
+/**
+ *
+ */
+Wind::~Wind() = default;
+
+
+
+/**
+ *
+ */
 double Wind::getLastHourGeneration() {
     double generation = (rand() % 450) * size; // avg 225 kw/h generation, to meet the avg % by 450
     completeGeneration += generation;

@@ -13,20 +13,28 @@
 #include "ZentralenKommunikation.h"
 #include <chrono>
 
+using namespace std;
+
+
+/**
+ *
+ */
 class Simulator {
 
 private:
     Verbraucher* verbraucher;
     UDPKommunikation* interface;
-    std::string messageToJSON(std::string type, std::string name, int id, double value, unsigned long long time);
+    string messageToJSON(string type, string name, int id, double value, unsigned long long time);
     void simulate();
-public:
-    Simulator(Verbraucher *verbraucher, std::string communicationType, int port, std::string address);
 
+    bool stopped = false;
+
+public:
+    Simulator(Verbraucher *verbraucher, string communicationType, int port, string address);
     virtual ~Simulator();
 
     void start();
-
+    void stop();
 };
 
 

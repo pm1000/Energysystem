@@ -3,7 +3,6 @@
 //
 
 #include "../header/Zentrale.h"
-#include "../header/WebServer/HTMLGenerator.h"
 
 /**
  * Constructor
@@ -98,34 +97,21 @@ void Zentrale::start() {
     try {
         thread webServerThread(ref(this->webserver));
         thread udpServerThread(ref(this->udpServer));
-        webServerThread.detach();
-        udpServerThread.detach();
+        webServerThread.join();
+        udpServerThread.join();
     } catch (system_error &e) {
         cerr << e.what() << endl;
         exit(1);
     }
+}
 
 
-    // Wait for all threads to be started
-    this_thread::sleep_for(chrono::milliseconds(500));
 
-
-    // User input
-    string input;
-    do {
-        cout << "Commands: quit" << endl;
-        cout << " > ";
-        getline(cin, input);
-
-    } while (input != "quit");
-
-
-    // Stop everything here
+/**
+ * Stop the application
+ */
+void Zentrale::stop() {
     cout << "[Zentrale] Stopping all services." << endl;
     this->webserver.stop();
     this->udpServer.stop();
-
-
-    // Clear all fields
-    //cout << "[Zentrale] Clearing all fields." << endl;
 }

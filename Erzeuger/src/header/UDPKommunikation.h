@@ -11,19 +11,23 @@
 #include "iostream"
 #include <arpa/inet.h>
 
-class UDPKommunikation : public ZentralenKommunikation{
+using namespace std;
+
+/**
+ *
+ */
+class UDPKommunikation : public ZentralenKommunikation {
 private:
     int socketFD;
     struct sockaddr_in client {};
 
     void initSocket();
-public:
 
-    UDPKommunikation(int port, std::string address);
+public:
+    UDPKommunikation(int port, string address);
     ~UDPKommunikation() override;
 
-    void sendData(std::string message) override;
-
+    void sendData(string message) override;
 };
 
 

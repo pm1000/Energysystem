@@ -4,17 +4,42 @@
 
 #include "../header/Verbraucher.h"
 
+
+/**
+ *
+ */
+Verbraucher::Verbraucher() = default;
+
+
+
+/**
+ *
+ */
 Verbraucher::~Verbraucher() = default;
 
+
+
+/**
+ *
+ */
 int Verbraucher::getId() const {
     return id;
 }
 
+
+
+/**
+ *
+ */
 double Verbraucher::getCompleteConsumption() const{
     return this->completeConsumption;
 }
 
-const std::string &Verbraucher::getName() const {
+
+
+/**
+ *
+ */
+const string &Verbraucher::getName() const {
     return name;
 }
-

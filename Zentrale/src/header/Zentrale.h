@@ -14,6 +14,7 @@
 #include "UDPServer/UDPCallback.h"
 #include "UDPServer/UDPServer.h"
 #include "Komponenten/KomponentenController.h"
+#include "../header/WebServer/HTMLGenerator.h"
 
 using namespace std;
 
@@ -33,6 +34,7 @@ public:
     Zentrale();
     virtual ~Zentrale();
     void start();
+    void stop();
 };
 
 

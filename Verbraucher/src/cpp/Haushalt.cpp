@@ -4,7 +4,11 @@
 
 #include "../header/Haushalt.h"
 
-Haushalt::Haushalt(int id, std::string name) {
+
+/**
+ *
+ */
+Haushalt::Haushalt(int id, string name) {
     this->id = id;
     this->type = "Haushalt";
     this->completeConsumption = 0.0;
@@ -13,10 +17,18 @@ Haushalt::Haushalt(int id, std::string name) {
     this->name = name;
 }
 
-Haushalt::~Haushalt() {
 
-}
 
+/**
+ *
+ */
+Haushalt::~Haushalt() = default;
+
+
+
+/**
+ *
+ */
 double Haushalt::getLastHourConsumption() {
     int randomNum = rand() % 100 + 1;
     double consumption = 0.0;
@@ -69,11 +81,20 @@ double Haushalt::getLastHourConsumption() {
     return consumption;
 }
 
-std::string Haushalt::getType(){
+
+
+/**
+ *
+ */
+string Haushalt::getType(){
     return type;
 }
 
+
+
+/**
+ *
+ */
 double Haushalt::getCompleteConsumption() const{
     return Verbraucher::getCompleteConsumption();
 }
-

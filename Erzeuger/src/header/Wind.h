@@ -8,13 +8,17 @@
 
 #include "Erzeuger.h"
 
-class Wind : public Erzeuger{
+using namespace std;
+
+/**
+ *
+ */
+class Wind : public Erzeuger {
 private:
     int size;
 
 public:
-    Wind(int id, std::string name, int size);
-
+    Wind(int id, string name, int size);
     virtual ~Wind();
 
     double getLastHourGeneration() override;

@@ -5,16 +5,28 @@
 #include <netinet/in.h>
 #include "../header/UDPKommunikation.h"
 
-UDPKommunikation::UDPKommunikation(int port, std::string address) {
+
+/**
+ *
+ */
+UDPKommunikation::UDPKommunikation(int port, string address) {
     this->port = port;
     this->address = address;
     initSocket();
 }
 
-UDPKommunikation::~UDPKommunikation() {
 
-}
 
+/**
+ *
+ */
+UDPKommunikation::~UDPKommunikation() = default;
+
+
+
+/**
+ *
+ */
 void UDPKommunikation::initSocket() {
     //create socket
     try {
@@ -23,15 +35,20 @@ void UDPKommunikation::initSocket() {
         client.sin_family = AF_INET;
         inet_pton(AF_INET, address.c_str(), &client.sin_addr.s_addr);
         client.sin_port = htons(port);
-    }catch (std::exception &e){
-        std::cerr << "Failed to initiate the socket." << std::endl << e.what() << std::endl;
+    } catch (exception &e) {
+        cerr << "Failed to initiate the socket." << endl << e.what() << endl;
     }
 }
 
-void UDPKommunikation::sendData(std::string message) {
+
+
+/**
+ *
+ */
+void UDPKommunikation::sendData(string message) {
     try {
         sendto(socketFD,message.c_str(),message.size(),0,(struct sockaddr*) &client, sizeof (struct sockaddr));
-    }catch (std::exception &e){
-        std::cout << "Failed to send data." << std::endl << e.what() << std::endl;
+    } catch (exception &e) {
+        cout << "Failed to send data." << endl << e.what() << endl;
     }
 }

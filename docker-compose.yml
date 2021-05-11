@@ -1,0 +1,20 @@
+version: "3"
+services:
+  zentrale:
+    image: zentrale:latest
+    ports:
+    - 5000:5000/udp
+    - 9000:9000/tcp
+    restart: "no"
+
+  verbraucher1:
+    image: verbraucher:latest
+    restart: "no"
+    network_mode: "host"
+    command: ["ip=127.0.0.1", "port=5000"]
+
+  erzeuger1:
+    image: erzeuger:latest
+    restart: "no"
+    network_mode: "host"
+    command: ["ip=127.0.0.1", "port=5000"]

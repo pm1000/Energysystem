@@ -1,12 +1,30 @@
-#include <iostream>
+#include <csignal>
 #include "../header/Zentrale.h"
-#include "../header/WebServer/HTMLGenerator.h"
+
+/*
+ * Global variables
+ */
+Zentrale* zentrale;
+
+/**
+ * Function to execute when SIGTERM arrives
+ */
+void sigTerm (int sig) {
+    zentrale->stop();
+}
+
 
 
 int main() {
 
-    // Create the Zentrale and start the execution of code.
-    Zentrale zentrale;
-    zentrale.start();
+    // Create the zentrale
+    zentrale = new Zentrale();
+
+    // Register a handler for programm termination
+    signal(SIGTERM, sigTerm);
+
+    // Start the application
+    zentrale->start();
+
     return 0;
 }

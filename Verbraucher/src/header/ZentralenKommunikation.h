@@ -7,17 +7,21 @@
 
 #include "string"
 
+using namespace std;
+
+/**
+ *
+ */
 class ZentralenKommunikation {
 protected:
-    std::string address;
+    string address;
     int port;
 
 public:
     ZentralenKommunikation();
-
     virtual ~ZentralenKommunikation();
-    virtual void sendData(std::string message) = 0;
 
+    virtual void sendData(string message) = 0;
 };
 
 

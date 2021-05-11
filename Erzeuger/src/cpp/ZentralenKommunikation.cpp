@@ -4,10 +4,15 @@
 
 #include "../header/ZentralenKommunikation.h"
 
-ZentralenKommunikation::ZentralenKommunikation() {
 
-}
+/**
+ *
+ */
+ZentralenKommunikation::ZentralenKommunikation() = default;
 
-ZentralenKommunikation::~ZentralenKommunikation() {
 
-}
+
+/**
+ *
+ */
+ZentralenKommunikation::~ZentralenKommunikation() = default;
