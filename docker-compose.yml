@@ -11,10 +11,46 @@ services:
     image: verbraucher:latest
     restart: "no"
     network_mode: "host"
-    command: ["ip=127.0.0.1", "port=5000"]
-
+    command: ["ip=127.0.0.1", "port=5000", "type=Unternehmen", "name=Fleischer Müller", "id=101", communication=UDP]
+    
+  verbraucher2:
+    image: verbraucher:latest
+    restart: "no"
+    network_mode: "host"
+    command: ["ip=127.0.0.1", "port=5000", "type=Unternehmen", "name=PM-Systems", "id=102", communication=UDP]
+    
+  verbraucher3:
+    image: verbraucher:latest
+    restart: "no"
+    network_mode: "host"
+    command: ["ip=127.0.0.1", "port=5000", "type=Unternehmen", "name=ARRR", "id=103", communication=UDP]   
+    
   erzeuger1:
     image: erzeuger:latest
     restart: "no"
     network_mode: "host"
-    command: ["ip=127.0.0.1", "port=5000"]
+    command: ["ip=127.0.0.1", "port=5000", "type=Solar", "name=Sonnenkraft", "id=201", "size=591",  "communication=UDP"]
+    
+  erzeuger2:
+    image: erzeuger:latest
+    restart: "no"
+    network_mode: "host"
+    command: ["ip=127.0.0.1", "port=5000", "type=Solar", "name=Lichtenergie", "id=202", "size=10000", "communication=UDP"]
+    
+  erzeuger3:
+    image: erzeuger:latest
+    restart: "no"
+    network_mode: "host"
+    command: ["ip=127.0.0.1", "port=5000", "type=Wind", "name=Windero", "id=203", "size=777",  "communication=UDP"]
+    
+  erzeuger4:
+    image: erzeuger:latest
+    restart: "no"
+    network_mode: "host"
+    command: ["ip=127.0.0.1", "port=5000", "type=Atom", "name=ATOOOOOOM", "id=204", "size=1000000.5",  "communication=UDP"]
+    
+  erzeuger5:
+    image: erzeuger:latest
+    restart: "no"
+    network_mode: "host"
+    command: ["ip=127.0.0.1", "port=5000", "type=Kohle", "name=Braunenergie", "id=203", "size=777", "size=57896.3",  "communication=UDP"]
