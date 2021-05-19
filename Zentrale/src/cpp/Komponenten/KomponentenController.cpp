@@ -17,6 +17,7 @@ void KomponentenController::processMessage(std::string message) {
     int id;
     double value;
     unsigned long long time;
+    int msgID;
     try{
         //get type
         std::size_t pos = message.find("\"type\"");
@@ -63,10 +64,22 @@ void KomponentenController::processMessage(std::string message) {
         }
         time = std::stoull(tmp);
 
+        //get msgID
+        pos = message.find("\"msgID\"");
+        pos += 9;
+        i = pos;
+        tmp = "";
+
+        while (i < message.size() && message[i] >= '0' && message[i] <= '9'){
+            tmp += message[i];
+            ++i;
+        }
+        msgID = std::stoi(tmp);
+
         mtx.lock();
+        Komponente* k;
         auto it = komponenten.find(id);
         if (it == komponenten.end()){
-            Komponente* k;
             if (type == "Unternehmen" || type == "Haushalt") {
                 k = new Verbraucher(id, name, type);
             } else {
@@ -77,8 +90,17 @@ void KomponentenController::processMessage(std::string message) {
             k->addNewValue(time, value);
 
         } else{
-            it->second->addNewValue(time, value);
+            k = it->second;
+            k->addNewValue(time, value);
         }
+
+        //check for missing message
+        vector<int> missingMsg = k->checkMissingMsg(msgID);
+
+        if (missingMsg.size() > 0){
+            std::thread t = ();
+        }
+
         mtx.unlock();
 
         std::cout << "Type: " << type << "\tID: " << id << "\tName: " << name << "\tValue: " << value

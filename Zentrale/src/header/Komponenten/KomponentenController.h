@@ -16,8 +16,10 @@
 
 class KomponentenController : public UDPCallback {
 private:
+    //id,Komponente
     std::unordered_map<int, Komponente*> komponenten;
     std::mutex mtx;
+    //name, id
     std::unordered_map<std::string, int> nameMapping;
     KomponentenController() = default;
     static KomponentenController* instance;
