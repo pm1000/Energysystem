@@ -1,4 +1,4 @@
-# Projekt Erzeuger
+# Projekt Zentrale
 
 ## Nutzung der Zentrale
 
