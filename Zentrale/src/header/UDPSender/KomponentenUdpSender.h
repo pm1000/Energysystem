@@ -7,6 +7,8 @@
 
 #include <string>
 #include "UDPSender.h"
+#include "../Komponenten/Komponente.h"
+
 
 using namespace std;
 
@@ -16,6 +18,7 @@ using namespace std;
 class KomponentenUdpSender : public UDPSender {
 public:
     void send(string ip, int port, string message) override;
+    void send(Komponente* komponente, int messageID);
 };
 
 
