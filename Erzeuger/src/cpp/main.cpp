@@ -7,17 +7,20 @@
 #include "../header/Komponente/Kohle.h"
 #include "../header/Komponente/Wind.h"
 #include "../header/Simulator.h"
+#include "../header/UDP/UDPServer.h"
 
 /**
  * Global variables
  */
 Simulator* sim;
+UDPServer* server;
 
 /**
  * SIGTERM Handler
  */
 void sigTermHandler (int sigNum) {
     sim->stop();
+    server->stop();
 }
 
 
@@ -134,10 +137,16 @@ int main(int argc, char* args[]) {
 
     // Register the handler
     signal(SIGTERM, sigTermHandler);
+    server = new UDPServer();
+    server->init(5001);
+    server->setCallback(sim);
+    thread udpServerThread(*server);
 
     // Start the loop
     sim->start();
+    udpServerThread.join();
 
+    delete server;
     delete erzeuger;
     return 0;
 }

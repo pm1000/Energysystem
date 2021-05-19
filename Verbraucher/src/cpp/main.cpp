@@ -5,17 +5,20 @@
 #include "../header/Komponente/Unternehmen.h"
 #include "../header/Simulator.h"
 #include "../header/Komponente/Haushalt.h"
+#include "../header/UDP/UDPServer.h"
 
 /**
  * Global variable
  */
 Simulator* sim;
+UDPServer* server;
 
 /**
  * Signal handler for SIGTERM
  */
 void sigTermHandler (int sigNr) {
     sim->stop();
+    server->stop();
 }
 
 
@@ -89,12 +92,17 @@ int main(int argc, char* args[]) {
 
     // Signal handler mit SIGTERM
     signal(SIGTERM, sigTermHandler);
-
+    server = new UDPServer();
+    server->init(5001);
+    server->setCallback(sim);
+    thread udpServerThread(*server);
     // Start in endless loop
     sim->start();
+    udpServerThread.join();
 
     std::cout << "Complete Consumption: " << verbraucher->getCompleteConsumption() << std::endl;
 
+    delete server;
     delete sim;
     return 0;
 }

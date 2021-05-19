@@ -13,6 +13,8 @@
 #include "ZentralenKommunikation.h"
 #include <chrono>
 #include "unordered_map"
+#include "UDP/UDPCallback.h"
+#include "mutex"
 
 using namespace std;
 
@@ -20,7 +22,7 @@ using namespace std;
 /**
  *
  */
-class Simulator {
+class Simulator : public UDPCallback {
 
 private:
     unordered_map<int,string> msgBuffer;
@@ -28,6 +30,7 @@ private:
     UDPKommunikation* interface;
     static int msgID;
     bool stopped = false;
+    mutex mtx;
 
     //helper methods
     string messageToJSON(string type, string name, int id, double value, unsigned long long time);
@@ -36,6 +39,8 @@ private:
 public:
     Simulator(Verbraucher *verbraucher, string communicationType, int port, string address);
     virtual ~Simulator();
+
+    void processMessage(string ip, std::string string1) override;
 
     void start();
     void stop();
