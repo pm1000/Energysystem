@@ -84,6 +84,11 @@ void HTTPIntepreter::run() {
         header = "HTTP/1.1 501 Not Implemented\r\n\r\n";
     }
 
+    // Log the browser agent
+    if (headers.contains("User-Agent")) {
+        cout << "[HTTP-Request] Browser-Agent: " << headers.at("User-Agent") << endl;
+    }
+
     // Send the return message
     string message = header + answer;
     int sendResult = send(this->sock_id, message.c_str(), message.size(), 0);
