@@ -25,6 +25,9 @@ private:
     string closeTable();
     string generateTableRow(string& type, string name, int id, double value, unsigned long long time);
     string generateSubTabs(string type);
+    string generateKomponentenListe(string type);
+    string generateKomptTableHead();
+    string generateKompTableRow(string& type, string name, int id);
 
 public:
 

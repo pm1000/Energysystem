@@ -13,8 +13,9 @@ HTMLGenerator::~HTMLGenerator() {
 }
 
 string HTMLGenerator::generateMainPage() {
-    string s = generateHeader(true, "Zentrale");
-    s += openBody(true);
+    string s = generateHeader(false, "Zentrale");
+    s += openBody(false);
+    s += R"(<h5 class="headline">Zentrale</h5>)";
     s += generateMainTab();
     s += closeBody();
     std::replace(s.begin(), s.end(), '\n', ' ');
@@ -57,8 +58,9 @@ string HTMLGenerator::generateHeader(bool mainPage, string title) {
     string header = R"(<!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <meta charset="UTF-8">
     <title>)";
     header += title;
@@ -72,13 +74,13 @@ string HTMLGenerator::generateHeader(bool mainPage, string title) {
         var i, tabcontent, tablinks;
 
 
-        tabcontent = document.getElementsByClassName('mainTabContent');
+        tabcontent = document.getElementsByClassName('mdl-tabs mdl-js-tabs mdl-js-ripple-effect');
         for (i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = 'none';
         }
 
 
-        tablinks = document.getElementsByClassName('tabButton');
+        tablinks = document.getElementsByClassName('mdl-button mdl-js-button mdl-js-ripple-effect');
         for (i = 0; i < tablinks.length; i++) {
             tablinks[i].className = tablinks[i].className.replace(' active', '');
         }
@@ -91,25 +93,23 @@ string HTMLGenerator::generateHeader(bool mainPage, string title) {
 }
 
 string HTMLGenerator::generateMainTab() {
-    string s = R"(    <article class="mainTabPage">
-        <button class="tabButton" onclick="openMainTab(event, 'Erzeuger') ">Erzeuger</button>
-        <button class="tabButton" onclick="openMainTab(event, 'Verbraucher') ">Verbraucher</button>
-        <section class="mainTabContent" id="Erzeuger">
-                <h3>Erzeuger</h3>)";
-    s+= generateSubTabs("Erzeuger");
-    s += R"(        </section>
-
-        <section class="mainTabContent" id="Verbraucher">
-            <h3>Verbraucher</h3>)";
-    s+= generateSubTabs("Verbraucher");
-    s+= R"(        </section>
-
-    </article>)";
+    string s = R"(    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+  <div class="mdl-tabs__tab-bar">
+      <a href="#erzeugerPanel" class="mdl-tabs__tab is-active">Erzeuger</a>
+      <a href="#verbraucherPanel" class="mdl-tabs__tab">Verbraucher</a>
+  </div>)";
+    s += R"(<div class="mdl-tabs__panel is-active" id="erzeugerPanel">)";
+    s += generateSubTabs("Erzeuger");
+    s += "</div>";
+    s += R"(<div class="mdl-tabs__panel" id="verbraucherPanel">)";
+    s += generateSubTabs("Verbraucher");
+    s += "</div>";
+    s += "</div>";
     return s;
 }
 
 string HTMLGenerator::generateSubTabs(string type) {
-    string s = generateTableHead(type);
+    string s = generateKomptTableHead();
     std::vector<Komponente*> list;
     if (type == "Erzeuger")
         list = komponentenController->getErzeuger();
@@ -117,13 +117,10 @@ string HTMLGenerator::generateSubTabs(string type) {
         list = komponentenController->getVerbraucher();
 
     for (int i = 0; i < list.size(); ++i){
-        std::map<unsigned long long, double> map = list[i]->getValues();
         string t = list[i]->getType();
         string name = list[i]->getName();
         int id = list[i]->getId();
-        for (auto it = map.begin(); it != map.end(); ++it){
-            s += generateTableRow(t, name, id, it->second, it->first);
-        }
+        s+= generateKompTableRow(type, name, id);
     }
     s += closeTable();
     return s;
@@ -148,7 +145,7 @@ string HTMLGenerator::generateTableHead(string& type) {
     else
         headerText = "Verbrauch";
 
-    string s = R"(<table style="width:100%">)";
+    string s = R"(<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">)";
     s += "<tr>";
     s += R"(<th>)";
     s += "Typ";
@@ -187,7 +184,7 @@ string HTMLGenerator::generateTableRow(string& type, string name, int id, double
     s += R"(</td>)";
     s += "<td>";
     //todo cast time to readable string
-    s += time;
+    s += to_string(time);
     s += R"(</td>)";
     s += R"(</tr>)";
     return s;
@@ -195,4 +192,47 @@ string HTMLGenerator::generateTableRow(string& type, string name, int id, double
 
 string HTMLGenerator::closeTable() {
     return "</table>";
+}
+
+string HTMLGenerator::generateKomponentenListe(string type) {
+
+}
+
+string HTMLGenerator::generateKomptTableHead() {
+    string s = R"(<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">)";
+    s += "<tr>";
+    s += R"(<th>)";
+    s += "Typ";
+    s += R"(</th>)";
+    s += R"(<th>)";
+    s += "Name";
+    s += R"(</th>)";
+    s += R"(<th>)";
+    s += "ID";
+    s += R"(</th>)";
+    s += R"(<th>)";
+    s += "Details";
+    s += R"(</th>)";
+    s += R"(</tr>)";
+    return s;
+}
+
+string HTMLGenerator::generateKompTableRow(string& type, string name, int id) {
+    string s;
+
+    s += "<tr>";
+    s += "<td>";
+    s += type;
+    s += R"(</td>)";
+    s += "<td>";
+    s += name;
+    s += R"(</td>)";
+    s += "<td>";
+    s += to_string(id);
+    s += R"(</td>)";
+    s += "<td>";
+    s += R"(<a href="http://127.0.0.1:9000/Detail?name=)" + name + R"(&history=true">Details</a>)";
+    s += R"(</td>)";
+    s += R"(</tr>)";
+    return s;
 }
