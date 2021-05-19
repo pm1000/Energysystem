@@ -35,3 +35,12 @@ int Komponente::getId() const {
     return id;
 }
 
+
+
+/**
+ *
+ */
+std::string Komponente::getIp() const {
+    return this->ip;
+}
+

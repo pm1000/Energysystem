@@ -16,9 +16,13 @@ using namespace std;
  *
  */
 class KomponentenUdpSender : public UDPSender {
+    int port { 5001 };
+
 public:
-    void send(string ip, int port, string message) override;
-    void send(Komponente* komponente, int messageID);
+    KomponentenUdpSender();
+    KomponentenUdpSender(int port);
+
+    void send(Komponente* komponente, string msg);
 };
 
 

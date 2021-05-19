@@ -16,6 +16,7 @@ protected:
     int id;
     std::map<unsigned long long,double> values;
     std::mutex mtx;
+    std::string ip {};
 
 public:
 
@@ -28,6 +29,7 @@ public:
     virtual double getLatestValue() const;
     const std::string &getName() const;
     int getId() const;
+    std::string getIp() const;
 };
 
 

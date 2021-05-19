@@ -8,16 +8,21 @@
 /**
  *
  */
-void KomponentenUdpSender::send(string ip, int port, string message) {
-    UDPSender::send(ip, port, message);
-}
+KomponentenUdpSender::KomponentenUdpSender() = default;
 
 
 
 /**
  *
+ */
+KomponentenUdpSender::KomponentenUdpSender(int port) : port(port) {}
+
+
+/**
  *
  */
-void KomponentenUdpSender::send(Komponente *komponente, int messageID) {
+void KomponentenUdpSender::send(Komponente *komponente, string msg) {
 
+    // Forward the message in the correct format
+    UDPSender::send(komponente->getIp(), this->port, msg);
 }
