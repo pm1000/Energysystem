@@ -10,12 +10,11 @@
 #include "Erzeuger.h"
 #include "Verbraucher.h"
 #include "mutex"
-#include "../WebServer/HttpDataCallback.h"
 #include "../UDPServer/UDPCallback.h"
 #include "vector"
 
 
-class KomponentenController : public UDPCallback, public HttpDataCallback {
+class KomponentenController : public UDPCallback {
 private:
     std::unordered_map<int, Komponente*> komponenten;
     std::mutex mtx;
@@ -27,8 +26,8 @@ public:
     static KomponentenController* getInstance();
     virtual ~KomponentenController();
     void processMessage(std::string message) override;
-    Komponente* getKomponenteById(int id) override;
-    Komponente* getKomponenteByName (string name) override;
+    Komponente* getKomponenteById(int id);
+    Komponente* getKomponenteByName (string name);
     std::vector<std::string> getKomponentenNamen();
     std::vector<int> getKomponentenIDs();
     std::vector<Komponente*> getErzeuger();

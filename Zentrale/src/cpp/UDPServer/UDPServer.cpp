@@ -42,7 +42,7 @@ void UDPServer::run() {
         int addr_len = sizeof(sockaddr_in);
 
         // Save the message.
-        char buffer[MESSAGE_SIZE];
+        char buffer[MESSAGE_SIZE] {0};
         ssize_t bytesReceived = recvfrom(this->socket_fd, buffer, MESSAGE_SIZE, 0, (sockaddr*) &client_addr, (socklen_t*) &addr_len);
 
         // Error handling.
