@@ -1,10 +1,10 @@
 #include <iostream>
 #include <csignal>
 #include <unordered_map>
-#include "../header/Verbraucher.h"
-#include "../header/Unternehmen.h"
+#include "../header/Komponente/Verbraucher.h"
+#include "../header/Komponente/Unternehmen.h"
 #include "../header/Simulator.h"
-#include "../header/Haushalt.h"
+#include "../header/Komponente/Haushalt.h"
 
 /**
  * Global variable

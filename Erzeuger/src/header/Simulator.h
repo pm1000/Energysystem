@@ -5,11 +5,11 @@
 #ifndef ERZEUGER_SIMULATOR_H
 #define ERZEUGER_SIMULATOR_H
 
-#include "Erzeuger.h"
+#include "Komponente/Erzeuger.h"
 #include "iostream"
 #include "unistd.h"
 #include "thread"
-#include "UDPKommunikation.h"
+#include "UDP/UDPKommunikation.h"
 #include "ZentralenKommunikation.h"
 #include "unordered_map"
 

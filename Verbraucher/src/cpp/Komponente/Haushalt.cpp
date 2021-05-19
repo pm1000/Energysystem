@@ -2,20 +2,18 @@
 // Created by philipp on 30.04.21.
 //
 
-#include "../header/Unternehmen.h"
-
+#include "../../header/Komponente/Haushalt.h"
 
 
 /**
  *
  */
-Unternehmen::Unternehmen(int id, string name) {
+Haushalt::Haushalt(int id, string name) {
     this->id = id;
-    this->type = "Unternehmen";
+    this->type = "Haushalt";
     this->completeConsumption = 0.0;
     this->weekday = Weekday::Monday;
     this->time = 0;
-    this->consumptionSeed = rand() % 20000 + 100;
     this->name = name;
 }
 
@@ -24,29 +22,27 @@ Unternehmen::Unternehmen(int id, string name) {
 /**
  *
  */
-Unternehmen::~Unternehmen() {
-
-}
+Haushalt::~Haushalt() = default;
 
 
 
 /**
  *
  */
-double Unternehmen::getLastHourConsumption() {
+double Haushalt::getLastHourConsumption() {
     int randomNum = rand() % 100 + 1;
     double consumption = 0.0;
     if (this->weekday == Weekday::Saturday || this->weekday == Weekday::Sunday){
         if (time >= 9 || time <= 1){
-            consumption = (consumptionSeed * 0.5) / 100 * randomNum;
+            consumption = 2.0 / 100 * randomNum;
         }else{
-            consumption = (consumptionSeed * 0.5) / 100 * randomNum;
+            consumption = 0.8 / 100 * randomNum;
         }
     }else{
-        if (time >= 20 || time < 8){
-            consumption = (consumptionSeed * 0.5) / 100 * randomNum;
+        if (time >= 16){
+            consumption = 2.0 / 100 * randomNum;
         }else {
-            consumption = consumptionSeed / 100 * randomNum;
+            consumption = 0.8 / 100 * randomNum;
         }
     }
 
@@ -90,8 +86,8 @@ double Unternehmen::getLastHourConsumption() {
 /**
  *
  */
-double Unternehmen::getCompleteConsumption() const {
-    return Verbraucher::getCompleteConsumption();
+string Haushalt::getType(){
+    return type;
 }
 
 
@@ -99,6 +95,6 @@ double Unternehmen::getCompleteConsumption() const {
 /**
  *
  */
-string Unternehmen::getType() {
-    return type;
+double Haushalt::getCompleteConsumption() const{
+    return Verbraucher::getCompleteConsumption();
 }

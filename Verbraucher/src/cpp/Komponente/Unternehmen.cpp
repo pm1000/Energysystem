@@ -2,18 +2,20 @@
 // Created by philipp on 30.04.21.
 //
 
-#include "../header/Haushalt.h"
+#include "../../header/Komponente/Unternehmen.h"
+
 
 
 /**
  *
  */
-Haushalt::Haushalt(int id, string name) {
+Unternehmen::Unternehmen(int id, string name) {
     this->id = id;
-    this->type = "Haushalt";
+    this->type = "Unternehmen";
     this->completeConsumption = 0.0;
     this->weekday = Weekday::Monday;
     this->time = 0;
+    this->consumptionSeed = rand() % 20000 + 100;
     this->name = name;
 }
 
@@ -22,27 +24,29 @@ Haushalt::Haushalt(int id, string name) {
 /**
  *
  */
-Haushalt::~Haushalt() = default;
+Unternehmen::~Unternehmen() {
+
+}
 
 
 
 /**
  *
  */
-double Haushalt::getLastHourConsumption() {
+double Unternehmen::getLastHourConsumption() {
     int randomNum = rand() % 100 + 1;
     double consumption = 0.0;
     if (this->weekday == Weekday::Saturday || this->weekday == Weekday::Sunday){
         if (time >= 9 || time <= 1){
-            consumption = 2.0 / 100 * randomNum;
+            consumption = (consumptionSeed * 0.5) / 100 * randomNum;
         }else{
-            consumption = 0.8 / 100 * randomNum;
+            consumption = (consumptionSeed * 0.5) / 100 * randomNum;
         }
     }else{
-        if (time >= 16){
-            consumption = 2.0 / 100 * randomNum;
+        if (time >= 20 || time < 8){
+            consumption = (consumptionSeed * 0.5) / 100 * randomNum;
         }else {
-            consumption = 0.8 / 100 * randomNum;
+            consumption = consumptionSeed / 100 * randomNum;
         }
     }
 
@@ -86,8 +90,8 @@ double Haushalt::getLastHourConsumption() {
 /**
  *
  */
-string Haushalt::getType(){
-    return type;
+double Unternehmen::getCompleteConsumption() const {
+    return Verbraucher::getCompleteConsumption();
 }
 
 
@@ -95,6 +99,6 @@ string Haushalt::getType(){
 /**
  *
  */
-double Haushalt::getCompleteConsumption() const{
-    return Verbraucher::getCompleteConsumption();
+string Unternehmen::getType() {
+    return type;
 }

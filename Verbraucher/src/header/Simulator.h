@@ -5,11 +5,11 @@
 #ifndef VERBRAUCHER_SIMULATOR_H
 #define VERBRAUCHER_SIMULATOR_H
 
-#include "Verbraucher.h"
+#include "Komponente/Verbraucher.h"
 #include "iostream"
 #include "unistd.h"
 #include "thread"
-#include "UDPKommunikation.h"
+#include "UDP/UDPKommunikation.h"
 #include "ZentralenKommunikation.h"
 #include <chrono>
 #include "unordered_map"
