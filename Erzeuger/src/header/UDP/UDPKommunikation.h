@@ -1,11 +1,11 @@
 //
-// Created by philipp on 01.05.21.
+// Created by philipp on 04.05.21.
 //
 
-#ifndef VERBRAUCHER_UDPKOMMUNIKATION_H
-#define VERBRAUCHER_UDPKOMMUNIKATION_H
+#ifndef ERZEUGER_UDPKOMMUNIKATION_H
+#define ERZEUGER_UDPKOMMUNIKATION_H
 
-#include "ZentralenKommunikation.h"
+#include "../ZentralenKommunikation.h"
 #include <sys/socket.h>
 #include <stdexcept>
 #include "iostream"
@@ -20,6 +20,7 @@ class UDPKommunikation : public ZentralenKommunikation {
 private:
     int socketFD;
     struct sockaddr_in client {};
+
     void initSocket();
 
 public:
@@ -30,4 +31,4 @@ public:
 };
 
 
-#endif //VERBRAUCHER_UDPKOMMUNIKATION_H
+#endif //ERZEUGER_UDPKOMMUNIKATION_H

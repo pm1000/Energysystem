@@ -1,14 +1,14 @@
 //
-// Created by philipp on 04.05.21.
+// Created by philipp on 01.05.21.
 //
 
-#include "../header/UDPKommunikation.h"
+#include "../../header/UDP/UDPKommunikation.h"
 
 
 /**
  *
  */
-UDPKommunikation::UDPKommunikation(int port, std::string address) {
+UDPKommunikation::UDPKommunikation(int port, string address) {
     this->port = port;
     this->address = address;
     initSocket();
@@ -30,6 +30,7 @@ void UDPKommunikation::initSocket() {
     //create socket
     try {
         this->socketFD = socket(AF_INET, SOCK_DGRAM, 0);
+
         client.sin_family = AF_INET;
         inet_pton(AF_INET, address.c_str(), &client.sin_addr.s_addr);
         client.sin_port = htons(port);

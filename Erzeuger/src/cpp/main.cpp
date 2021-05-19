@@ -1,11 +1,11 @@
 #include <iostream>
 #include <csignal>
 #include <unordered_map>
-#include "../header/Erzeuger.h"
-#include "../header/Solar.h"
-#include "../header/Atom.h"
-#include "../header/Kohle.h"
-#include "../header/Wind.h"
+#include "../header/Komponente/Erzeuger.h"
+#include "../header/Komponente/Solar.h"
+#include "../header/Komponente/Atom.h"
+#include "../header/Komponente/Kohle.h"
+#include "../header/Komponente/Wind.h"
 #include "../header/Simulator.h"
 
 /**
