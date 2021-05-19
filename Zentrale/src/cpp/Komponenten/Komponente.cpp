@@ -44,3 +44,12 @@ std::string Komponente::getIp() const {
     return this->ip;
 }
 
+
+
+/**
+ *
+ */
+void Komponente::setIp(std::string ip) {
+    this->ip = ip;
+}
+

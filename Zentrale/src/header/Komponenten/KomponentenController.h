@@ -25,7 +25,7 @@ private:
 public:
     static KomponentenController* getInstance();
     virtual ~KomponentenController();
-    void processMessage(std::string message) override;
+    void processMessage(std::string ip, std::string message) override;
     Komponente* getKomponenteById(int id);
     Komponente* getKomponenteByName (string name);
     std::vector<std::string> getKomponentenNamen();

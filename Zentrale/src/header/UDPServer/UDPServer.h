@@ -15,6 +15,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <arpa/inet.h>
 
 #include "UDPCallback.h"
 

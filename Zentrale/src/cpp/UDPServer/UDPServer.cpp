@@ -55,7 +55,9 @@ void UDPServer::run() {
 
             // Forward incoming messages to the contextController function.
             if (bytesReceived > 0) {
-                this->callback->processMessage(string(buffer));
+                char ipBuffer[100];
+                inet_ntop(AF_INET, &client_addr.sin_addr, ipBuffer, sizeof(ipBuffer));
+                this->callback->processMessage(string(ipBuffer), string(buffer));
             }
         }
     }

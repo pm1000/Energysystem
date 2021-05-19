@@ -12,7 +12,7 @@ using namespace std;
  */
  class UDPCallback {
  public:
-     virtual void processMessage (std::string) = 0;
+     virtual void processMessage (string ip, std::string) = 0;
 
  };
 

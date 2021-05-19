@@ -10,7 +10,7 @@ KomponentenController::~KomponentenController() {
 
 }
 
-void KomponentenController::processMessage(std::string message) {
+void KomponentenController::processMessage(std::string ip, std::string message) {
     //format {"type": "Unternehmen", "name": "FLEISCHER", "id": 123,"value": 2006.550000}
     std::string type;
     std::string name;
@@ -72,6 +72,7 @@ void KomponentenController::processMessage(std::string message) {
             } else {
                 k = new Erzeuger(type, name, id);
             }
+            k->setIp(ip);
             nameMapping.insert({name,id});
             komponenten.insert({id,k});
             k->addNewValue(time, value);

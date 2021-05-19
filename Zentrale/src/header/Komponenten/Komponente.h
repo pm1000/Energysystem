@@ -30,6 +30,7 @@ public:
     const std::string &getName() const;
     int getId() const;
     std::string getIp() const;
+    void setIp(std::string ip);
 };
 
 
