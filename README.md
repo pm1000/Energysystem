@@ -21,7 +21,9 @@ Um das Projekt starten zu können wird Docker, Docker-Compose und Git auf dem Zi
 4. Docker-Container starten mit Compose
     * Im Vordergrund starten: `docker-compose up` ausführen
     * Im Hintergrund starten: `docker-compose up -d` ausführen
-5. Zum Beenden der Services: `docker-compose down` ausführen
+5. Zum Beenden der Services
+    * Im Vordergrund: **Ctrl + C ** auf der Tastatur drücken
+    * Im Hintergrund: `docker-compose down` ausführen
 
 
 ## Sonstige Informationen
