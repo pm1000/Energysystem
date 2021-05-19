@@ -38,3 +38,7 @@ double Atom::getLastHourGeneration() {
         return maximumGeneration;
     }
 }
+
+double Atom::getMaximumGeneration() const {
+    return maximumGeneration;
+}

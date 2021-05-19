@@ -22,6 +22,7 @@ public:
     virtual ~Atom();
 
     double getLastHourGeneration() override;
+    double getMaximumGeneration() const;
 };
 
 
