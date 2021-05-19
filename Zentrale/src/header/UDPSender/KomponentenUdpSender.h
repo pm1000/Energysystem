@@ -18,7 +18,9 @@ using namespace std;
 class KomponentenUdpSender : public UDPSender {
 public:
     void send(string ip, int port, string message) override;
-    void send(Komponente* komponente, int messageID);
+    void send(Komponente* komponente, string msg);
+
+    std::thread komponentenThreadSend(Komponente* k, string msg);
 };
 
 

@@ -6,8 +6,12 @@
 
 KomponentenController* KomponentenController::instance = nullptr;
 
-KomponentenController::~KomponentenController() {
+KomponentenController::KomponentenController() {
+    this->sender = new KomponentenUdpSender();
+}
 
+KomponentenController::~KomponentenController() {
+    delete sender;
 }
 
 void KomponentenController::processMessage(std::string message) {
@@ -97,8 +101,10 @@ void KomponentenController::processMessage(std::string message) {
         //check for missing message
         vector<int> missingMsg = k->checkMissingMsg(msgID);
 
-        if (missingMsg.size() > 0){
-            std::thread t = ();
+        for (int i = 0; i < missingMsg.size(); ++i) {
+            string msg = createMissingMessageJSON(missingMsg[i]);
+            std::thread t = sender->komponentenThreadSend(k,msg);
+            t.detach();
         }
 
         mtx.unlock();
@@ -170,4 +176,12 @@ KomponentenController* KomponentenController::getInstance() {
     if (KomponentenController::instance == nullptr)
         KomponentenController::instance = new KomponentenController();
     return KomponentenController::instance ;
+}
+
+string KomponentenController::createMissingMessageJSON(int msgID) {
+    string message = "{";
+    message += "\"msgID\": ";
+    message += to_string(msgID);
+    message += "}";
+    return message;
 }

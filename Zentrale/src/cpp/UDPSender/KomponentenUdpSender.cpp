@@ -18,6 +18,10 @@ void KomponentenUdpSender::send(string ip, int port, string message) {
  *
  *
  */
-void KomponentenUdpSender::send(Komponente *komponente, int messageID) {
+void KomponentenUdpSender::send(Komponente *komponente, string msg) {
 
+}
+
+std::thread KomponentenUdpSender::komponentenThreadSend(Komponente *k, string msg) {
+    return std::thread([=] {send(k, msg);});
 }
