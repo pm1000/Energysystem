@@ -1,5 +1,7 @@
-.PHONY: install
+.PHONY: help install clean
 
+help:
+	@echo "Befehl: make [clean | install]";
 
 install:
 	-docker build -t zentrale:latest Zentrale/
