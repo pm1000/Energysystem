@@ -22,7 +22,7 @@ public:
     KomponentenUdpSender();
     KomponentenUdpSender(int port);
 
-    void send(Komponente* komponente, string &msg);
+    void send(Komponente* komponente, string msg);
 
     std::thread komponentenThreadSend(Komponente* k, string msg);
 };
