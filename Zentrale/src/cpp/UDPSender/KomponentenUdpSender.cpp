@@ -11,3 +11,13 @@
 void KomponentenUdpSender::send(string ip, int port, string message) {
     UDPSender::send(ip, port, message);
 }
+
+
+
+/**
+ *
+ *
+ */
+void KomponentenUdpSender::send(Komponente *komponente, int messageID) {
+
+}
