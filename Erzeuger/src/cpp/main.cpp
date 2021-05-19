@@ -75,7 +75,8 @@ int main(int argc, char* args[]) {
         comType = iter->second;
 
     // Creation phase
-    srand(time(NULL));
+    long t = (std::chrono::system_clock::now().time_since_epoch().count());
+    srand(t);
     Erzeuger* erzeuger = nullptr;
     auto it = argsMap.find("type");
     if (it != argsMap.end()){

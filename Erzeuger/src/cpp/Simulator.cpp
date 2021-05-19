@@ -63,7 +63,6 @@ void Simulator::simulate() {
     mtx.unlock();
 
     ++msgID;
-    cout << cons << " kW/h" << endl;
 }
 
 
@@ -108,14 +107,13 @@ void Simulator::processMessage(string ip, std::string string1) {
         tmp += string1[pos];
         ++pos;
     }
-    cout << tmp << endl;
+
     int id = stoi(tmp);
 
     mtx.lock();
     auto it = msgBuffer.find(id);
 
     if (it != msgBuffer.end()){
-        cout << "Missing message " << id << " resend" << endl;
         interface->sendData(it->second);
         mtx.unlock();
 

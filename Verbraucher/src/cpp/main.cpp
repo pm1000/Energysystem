@@ -72,7 +72,8 @@ int main(int argc, char* args[]) {
         comType = iter->second;
 
     // Verbraucher erstellen
-    srand(time(NULL));
+    long t = (std::chrono::system_clock::now().time_since_epoch().count());
+    srand(t);
     Verbraucher* verbraucher = nullptr;
     auto it = argsMap.find("type");
     if (it != argsMap.end()){

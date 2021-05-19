@@ -8,6 +8,7 @@ KomponentenController* KomponentenController::instance = nullptr;
 
 KomponentenController::KomponentenController() {
     this->sender = new KomponentenUdpSender();
+    std::srand(std::time(NULL));
 }
 
 KomponentenController::~KomponentenController() {
@@ -82,8 +83,8 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
 
         mtx.lock();
         Komponente* k;
-        std::srand(std::time(NULL));
         int r = rand() % 10000;
+
         auto it = komponenten.find(id);
         if (it == komponenten.end()){
             if (type == "Unternehmen" || type == "Haushalt") {
@@ -104,12 +105,18 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
         }
 
         //check for missing message
-        vector<int> missingMsg = k->checkMissingMsg(msgID);
+        if (r > 1000) {
+            vector<int> missingMsg = k->checkMissingMsg(msgID);
 
-        for (int i = 0; i < missingMsg.size(); ++i) {
-            string msg = createMissingMessageJSON(missingMsg[i]);
-            std::thread t = sender->komponentenThreadSend(k,msg);
-            t.detach();
+            if (missingMsg.size() > 0) {
+                cout << "Missing " << missingMsg.size() << " messages from " << k->getName() << ".:(" << endl;
+            }
+
+            for (int i = 0; i < missingMsg.size(); ++i) {
+                string msg = createMissingMessageJSON(missingMsg[i]);
+                std::thread t = sender->komponentenThreadSend(k, msg);
+                t.detach();
+            }
         }
 
         mtx.unlock();
