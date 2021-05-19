@@ -4,6 +4,8 @@
 
 #include "../header/Simulator.h"
 
+int Simulator::msgID = 0;
+
 
 /**
  *
@@ -49,8 +51,15 @@ void Simulator::start() {
 void Simulator::simulate() {
     double cons = erzeuger->getLastHourGeneration();
     unsigned long long t = chrono::system_clock::now().time_since_epoch().count();
+
     string message = messageToJSON(erzeuger->getType(), erzeuger->getName(), erzeuger->getID(), cons, t);
     interface->sendData(message);
+
+    if (msgBuffer.size() > 999)
+        msgBuffer.erase(msgBuffer.find(msgID - 1000));
+    msgBuffer.insert({msgID, message});
+
+    ++msgID;
     cout << cons << " kW/h" << endl;
 }
 
@@ -70,7 +79,9 @@ string Simulator::messageToJSON(string type, string name, int id, double value, 
     message += "\"value\": ";
     message += to_string(value) + ", ";
     message += "\"time\": ";
-    message += to_string(time);
+    message += to_string(time) + ", ";
+    message += "\"msgID\": ";
+    message += to_string(msgID);
     message += "}";
     return message;
 }

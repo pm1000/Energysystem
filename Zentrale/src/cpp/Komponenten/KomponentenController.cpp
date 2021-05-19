@@ -6,8 +6,12 @@
 
 KomponentenController* KomponentenController::instance = nullptr;
 
-KomponentenController::~KomponentenController() {
+KomponentenController::KomponentenController() {
+    this->sender = new KomponentenUdpSender();
+}
 
+KomponentenController::~KomponentenController() {
+    delete sender;
 }
 
 void KomponentenController::processMessage(std::string ip, std::string message) {
@@ -17,6 +21,7 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
     int id;
     double value;
     unsigned long long time;
+    int msgID;
     try{
         //get type
         std::size_t pos = message.find("\"type\"");
@@ -63,10 +68,22 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
         }
         time = std::stoull(tmp);
 
+        //get msgID
+        pos = message.find("\"msgID\"");
+        pos += 9;
+        i = pos;
+        tmp = "";
+
+        while (i < message.size() && message[i] >= '0' && message[i] <= '9'){
+            tmp += message[i];
+            ++i;
+        }
+        msgID = std::stoi(tmp);
+
         mtx.lock();
+        Komponente* k;
         auto it = komponenten.find(id);
         if (it == komponenten.end()){
-            Komponente* k;
             if (type == "Unternehmen" || type == "Haushalt") {
                 k = new Verbraucher(id, name, type);
             } else {
@@ -78,8 +95,19 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
             k->addNewValue(time, value);
 
         } else{
-            it->second->addNewValue(time, value);
+            k = it->second;
+            k->addNewValue(time, value);
         }
+
+        //check for missing message
+        vector<int> missingMsg = k->checkMissingMsg(msgID);
+
+        for (int i = 0; i < missingMsg.size(); ++i) {
+            string msg = createMissingMessageJSON(missingMsg[i]);
+            std::thread t = sender->komponentenThreadSend(k,msg);
+            t.detach();
+        }
+
         mtx.unlock();
 
         std::cout << "Type: " << type << "\tID: " << id << "\tName: " << name << "\tValue: " << value
@@ -149,4 +177,12 @@ KomponentenController* KomponentenController::getInstance() {
     if (KomponentenController::instance == nullptr)
         KomponentenController::instance = new KomponentenController();
     return KomponentenController::instance ;
+}
+
+string KomponentenController::createMissingMessageJSON(int msgID) {
+    string message = "{";
+    message += "\"msgID\": ";
+    message += to_string(msgID);
+    message += "}";
+    return message;
 }

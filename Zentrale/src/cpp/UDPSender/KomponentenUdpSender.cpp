@@ -26,3 +26,7 @@ void KomponentenUdpSender::send(Komponente *komponente, string &msg) {
     // Forward the message in the correct format
     UDPSender::send(komponente->getIp(), this->port, msg);
 }
+
+std::thread KomponentenUdpSender::komponentenThreadSend(Komponente *k, string msg) {
+    return std::thread([=] {send(k, msg);});
+}

@@ -11,6 +11,7 @@
 #include "thread"
 #include "UDPKommunikation.h"
 #include "ZentralenKommunikation.h"
+#include "unordered_map"
 
 using namespace std;
 
@@ -19,9 +20,13 @@ using namespace std;
  */
 class Simulator {
 private:
+    unordered_map<int,string> msgBuffer;
     Erzeuger* erzeuger;
     UDPKommunikation* interface;
     string messageToJSON(string type, string name, int id, double value, unsigned long long t);
+    static int msgID;
+
+    //helper methods
     void simulate();
     bool stopped = false;
 
