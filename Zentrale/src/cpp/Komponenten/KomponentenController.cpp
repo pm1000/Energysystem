@@ -82,6 +82,8 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
 
         mtx.lock();
         Komponente* k;
+        std::srand(std::time(NULL));
+        int r = rand() % 10000;
         auto it = komponenten.find(id);
         if (it == komponenten.end()){
             if (type == "Unternehmen" || type == "Haushalt") {
@@ -90,13 +92,15 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
                 k = new Erzeuger(type, name, id);
             }
             k->setIp(ip);
-            nameMapping.insert({name,id});
-            komponenten.insert({id,k});
+            nameMapping.insert({name, id});
+            komponenten.insert({id, k});
             k->addNewValue(time, value);
 
         } else{
             k = it->second;
-            k->addNewValue(time, value);
+            if (r > 1000) {
+                k->addNewValue(time, value);
+            }
         }
 
         //check for missing message

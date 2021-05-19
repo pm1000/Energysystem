@@ -13,6 +13,8 @@
 #include "../UDPServer/UDPCallback.h"
 #include "vector"
 #include "../UDPSender/KomponentenUdpSender.h"
+#include "time.h"
+#include "random"
 
 
 class KomponentenController : public UDPCallback {

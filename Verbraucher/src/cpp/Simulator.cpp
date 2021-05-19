@@ -31,7 +31,7 @@ void Simulator::start() {
     try {
         while(!stopped) {
             this->simulate();
-            sleep(10);
+            sleep(2);
         }
 
     } catch (exception &e) {
@@ -51,8 +51,7 @@ void Simulator::simulate() {
     string message = messageToJSON(verbraucher->getType(), verbraucher->getName(), verbraucher->getId(),
                                    cons, t);
     mtx.lock();
-    if (msgID % 2 == 0)
-        interface->sendData(message);
+    interface->sendData(message);
 
     if (msgBuffer.size() > 999)
         msgBuffer.erase(msgBuffer.find(msgID - 1000));

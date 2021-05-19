@@ -78,8 +78,13 @@ std::vector<int> Komponente::checkMissingMsg(int msgID) {
 
         //remove elements that were ordered / are not missing anymore
         for (int i = maxHeap.size() - 1; i >= 1; --i) {
-            if (maxHeap[i - 1] - 1 == maxHeap[i])
-                maxHeap.erase(maxHeap.begin() + i);
+            if (maxHeap[i - 1] - 1 == maxHeap[i]) {
+                try {
+                    maxHeap.erase(maxHeap.begin() + i);
+                } catch(std::exception e){
+                    std::cout << "ALARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRM" << e.what() << std::endl;
+                }
+            }
             else
                 break;
         }
