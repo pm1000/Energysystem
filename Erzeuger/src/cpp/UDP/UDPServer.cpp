@@ -2,7 +2,7 @@
 // Created by philipp on 30.04.21.
 //
 
-#include "../../header/UDPServer/UDPServer.h"
+#include "../../header/UDP/UDPServer.h"
 
 
 /**

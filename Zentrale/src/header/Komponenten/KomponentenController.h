@@ -12,20 +12,28 @@
 #include "mutex"
 #include "../UDPServer/UDPCallback.h"
 #include "vector"
+#include "../UDPSender/KomponentenUdpSender.h"
+#include "time.h"
+#include "random"
 
 
 class KomponentenController : public UDPCallback {
 private:
+    //id,Komponente
     std::unordered_map<int, Komponente*> komponenten;
     std::mutex mtx;
+    //name, id
     std::unordered_map<std::string, int> nameMapping;
-    KomponentenController() = default;
+    static string createMissingMessageJSON(int msgID) ;
+    KomponentenUdpSender* sender;
+
+    KomponentenController();
     static KomponentenController* instance;
 
 public:
     static KomponentenController* getInstance();
     virtual ~KomponentenController();
-    void processMessage(std::string message) override;
+    void processMessage(std::string ip, std::string message) override;
     Komponente* getKomponenteById(int id);
     Komponente* getKomponenteByName (string name);
     std::vector<std::string> getKomponentenNamen();

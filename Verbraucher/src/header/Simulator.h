@@ -5,13 +5,16 @@
 #ifndef VERBRAUCHER_SIMULATOR_H
 #define VERBRAUCHER_SIMULATOR_H
 
-#include "Verbraucher.h"
+#include "Komponente/Verbraucher.h"
 #include "iostream"
 #include "unistd.h"
 #include "thread"
-#include "UDPKommunikation.h"
+#include "UDP/UDPKommunikation.h"
 #include "ZentralenKommunikation.h"
 #include <chrono>
+#include "unordered_map"
+#include "UDP/UDPCallback.h"
+#include "mutex"
 
 using namespace std;
 
@@ -19,19 +22,25 @@ using namespace std;
 /**
  *
  */
-class Simulator {
+class Simulator : public UDPCallback {
 
 private:
+    unordered_map<int,string> msgBuffer;
     Verbraucher* verbraucher;
     UDPKommunikation* interface;
+    static int msgID;
+    bool stopped = false;
+    mutex mtx;
+
+    //helper methods
     string messageToJSON(string type, string name, int id, double value, unsigned long long time);
     void simulate();
-
-    bool stopped = false;
 
 public:
     Simulator(Verbraucher *verbraucher, string communicationType, int port, string address);
     virtual ~Simulator();
+
+    void processMessage(string ip, std::string string1) override;
 
     void start();
     void stop();

@@ -10,11 +10,11 @@ using namespace std;
 /**
  * UDP contextController for incoming udp messages
  */
- class UDPCallback {
- public:
-     virtual void processMessage (string ip, std::string) = 0;
+class UDPCallback {
+public:
+    virtual void processMessage (string ip, std::string) = 0;
 
- };
+};
 
 
 #endif //ZENTRALE_UDPCALLBACK_H

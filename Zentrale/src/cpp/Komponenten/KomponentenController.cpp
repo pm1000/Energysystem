@@ -6,17 +6,23 @@
 
 KomponentenController* KomponentenController::instance = nullptr;
 
-KomponentenController::~KomponentenController() {
-
+KomponentenController::KomponentenController() {
+    this->sender = new KomponentenUdpSender();
+    std::srand(std::time(NULL));
 }
 
-void KomponentenController::processMessage(std::string message) {
+KomponentenController::~KomponentenController() {
+    delete sender;
+}
+
+void KomponentenController::processMessage(std::string ip, std::string message) {
     //format {"type": "Unternehmen", "name": "FLEISCHER", "id": 123,"value": 2006.550000}
     std::string type;
     std::string name;
     int id;
     double value;
     unsigned long long time;
+    int msgID;
     try{
         //get type
         std::size_t pos = message.find("\"type\"");
@@ -63,22 +69,56 @@ void KomponentenController::processMessage(std::string message) {
         }
         time = std::stoull(tmp);
 
+        //get msgID
+        pos = message.find("\"msgID\"");
+        pos += 9;
+        i = pos;
+        tmp = "";
+
+        while (i < message.size() && message[i] >= '0' && message[i] <= '9'){
+            tmp += message[i];
+            ++i;
+        }
+        msgID = std::stoi(tmp);
+
         mtx.lock();
+        Komponente* k;
+        int r = rand() % 10000;
+
         auto it = komponenten.find(id);
         if (it == komponenten.end()){
-            Komponente* k;
             if (type == "Unternehmen" || type == "Haushalt") {
                 k = new Verbraucher(id, name, type);
             } else {
                 k = new Erzeuger(type, name, id);
             }
-            nameMapping.insert({name,id});
-            komponenten.insert({id,k});
+            k->setIp(ip);
+            nameMapping.insert({name, id});
+            komponenten.insert({id, k});
             k->addNewValue(time, value);
 
         } else{
-            it->second->addNewValue(time, value);
+            k = it->second;
+            if (r > 1000) {
+                k->addNewValue(time, value);
+            }
         }
+
+        //check for missing message
+        if (r > 1000) {
+            vector<int> missingMsg = k->checkMissingMsg(msgID);
+
+            if (missingMsg.size() > 0) {
+                cout << "Missing " << missingMsg.size() << " messages from " << k->getName() << ".:(" << endl;
+            }
+
+            for (int i = 0; i < missingMsg.size(); ++i) {
+                string msg = createMissingMessageJSON(missingMsg[i]);
+                std::thread t = sender->komponentenThreadSend(k, msg);
+                t.detach();
+            }
+        }
+
         mtx.unlock();
 
         std::cout << "Type: " << type << "\tID: " << id << "\tName: " << name << "\tValue: " << value
@@ -148,4 +188,12 @@ KomponentenController* KomponentenController::getInstance() {
     if (KomponentenController::instance == nullptr)
         KomponentenController::instance = new KomponentenController();
     return KomponentenController::instance ;
+}
+
+string KomponentenController::createMissingMessageJSON(int msgID) {
+    string message = "{";
+    message += "\"msgID\": ";
+    message += to_string(msgID);
+    message += "}";
+    return message;
 }

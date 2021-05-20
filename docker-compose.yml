@@ -1,7 +1,11 @@
 version: "3"
+
 services:
   zentrale:
     image: zentrale:latest
+    networks:
+      backend:
+        ipv4_address: 172.16.1.1
     ports:
     - 5000:5000/udp
     - 9000:9000/tcp
@@ -9,12 +13,67 @@ services:
 
   verbraucher1:
     image: verbraucher:latest
+    networks:
+      - backend
     restart: "no"
-    network_mode: "host"
-    command: ["ip=127.0.0.1", "port=5000"]
-
+    command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=Fleischer Müller", "id=101", communication=UDP]
+    
+  verbraucher2:
+    image: verbraucher:latest
+    networks:
+      - backend
+    restart: "no"
+    command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=PM-Systems", "id=102", communication=UDP]
+    
+  verbraucher3:
+    image: verbraucher:latest
+    networks:
+      - backend
+    restart: "no"
+    command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=ARRR", "id=103", communication=UDP]
+    
   erzeuger1:
     image: erzeuger:latest
+    networks:
+      - backend
     restart: "no"
-    network_mode: "host"
-    command: ["ip=127.0.0.1", "port=5000"]
+    command: ["ip=172.16.1.1", "port=5000", "type=Solar", "name=Sonnenkraft", "id=201", "size=591",  "communication=UDP"]
+    
+  erzeuger2:
+    image: erzeuger:latest
+    networks:
+      - backend
+    restart: "no"
+    command: ["ip=172.16.1.1", "port=5000", "type=Solar", "name=Lichtenergie", "id=202", "size=10000", "communication=UDP"]
+    
+  erzeuger3:
+    image: erzeuger:latest
+    networks:
+      - backend
+    restart: "no"
+    command: ["ip=172.16.1.1", "port=5000", "type=Wind", "name=Windero", "id=203", "size=777",  "communication=UDP"]
+    
+  erzeuger4:
+    image: erzeuger:latest
+    networks:
+      - backend
+    restart: "no"
+    command: ["ip=172.16.1.1", "port=5000", "type=Atom", "name=ATOOOOOOM", "id=204", "size=1000000.5",  "communication=UDP"]
+    
+  erzeuger5:
+    image: erzeuger:latest
+    networks:
+      - backend
+    restart: "no"
+    command: ["ip=172.16.1.1", "port=5000", "type=Kohle", "name=Braunenergie", "id=203", "size=777", "size=57896.3",  "communication=UDP"]
+
+
+networks:
+  backend:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.0.0/16
+          ip_range: 172.16.2.0/24
+          gateway: 172.16.0.1

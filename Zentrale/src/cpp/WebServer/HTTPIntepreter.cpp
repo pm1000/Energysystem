@@ -38,7 +38,9 @@ void HTTPIntepreter::run() {
         int readResult = recv(this->sock_id, &buffer, MESSAGE_SIZE, 0);
         if (readResult < 0) {
             int errorNr = errno;
-            cerr << "Socket read failed with err no: " << errorNr << endl;
+            if (errorNr != 11) {
+                cerr << "[UDPServer] Socket receive failed with err no: " << errorNr << endl;
+            }
             close(this->sock_id);
             return;
         }
@@ -80,6 +82,11 @@ void HTTPIntepreter::run() {
     } else {
         answer = "";
         header = "HTTP/1.1 501 Not Implemented\r\n\r\n";
+    }
+
+    // Log the browser agent
+    if (headers.contains("User-Agent")) {
+        cout << "[HTTP-Request] Browser-Agent: " << headers.at("User-Agent") << endl;
     }
 
     // Send the return message
