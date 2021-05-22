@@ -97,15 +97,18 @@ Die Klasse `HttpContextHandlerController` ergänzt die Funktionalität der Klass
 Sie führt die Funktionen verschiedene Seiten passend zum angefragten Pfad zurückzugeben.
 Funktionen:
 
-* `addContext(string path, HTTPContextHandler* handler)`: Fügt einen neuen HTTPContextHandler hinzu, der unter dem übergebenen Path erreichbar ist.
+* `addContext(string path, HTTPContextHandler* handler)`: Fügt einen neuen HTTPContextHandler hinzu, der unter dem 
+  übergebenen Path erreichbar ist.
 * `getContext(string& path, string &args)`: Gibt einen String mit der Antwort zurück des HTTPContextHandler zurück.
   Der HTTPContextHandler wird dabei anhand des path ausgewählt.
   Außerdem werden die Argumente, die am Path mit anhängen übergeben, um diese zu verarbeiten.
-* `setContextNotFoundErrorPage(HttpContextHandler* handler)`: Setzt einen Standard HTTPContextHandler, der ausgeführt werden soll, wenn kein anderer unter dem path erreichbar ist.
+* `setContextNotFoundErrorPage(HttpContextHandler* handler)`: Setzt einen Standard HTTPContextHandler, der ausgeführt 
+  werden soll, wenn kein anderer unter dem path erreichbar ist.
 
 Die Klasse `HttpContextHandler` dient als Interface für den HttpContextHandlerController. 
 Dieses Interface kann benutzt werden, um den Inhalt eines Http-Aufrufes zu bestimmen.
-Das Interface muss einem HttpContextHandlerController übergeben werden (per addContext() mit einem Pfad, unter dem es erreichbar ist oder als Fallback-Errorpage).
+Das Interface muss einem HttpContextHandlerController übergeben werden (per addContext() mit einem Pfad,
+unter dem es erreichbar ist oder als Fallback-Errorpage).
 Funktionen:
 
 * `getContent(string &args)`: Die Methode muss überschrieben werden. 
@@ -114,12 +117,29 @@ Funktionen:
   
 
 #### HTMLGenerator
-TODO: PM bitte ausformulieren.
+Die Klasse `HTMLGenerator` liefert beim Aufruf der Methode `generateMainPage()` die Startseite der Website aus. Diese
+HTML Seite enthält alle derzeit verbunden Erzeuger und Verbraucher. Die Methode 
+`string generateSubPage(string& name, bool history)` gibt je nach übergebenen Namen eine Übersichtsseite der jeweiligen
+Komponente zurück. Auf dieser Übersichtsseite sind alle gemeldeten Daten der jeweiligen Komponenten sichtbar.
 
 
 ### KomponentenController und Komponenten
-#### KomponentenCtonroller
-TODO: PM bitte ausformulieren
+#### KomponentenController
+Der `KomponentenController` dient zur Verwaltung von allen Komponenten. Die Komponenten sind in einer Map gespeichert.
+Die ID jeder Komponente dient dazu als Key. Außerdem findet ein Mapping zwischen dem Namen der Komponente und der ID 
+statt. Außerdem implementiert die Klasse `KomponentenController` die Methode
+`void processMessage(std::string ip, std::string message)` vom Interface `UDPCallback`. Diese Methode wird bei jeder
+neu eingegangen Nachricht aufgerufen. Innerhalb der Methode findet ein Parsing der Nachricht statt und die übermittelten
+Werte werden der jeweiligen Komponente zugeordnet. Falls die Komponente noch unbekannt ist, so wird diese angelegt und
+in der Map gespeichert. Außerdem wird nach dem Einfügen von neuen Daten bei jeder Komponente geprüft, ob die Nachrichtenids
+in der richtigen Reihenfolge sind, oder ob Nachrichten verloren gegangen sind. Falls dies passiert ist, wird ein neuer
+Thread gestartet, der die fehlenden Nachrichten bei den Komponenten nochmals anfordert. 
 
 #### Komponenten
-TODO: PM bitte ausformulieren
+In dieser Klasse werden alle grundlegenden Informationen zu einer Komponente gespeichert (`string name`, `int id`, 
+`string type`, `string ip`). Außerdem werden in der Map `std::map<unsigned long long,double> values;` die gemeldeten 
+Werte mit ihren Timestamp als Schlüssel gespeichert. Der Vector `std::vector<int> maxHeap` dient zum detektieren von 
+fehlenden Nachrichten. Die Methode `virtual void addNewValue(unsigned long long timestamp, double value)` wird vom 
+`KomponentenController` bei jeder neu eingetroffenen Nachricht aufgerufen und fügt das neue Wertepaar ein. Auch die 
+Methode `std::vector<int> checkMissingMsg(int msgID)` wird nach jeder eingegangen Nachricht aufgerufen und prüft, dass 
+alle Nachrichten vorhanden sind.
