@@ -5,7 +5,7 @@
 #ifndef VERBRAUCHER_UDPKOMMUNIKATION_H
 #define VERBRAUCHER_UDPKOMMUNIKATION_H
 
-#include "../ZentralenKommunikation.h"
+#include "ZentralenKommunikation.h"
 #include <sys/socket.h>
 #include <stdexcept>
 #include "iostream"

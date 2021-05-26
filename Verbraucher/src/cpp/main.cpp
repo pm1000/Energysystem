@@ -5,7 +5,7 @@
 #include "../header/Komponente/Unternehmen.h"
 #include "../header/Simulator.h"
 #include "../header/Komponente/Haushalt.h"
-#include "../header/UDP/UDPServer.h"
+#include "../header/Kommunikation/UDPServer.h"
 
 /**
  * Global variable
