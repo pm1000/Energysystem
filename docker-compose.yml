@@ -32,6 +32,13 @@ services:
     restart: "no"
     command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=ARRR", "id=103", communication=UDP]
     
+  verbraucher4:
+    image: verbraucher:latest
+    networks:
+      - backend
+    restart: "no"
+    command: ["ip=172.16.1.1", "port=5000", "type=Haushalt", "name=Yannick", "id=104", communication=UDP]
+    
   erzeuger1:
     image: erzeuger:latest
     networks:
