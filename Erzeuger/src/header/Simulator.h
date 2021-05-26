@@ -24,7 +24,7 @@ class Simulator : public UDPCallback {
 private:
     unordered_map<int,string> msgBuffer;
     Erzeuger* erzeuger;
-    UDPKommunikation* interface;
+    ZentralenKommunikation* interface;
     mutex mtx;
     string messageToJSON(string type, string name, int id, double value, unsigned long long t);
     static int msgID;
@@ -34,7 +34,7 @@ private:
     bool stopped = false;
 
 public:
-    Simulator(Erzeuger *erzeuger, string communicationType, int port, string address);
+    Simulator(Erzeuger *erzeuger, const string& communicationType, int port, string address);
     virtual ~Simulator();
 
     void processMessage(string ip, std::string string1) override;

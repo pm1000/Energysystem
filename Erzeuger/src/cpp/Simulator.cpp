@@ -10,7 +10,7 @@ int Simulator::msgID = 0;
 /**
  *
  */
-Simulator::Simulator(Erzeuger *erzeuger, std::string communicationType, int port, std::string address) {
+Simulator::Simulator(Erzeuger *erzeuger, const std::string& communicationType, int port, std::string address) {
     this->erzeuger = erzeuger;
     if (communicationType == "UDP") {
         this->interface = new UDPKommunikation(port, address);
