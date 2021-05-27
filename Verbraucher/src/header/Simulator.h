@@ -33,7 +33,7 @@ private:
     mutex mtx;
 
     //helper methods
-    string messageToJSON(string type, string name, int id, double value, unsigned long long time);
+    string messageToJSON(string type, string name, int id, double value, time_t time);
     void simulate();
 
 public:

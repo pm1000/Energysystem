@@ -21,7 +21,7 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
     std::string name;
     int id;
     double value;
-    unsigned long long time;
+    time_t time;
     int msgID;
     try{
         //get type
@@ -122,7 +122,7 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
         mtx.unlock();
 
         std::cout << "Type: " << type << "\tID: " << id << "\tName: " << name << "\tValue: " << value
-                    << "\tTime: " << time << std::endl;
+                    << "\tTime: " << to_string(time) << std::endl;
     }catch (std::exception &e){
         std::cerr <<"Failed to process the message: " << message << std::endl << e.what() << std::endl;
     }

@@ -10,11 +10,11 @@ Komponente::~Komponente() {
 
 }
 
-const std::map<unsigned long long, double> &Komponente::getValues() const {
+const std::map<time_t , double> &Komponente::getValues() const {
     return values;
 }
 
-void Komponente::addNewValue(unsigned long long timestamp, double value) {
+void Komponente::addNewValue(time_t timestamp, double value) {
     mtx.lock();
     if (this->values.find(timestamp) == this->values.end())
         this->values.insert({timestamp,value});

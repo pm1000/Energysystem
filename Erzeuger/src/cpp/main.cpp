@@ -147,6 +147,5 @@ int main(int argc, char* args[]) {
     sim->start();
     udpServerThread.join();
 
-    delete server;
     return 0;
 }
