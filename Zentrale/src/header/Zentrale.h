@@ -36,7 +36,7 @@ public:
     void start();
     void stop();
 
-    void enableTestmode();
+    void enableTestmode(bool packetLoss, bool enableOutputData, bool enableMissingmessages);
 };
 
 

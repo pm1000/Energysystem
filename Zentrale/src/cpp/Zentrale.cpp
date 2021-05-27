@@ -122,7 +122,7 @@ void Zentrale::stop() {
 /**
  *
  */
-void Zentrale::enableTestmode() {
-    this->udpServer.setPacketLoss(true);
-    this->komponentenController->setTestMode(true);
+void Zentrale::enableTestmode(bool packetLoss, bool enableOutputData, bool enableMissingmessages) {
+    this->udpServer.setPacketLoss(packetLoss);
+    this->komponentenController->setTestMode(enableOutputData, enableMissingmessages);
 }

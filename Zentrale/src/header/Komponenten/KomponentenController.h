@@ -30,7 +30,8 @@ private:
     KomponentenController();
     static KomponentenController* instance;
 
-    bool testMode = false;
+    bool enableDataOutput = false;
+    bool enableMissingMessages = false;
 
 public:
     static KomponentenController* getInstance();
@@ -43,7 +44,7 @@ public:
     std::vector<Komponente*> getErzeuger();
     std::vector<Komponente*> getVerbraucher();
 
-    void setTestMode(bool value);
+    void setTestMode(bool enableDataOutput, bool enableMissingMessagesOutput);
 };
 
 
