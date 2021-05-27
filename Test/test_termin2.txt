@@ -1,0 +1,18 @@
+Funktionaler Test:
+
+Kriterium:
+	Wenn ein Verbraucher oder Erzeuger eine Nachricht sendet und diese verloren geht, soll dieser Fehler detektiert werden und die Zentrale soll eine Anfrage an die entsprechende
+	Komponente senden, damit diese die Nachricht erneut versendet.
+	
+	
+Umsetzung:
+	Die Zentrale besitzt die Methode std::vector<int> Komponente::checkMissingMsg(int msgID) in der Klasse Komponente. Diese kontrolliert, ob alle Nachrichten ankamen. Dafür 
+	sind die Nachrichten durchnummeriert. Die Methode gibt einen Vektor mit allen fehlenden Nachrichten zurück.
+	
+
+Test:
+	Ein Erzeuger sendet 100 Nachrichten an die Zentrale. In der Zentrale wird ein Paketverlust von 80% simuliert. Am Ende müssen in der Zentrale die 100 Nachrichten
+	des Erzeugers vorhanden sein.
+	
+--> Ist erfüllt.
+

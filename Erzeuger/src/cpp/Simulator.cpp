@@ -129,7 +129,7 @@ void Simulator::startMissingMsgTest(int msgCount) {
 
     for (int i = 0; i < msgCount; ++i){
         this->simulate();
-        usleep(2500);
+        sleep(2);
         cout << "send Message Nr " << i << endl;
     }
 

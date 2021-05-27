@@ -153,7 +153,7 @@ int main(int argc, char* args[]) {
     }
     else {
         if (argsMap.find("test")->second == "MISSING_MSG")
-            sim->startMissingMsgTest(10000);
+            sim->startMissingMsgTest(100);
         else if (argsMap.find("test")->second == "PERF_TEST")
             sim->startPerformanceTest(1000000);
 

@@ -61,7 +61,7 @@ void UDPServer::run() {
 
                 if (this->simulatePacketLoss) {
                     int r = rand() % 100;
-                    if (r > 5) this->callback->processMessage(string(ipBuffer), string(buffer));
+                    if (r > 80) this->callback->processMessage(string(ipBuffer), string(buffer));
                 } else {
                     this->callback->processMessage(string(ipBuffer), string(buffer));
                 }

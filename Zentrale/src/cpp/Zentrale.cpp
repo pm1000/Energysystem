@@ -106,6 +106,11 @@ void Zentrale::start() {
     }
 
     cout << "Insgesamt wurden " << komponentenController->getMsgCount() << " Nachrichten verarbeitet" << endl;
+
+    for (auto it = komponentenController->getKomponenten().begin(); it != komponentenController->getKomponenten().end(); ++it){
+        cout << "Komponente: " << it->second->getName() << "\t gespeicherte Nachrichten: \t" << it->second->getMsgCount() << endl;
+    }
+
 }
 
 
