@@ -155,7 +155,7 @@ int main(int argc, char* args[]) {
         if (argsMap.find("test")->second == "MISSING_MSG")
             sim->startMissingMsgTest(100);
         else if (argsMap.find("test")->second == "PERF_TEST")
-            sim->startPerformanceTest(1000000);
+            sim->startPerformanceTest(100000);
 
 
         sigTermHandler(SIGTERM);

@@ -146,6 +146,7 @@ void Simulator::startPerformanceTest(int msgCount) {
     cout << "Start testing. Timestamp: " << to_string(time(nullptr)) << endl;
     for (int i = 0; i < msgCount; i++) {
         this->simulate();
+        usleep(1);
     }
     cout << "End testing. Timestamp: " << to_string(time(nullptr)) << endl;
 }
