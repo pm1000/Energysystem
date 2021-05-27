@@ -28,5 +28,5 @@ void KomponentenUdpSender::send(Komponente *komponente, string msg) {
 }
 
 std::thread KomponentenUdpSender::komponentenThreadSend(Komponente *k, string msg) {
-    return std::thread([=] {send(k, msg);});
+    return std::thread([this, k, msg] {send(k, msg);});
 }

@@ -50,7 +50,7 @@ void Simulator::start() {
  */
 void Simulator::simulate() {
     double cons = erzeuger->getLastHourGeneration();
-    unsigned long long t = chrono::system_clock::now().time_since_epoch().count();
+    time_t t = time(nullptr);
 
     string message = messageToJSON(erzeuger->getType(), erzeuger->getName(), erzeuger->getID(), cons, t);
 
@@ -70,7 +70,7 @@ void Simulator::simulate() {
 /**
  *
  */
-string Simulator::messageToJSON(string type, string name, int id, double value, unsigned long long time) {
+string Simulator::messageToJSON(string type, string name, int id, double value, time_t time) {
     std::string message = "{";
     message += "\"type\": ";
     message += "\"" + type + "\", ";

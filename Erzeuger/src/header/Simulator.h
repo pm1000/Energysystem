@@ -26,7 +26,7 @@ private:
     Erzeuger* erzeuger;
     UDPKommunikation* interface;
     mutex mtx;
-    string messageToJSON(string type, string name, int id, double value, unsigned long long t);
+    string messageToJSON(string type, string name, int id, double value, time_t t);
     static int msgID;
 
     //helper methods

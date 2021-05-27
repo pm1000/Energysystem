@@ -23,7 +23,7 @@ private:
     string generateMainTab();
     string generateTableHead(string& type);
     string closeTable();
-    string generateTableRow(string& type, string name, int id, double value, unsigned long long time);
+    string generateTableRow(string& type, string name, int id, double value, time_t time);
     string generateSubTabs(string type);
     string generateKomponentenListe(string type);
     string generateKomptTableHead();

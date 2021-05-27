@@ -46,7 +46,7 @@ void Simulator::start() {
  */
 void Simulator::simulate() {
     double cons = verbraucher->getLastHourConsumption();
-    unsigned long long t = chrono::system_clock::now().time_since_epoch().count();
+    time_t t = time(nullptr);
 
     string message = messageToJSON(verbraucher->getType(), verbraucher->getName(), verbraucher->getId(),
                                    cons, t);
@@ -66,7 +66,7 @@ void Simulator::simulate() {
 /**
  *
  */
-string Simulator::messageToJSON(string type, string name, int id, double value, unsigned long long time) {
+string Simulator::messageToJSON(string type, string name, int id, double value, time_t time) {
     string message = "{";
     message += "\"type\": ";
     message += "\"" + type + "\", ";
