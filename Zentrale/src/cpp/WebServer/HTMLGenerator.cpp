@@ -42,7 +42,7 @@ string HTMLGenerator::generateSubPage(string& name, bool history) {
     s += "</h3>";
 
     s += R"(<button class="mdl-button mdl-js-button mdl-button--raised"
-            onclick="window.location.href='http://172.16.1.1:9000/'">
+            onclick="window.location.href='/'">
                 Zurück zur Hauptseite
             </button>)";
 
@@ -240,7 +240,7 @@ string HTMLGenerator::generateKompTableRow(string& type, string name, int id) {
     s += to_string(id);
     s += R"(</td>)";
     s += "<td>";
-    s += R"(<a href="http://127.0.0.1:9000/Detail?name=)" + name + R"(&history=true">Details</a>)";
+    s += R"(<a href="/Detail?name=)" + name + R"(&history=true">Details</a>)";
     s += R"(</td>)";
     s += R"(</tr>)";
     return s;

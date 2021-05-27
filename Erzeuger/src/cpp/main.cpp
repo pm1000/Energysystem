@@ -148,6 +148,5 @@ int main(int argc, char* args[]) {
     udpServerThread.join();
 
     delete server;
-    delete erzeuger;
     return 0;
 }

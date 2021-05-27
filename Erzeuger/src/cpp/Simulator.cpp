@@ -24,6 +24,7 @@ Simulator::Simulator(Erzeuger *erzeuger, const std::string& communicationType, i
  */
 Simulator::~Simulator() {
     delete erzeuger;
+    delete interface;
 }
 
 
