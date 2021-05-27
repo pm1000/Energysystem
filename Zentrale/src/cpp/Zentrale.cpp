@@ -64,6 +64,7 @@ Zentrale::Zentrale() {
 
 
     // Init all services
+    this->udpServer.setPacketLoss(false);
     this->udpServer.setCallback(this->komponentenController);
     this->udpServer.init(5000);
 
@@ -114,4 +115,13 @@ void Zentrale::stop() {
     cout << "[Zentrale] Stopping all services." << endl;
     this->webserver.stop();
     this->udpServer.stop();
+}
+
+
+
+/**
+ *
+ */
+void Zentrale::enableTestmode() {
+    this->udpServer.setPacketLoss(true);
 }

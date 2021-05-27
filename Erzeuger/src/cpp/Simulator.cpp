@@ -124,3 +124,17 @@ void Simulator::processMessage(string ip, std::string string1) {
     }
 
 }
+
+
+
+/**
+ *
+ */
+void Simulator::startPerformanceTest(int msgCount) {
+
+    cout << "Start testing. Timestamp: " << to_string(time(nullptr)) << endl;
+    for (int i = 0; i < msgCount; i++) {
+        this->simulate();
+    }
+    cout << "End testing. Timestamp: " << to_string(time(nullptr)) << endl;
+}

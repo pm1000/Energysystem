@@ -136,6 +136,9 @@ int main(int argc, char* args[]) {
 
     sim = new Simulator(erzeuger,comType, stoi(argsMap.at("port")),argsMap.at("ip"));
 
+    sim->startPerformanceTest(1000000);
+    return 0;
+
     // Register the handler
     signal(SIGTERM, sigTermHandler);
     server = new UDPServer();

@@ -8,7 +8,6 @@ KomponentenController* KomponentenController::instance = nullptr;
 
 KomponentenController::KomponentenController() {
     this->sender = new KomponentenUdpSender();
-    std::srand(std::time(NULL));
 }
 
 KomponentenController::~KomponentenController() {
@@ -83,7 +82,6 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
 
         mtx.lock();
         Komponente* k;
-        int r = rand() % 10000;
 
         auto it = komponenten.find(id);
         if (it == komponenten.end()){
@@ -99,30 +97,28 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
 
         } else{
             k = it->second;
-            if (r > 1000) {
-                k->addNewValue(time, value);
-            }
+            k->addNewValue(time, value);
+
         }
 
         //check for missing message
-        if (r > 1000) {
-            vector<int> missingMsg = k->checkMissingMsg(msgID);
+        vector<int> missingMsg = k->checkMissingMsg(msgID);
 
-            if (missingMsg.size() > 0) {
-                cout << "Missing " << missingMsg.size() << " messages from " << k->getName() << ".:(" << endl;
-            }
-
-            for (int i = 0; i < missingMsg.size(); ++i) {
-                string msg = createMissingMessageJSON(missingMsg[i]);
-                std::thread t = sender->komponentenThreadSend(k, msg);
-                t.detach();
-            }
+        if (missingMsg.size() > 0) {
+            cout << "Missing " << missingMsg.size() << " messages from " << k->getName() << ".:(" << endl;
         }
+
+        for (int i = 0; i < missingMsg.size(); ++i) {
+            string msg = createMissingMessageJSON(missingMsg[i]);
+            std::thread t = sender->komponentenThreadSend(k, msg);
+            t.detach();
+        }
+
 
         mtx.unlock();
 
-        std::cout << "Type: " << type << "\tID: " << id << "\tName: " << name << "\tValue: " << value
-                    << "\tTime: " << to_string(time) << std::endl;
+        //std::cout << "Type: " << type << "\tID: " << id << "\tName: " << name << "\tValue: " << value
+        //          << "\tTime: " << to_string(time) << std::endl;
     }catch (std::exception &e){
         std::cerr <<"Failed to process the message: " << message << std::endl << e.what() << std::endl;
     }

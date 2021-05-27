@@ -41,6 +41,8 @@ public:
 
     void start();
     void stop();
+
+    void startPerformanceTest(int msgCount);
 };
 
 

@@ -33,6 +33,7 @@ void UDPServer::run() {
 
     // Console log.
     cout << "[UDPServer] Thread started. Entering while loop." << endl;
+    std::srand(std::time(NULL));
 
     // Endless loop until this thread becomes stopped.
     while (!this->stopped) {
@@ -57,7 +58,13 @@ void UDPServer::run() {
             if (bytesReceived > 0) {
                 char ipBuffer[100];
                 inet_ntop(AF_INET, &client_addr.sin_addr, ipBuffer, sizeof(ipBuffer));
-                this->callback->processMessage(string(ipBuffer), string(buffer));
+
+                if (this->simulatePacketLoss) {
+                    int r = rand() % 100;
+                    if (r > 5) this->callback->processMessage(string(ipBuffer), string(buffer));
+                } else {
+                    this->callback->processMessage(string(ipBuffer), string(buffer));
+                }
             }
         }
     }
@@ -136,5 +143,14 @@ void UDPServer::init(int port) {
         cerr << "[UDPServer] Socket bind failed with err no: " << errorNr << endl;
         exit(1);
     }
+}
+
+
+
+/**
+ *
+ */
+void UDPServer::setPacketLoss(bool value) {
+    this->simulatePacketLoss = value;
 }
 
