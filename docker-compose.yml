@@ -16,7 +16,7 @@ services:
     networks:
       - backend
     restart: "no"
-    command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=Fleischer Müller", "id=101", communication=UDP]
+    command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=Fleischer-Ernst", "id=101", communication=UDP]
     
   verbraucher2:
     image: verbraucher:latest

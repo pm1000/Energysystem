@@ -204,7 +204,7 @@ string HTMLGenerator::closeTable() {
 }
 
 string HTMLGenerator::generateKomponentenListe(string type) {
-
+    return std::string();
 }
 
 string HTMLGenerator::generateKomptTableHead() {
