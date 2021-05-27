@@ -40,6 +40,7 @@ public:
     void processMessage(string ip, std::string string1) override;
 
     void start();
+    void startMissingMsgTest(int msgCount);
     void stop();
 
     void startPerformanceTest(int msgCount);

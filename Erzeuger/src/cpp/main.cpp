@@ -136,9 +136,6 @@ int main(int argc, char* args[]) {
 
     sim = new Simulator(erzeuger,comType, stoi(argsMap.at("port")),argsMap.at("ip"));
 
-    sim->startPerformanceTest(1000000);
-    return 0;
-
     // Register the handler
     signal(SIGTERM, sigTermHandler);
     server = new UDPServer();
@@ -147,11 +144,24 @@ int main(int argc, char* args[]) {
 
     // Start threads
     thread udpServerThread(ref(*server));
-    thread simThread(&Simulator::start, sim);
+    if (!argsMap.contains("test")) {
+        thread simThread(&Simulator::start, sim);
 
-    // Wait for threads
-    udpServerThread.join();
-    simThread.join();
+        // Wait for threads
+        udpServerThread.join();
+        simThread.join();
+    }
+    else {
+        if (argsMap.find("test")->second == "MISSING_MSG")
+            sim->startMissingMsgTest(10000);
+        else if (argsMap.find("test")->second == "PERF_TEST")
+            sim->startPerformanceTest(1000000);
+
+
+        sigTermHandler(SIGTERM);
+        // Wait for threads
+        udpServerThread.join();
+    }
 
     return 0;
 }
