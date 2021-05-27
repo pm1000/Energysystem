@@ -41,6 +41,7 @@ public:
     std::vector<int> checkMissingMsg(int msgID);
     std::string getIp() const;
     void setIp(std::string ip);
+    unsigned long long getMsgCount() const;
 };
 
 

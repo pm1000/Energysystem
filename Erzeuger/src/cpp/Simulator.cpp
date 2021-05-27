@@ -117,7 +117,7 @@ void Simulator::processMessage(string ip, std::string string1) {
     if (it != msgBuffer.end()){
         interface->sendData(it->second);
         mtx.unlock();
-
+        cout << "Message Nr " << msgID << "\tresend" << endl;
     } else {
         mtx.unlock();
         cerr << "Message Nr " << id << " is not in the buffer." << endl;
@@ -129,7 +129,8 @@ void Simulator::startMissingMsgTest(int msgCount) {
 
     for (int i = 0; i < msgCount; ++i){
         this->simulate();
-        usleep(25);
+        usleep(2500);
+        cout << "send Message Nr " << i << endl;
     }
 
     cout << msgCount << " Nachrichten an die Zentrale gesendet." << endl;

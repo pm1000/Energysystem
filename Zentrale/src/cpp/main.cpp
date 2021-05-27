@@ -24,7 +24,7 @@ int main() {
     signal(SIGTERM, sigTerm);
 
     // Uncomment to enable testmode
-    zentrale->enableTestmode(false, true, true);
+    zentrale->enableTestmode(true, false, true);
 
     // Start the application
     zentrale->start();

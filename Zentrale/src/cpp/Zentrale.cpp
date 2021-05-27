@@ -104,6 +104,8 @@ void Zentrale::start() {
         cerr << e.what() << endl;
         exit(1);
     }
+
+    cout << "Insgesamt wurden " << komponentenController->getMsgCount() << " Nachrichten verarbeitet" << endl;
 }
 
 

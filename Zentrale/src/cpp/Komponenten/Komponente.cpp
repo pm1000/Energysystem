@@ -111,3 +111,7 @@ void Komponente::setIp(std::string ip) {
     this->ip = ip;
 }
 
+unsigned long long Komponente::getMsgCount() const {
+    return values.size();
+}
+

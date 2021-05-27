@@ -15,6 +15,8 @@ KomponentenController::~KomponentenController() {
 }
 
 void KomponentenController::processMessage(std::string ip, std::string message) {
+    ++msgCount;
+
     //format {"type": "Unternehmen", "name": "FLEISCHER", "id": 123,"value": 2006.550000}
     std::string type;
     std::string name;
@@ -206,4 +208,12 @@ string KomponentenController::createMissingMessageJSON(int msgID) {
 void KomponentenController::setTestMode(bool enableDataOutput, bool enableMissingMessages) {
     this->enableDataOutput = enableDataOutput;
     this->enableMissingMessages = enableMissingMessages;
+}
+
+unsigned long long int KomponentenController::getMsgCount() const {
+    return msgCount;
+}
+
+const unordered_map<int, Komponente *> &KomponentenController::getKomponenten() const {
+    return komponenten;
 }
