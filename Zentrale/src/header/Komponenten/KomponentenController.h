@@ -30,6 +30,8 @@ private:
     KomponentenController();
     static KomponentenController* instance;
 
+    bool testMode = false;
+
 public:
     static KomponentenController* getInstance();
     virtual ~KomponentenController();
@@ -40,6 +42,8 @@ public:
     std::vector<int> getKomponentenIDs();
     std::vector<Komponente*> getErzeuger();
     std::vector<Komponente*> getVerbraucher();
+
+    void setTestMode(bool value);
 };
 
 

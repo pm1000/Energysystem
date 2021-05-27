@@ -102,23 +102,27 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
         }
 
         //check for missing message
-        vector<int> missingMsg = k->checkMissingMsg(msgID);
+        if (!this->testMode) {
+            vector<int> missingMsg = k->checkMissingMsg(msgID);
 
-        if (missingMsg.size() > 0) {
-            cout << "Missing " << missingMsg.size() << " messages from " << k->getName() << ".:(" << endl;
-        }
+            if (missingMsg.size() > 0) {
+                cout << "Missing " << missingMsg.size() << " messages from " << k->getName() << ".:(" << endl;
+            }
 
-        for (int i = 0; i < missingMsg.size(); ++i) {
-            string msg = createMissingMessageJSON(missingMsg[i]);
-            std::thread t = sender->komponentenThreadSend(k, msg);
-            t.detach();
+            for (int i = 0; i < missingMsg.size(); ++i) {
+                string msg = createMissingMessageJSON(missingMsg[i]);
+                std::thread t = sender->komponentenThreadSend(k, msg);
+                t.detach();
+            }
         }
 
 
         mtx.unlock();
 
-        //std::cout << "Type: " << type << "\tID: " << id << "\tName: " << name << "\tValue: " << value
-        //          << "\tTime: " << to_string(time) << std::endl;
+        if (!this->testMode) {
+            std::cout << "Type: " << type << "\tID: " << id << "\tName: " << name << "\tValue: " << value
+                      << "\tTime: " << to_string(time) << std::endl;
+        }
     }catch (std::exception &e){
         std::cerr <<"Failed to process the message: " << message << std::endl << e.what() << std::endl;
     }
@@ -192,4 +196,13 @@ string KomponentenController::createMissingMessageJSON(int msgID) {
     message += to_string(msgID);
     message += "}";
     return message;
+}
+
+
+
+/**
+ *
+ */
+void KomponentenController::setTestMode(bool value) {
+    this->testMode = value;
 }

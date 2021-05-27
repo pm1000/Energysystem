@@ -124,4 +124,5 @@ void Zentrale::stop() {
  */
 void Zentrale::enableTestmode() {
     this->udpServer.setPacketLoss(true);
+    this->komponentenController->setTestMode(true);
 }
