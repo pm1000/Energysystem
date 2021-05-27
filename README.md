@@ -13,7 +13,7 @@ Sie verwaltet alle Komponenten, die sich bei ihr angemeldet haben und stellt ein
 
 
 ## Projekt starten
-Um das Projekt starten zu können wird Docker, Docker-Compose und Git auf dem Zielrechner benötigt.
+Um das Projekt starten zu können wird Docker, Docker-Compose und Git auf dem Zielrechner benötigt. Alle Befehle müssen mit einem User ausgeführt werden, der Docker verwenden darf.
 
 1. Git-Repo clonen.
 2. In das Hauptverzeichnis des Git-Repos navigieren.
