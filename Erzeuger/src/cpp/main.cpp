@@ -141,11 +141,14 @@ int main(int argc, char* args[]) {
     server = new UDPServer();
     server->init(5001);
     server->setCallback(sim);
-    thread udpServerThread(*server);
 
-    // Start the loop
-    sim->start();
+    // Start threads
+    thread udpServerThread(ref(*server));
+    thread simThread(&Simulator::start, sim);
+
+    // Wait for threads
     udpServerThread.join();
+    simThread.join();
 
     return 0;
 }
