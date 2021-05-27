@@ -24,6 +24,9 @@ Um das Projekt starten zu können wird Docker, Docker-Compose und Git auf dem Zi
 5. Zum Beenden der Services
     * Im Vordergrund: **Ctrl + C ** auf der Tastatur drücken
     * Im Hintergrund: `docker-compose down` ausführen
+   
+
+Zugriff auf die Webseite auf das Projekt, wenn per docker-compose.yml File gestartet: http://172.16.1.1:9000/
 
 
 ## Sonstige Informationen
