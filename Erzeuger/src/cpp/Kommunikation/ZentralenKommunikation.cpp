@@ -2,7 +2,7 @@
 // Created by philipp on 04.05.21.
 //
 
-#include "../header/ZentralenKommunikation.h"
+#include "../../header/Kommunikation/ZentralenKommunikation.h"
 
 
 /**

@@ -7,7 +7,7 @@
 #include "../header/Komponente/Kohle.h"
 #include "../header/Komponente/Wind.h"
 #include "../header/Simulator.h"
-#include "../header/UDP/UDPServer.h"
+#include "../header/Kommunikation/UDPServer.h"
 
 /**
  * Global variables

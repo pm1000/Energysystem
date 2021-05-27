@@ -9,10 +9,10 @@
 #include "iostream"
 #include "unistd.h"
 #include "thread"
-#include "UDP/UDPKommunikation.h"
-#include "ZentralenKommunikation.h"
+#include "Kommunikation/UDPKommunikation.h"
+#include "Kommunikation/ZentralenKommunikation.h"
 #include "unordered_map"
-#include "UDP/UDPCallback.h"
+#include "Kommunikation/UDPCallback.h"
 #include "mutex"
 
 using namespace std;

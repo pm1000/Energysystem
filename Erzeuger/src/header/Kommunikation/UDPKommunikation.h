@@ -5,7 +5,7 @@
 #ifndef ERZEUGER_UDPKOMMUNIKATION_H
 #define ERZEUGER_UDPKOMMUNIKATION_H
 
-#include "../ZentralenKommunikation.h"
+#include "ZentralenKommunikation.h"
 #include <sys/socket.h>
 #include <stdexcept>
 #include "iostream"
