@@ -2,7 +2,7 @@
 // Created by philipp on 04.05.21.
 //
 
-#include "../../header/Kommunikation//UDPKommunikation.h"
+#include "../../header/Kommunikation/UDPKommunikation.h"
 
 
 /**
