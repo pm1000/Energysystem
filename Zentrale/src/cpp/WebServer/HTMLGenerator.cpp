@@ -37,6 +37,15 @@ string HTMLGenerator::generateSubPage(string& name, bool history) {
     string s = generateHeader(false, name);
     s += openBody(false);
 
+    s += "<h3>";
+    s += "Übersicht für die Komponente " + name;
+    s += "</h3>";
+
+    s += R"(<button class="mdl-button mdl-js-button mdl-button--raised"
+            onclick="window.location.href='http://172.16.1.1:9000/'">
+                Zurück zur Hauptseite
+            </button>)";
+
     string t = k->getType();
 
     if (history){
@@ -47,7 +56,6 @@ string HTMLGenerator::generateSubPage(string& name, bool history) {
         }
         s += closeTable();
     }
-
     s += closeBody();
     std::replace(s.begin(), s.end(), '\n', ' ');
 
@@ -60,6 +68,7 @@ string HTMLGenerator::generateHeader(bool mainPage, string title) {
 <head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <meta charset="UTF-8">
     <title>)";
