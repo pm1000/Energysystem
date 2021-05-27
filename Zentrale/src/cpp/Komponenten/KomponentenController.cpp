@@ -102,7 +102,7 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
         }
 
         //check for missing message
-        if (!this->enableMissingMessages) {
+        if (this->enableMissingMessages) {
             vector<int> missingMsg = k->checkMissingMsg(msgID);
 
             if (missingMsg.size() > 0) {
@@ -119,7 +119,7 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
 
         mtx.unlock();
 
-        if (!this->enableDataOutput) {
+        if (this->enableDataOutput) {
             std::cout << "Type: " << type << "\tID: " << id << "\tName: " << name << "\tValue: " << value
                       << "\tTime: " << to_string(time) << std::endl;
         }
@@ -203,7 +203,7 @@ string KomponentenController::createMissingMessageJSON(int msgID) {
 /**
  *
  */
-void KomponentenController::setTestMode(bool enableDataOutput, bool enableMissingMessagesOutput) {
+void KomponentenController::setTestMode(bool enableDataOutput, bool enableMissingMessages) {
     this->enableDataOutput = enableDataOutput;
     this->enableMissingMessages = enableMissingMessages;
 }

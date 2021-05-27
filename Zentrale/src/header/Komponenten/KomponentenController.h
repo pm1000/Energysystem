@@ -30,8 +30,8 @@ private:
     KomponentenController();
     static KomponentenController* instance;
 
-    bool enableDataOutput = false;
-    bool enableMissingMessages = false;
+    bool enableDataOutput = true;
+    bool enableMissingMessages = true;
 
 public:
     static KomponentenController* getInstance();
