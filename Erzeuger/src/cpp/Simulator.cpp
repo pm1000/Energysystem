@@ -125,6 +125,16 @@ void Simulator::processMessage(string ip, std::string string1) {
 
 }
 
+void Simulator::startMissingMsgTest(int msgCount) {
+
+    for (int i = 0; i < msgCount; ++i){
+        this->simulate();
+        usleep(25);
+    }
+
+    cout << msgCount << " Nachrichten an die Zentrale gesendet." << endl;
+}
+
 
 
 /**
