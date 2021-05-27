@@ -17,7 +17,6 @@ UDPServer* server;
  * Signal handler for SIGTERM
  */
 void sigTermHandler (int sigNr) {
-    cout <<"SIGNAL AM START" << endl;
     sim->stop();
     server->stop();
 }

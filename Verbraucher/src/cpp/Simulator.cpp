@@ -30,7 +30,6 @@ Simulator::~Simulator() {
 void Simulator::start() {
     try {
         while(!stopped) {
-            cout << stopped << endl;
             this->simulate();
             sleep(2);
         }
