@@ -26,9 +26,12 @@ private:
     std::unordered_map<std::string, int> nameMapping;
     static string createMissingMessageJSON(int msgID) ;
     KomponentenUdpSender* sender;
-
+    unsigned long long msgCount = 0;
     KomponentenController();
     static KomponentenController* instance;
+
+    bool enableDataOutput = true;
+    bool enableMissingMessages = true;
 
 public:
     static KomponentenController* getInstance();
@@ -40,6 +43,10 @@ public:
     std::vector<int> getKomponentenIDs();
     std::vector<Komponente*> getErzeuger();
     std::vector<Komponente*> getVerbraucher();
+    unsigned long long int getMsgCount() const;
+    const unordered_map<int, Komponente *> &getKomponenten() const;
+
+    void setTestMode(bool enableDataOutput, bool enableMissingMessagesOutput);
 };
 
 

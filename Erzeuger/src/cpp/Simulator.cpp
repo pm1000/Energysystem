@@ -51,7 +51,7 @@ void Simulator::start() {
  */
 void Simulator::simulate() {
     double cons = erzeuger->getLastHourGeneration();
-    unsigned long long t = chrono::system_clock::now().time_since_epoch().count();
+    time_t t = time(nullptr);
 
     string message = messageToJSON(erzeuger->getType(), erzeuger->getName(), erzeuger->getID(), cons, t);
 
@@ -71,7 +71,7 @@ void Simulator::simulate() {
 /**
  *
  */
-string Simulator::messageToJSON(string type, string name, int id, double value, unsigned long long time) {
+string Simulator::messageToJSON(string type, string name, int id, double value, time_t time) {
     std::string message = "{";
     message += "\"type\": ";
     message += "\"" + type + "\", ";
@@ -117,10 +117,36 @@ void Simulator::processMessage(string ip, std::string string1) {
     if (it != msgBuffer.end()){
         interface->sendData(it->second);
         mtx.unlock();
-
+        cout << "Message Nr " << msgID << "\tresend" << endl;
     } else {
         mtx.unlock();
         cerr << "Message Nr " << id << " is not in the buffer." << endl;
     }
 
+}
+
+void Simulator::startMissingMsgTest(int msgCount) {
+
+    for (int i = 0; i < msgCount; ++i){
+        this->simulate();
+        sleep(2);
+        cout << "send Message Nr " << i << endl;
+    }
+
+    cout << msgCount << " Nachrichten an die Zentrale gesendet." << endl;
+}
+
+
+
+/**
+ *
+ */
+void Simulator::startPerformanceTest(int msgCount) {
+
+    cout << "Start testing. Timestamp: " << to_string(time(nullptr)) << endl;
+    for (int i = 0; i < msgCount; i++) {
+        this->simulate();
+        usleep(1);
+    }
+    cout << "End testing. Timestamp: " << to_string(time(nullptr)) << endl;
 }

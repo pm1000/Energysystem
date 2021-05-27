@@ -17,7 +17,7 @@ protected:
     std::string name;
     int id;
     //timestamp, value
-    std::map<unsigned long long,double> values;
+    std::map<time_t ,double> values;
     //max heap for msgID
     std::vector<int> maxHeap;
     std::mutex mtx;
@@ -33,14 +33,15 @@ public:
     virtual ~Komponente();
 
     virtual std::string getType() = 0;
-    virtual const std::map<unsigned long long, double> &getValues() const;
-    virtual void addNewValue(unsigned long long timestamp, double value);
+    virtual const std::map<time_t , double> &getValues() const;
+    virtual void addNewValue(time_t timestamp, double value);
     virtual double getLatestValue() const;
     const std::string &getName() const;
     int getId() const;
     std::vector<int> checkMissingMsg(int msgID);
     std::string getIp() const;
     void setIp(std::string ip);
+    unsigned long long getMsgCount() const;
 };
 
 

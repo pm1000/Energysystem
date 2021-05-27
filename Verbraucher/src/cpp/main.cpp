@@ -17,7 +17,6 @@ UDPServer* server;
  * Signal handler for SIGTERM
  */
 void sigTermHandler (int sigNr) {
-    cout <<"SIGNAL AM START" << endl;
     sim->stop();
     server->stop();
 }
@@ -97,14 +96,15 @@ int main(int argc, char* args[]) {
     server = new UDPServer();
     server->init(5001);
     server->setCallback(sim);
-    thread udpServerThread(*server);
-    // Start in endless loop
-    sim->start();
+
+    // Start threads
+    thread udpServerThread(ref(*server));
+    thread simThread(&Simulator::start, sim);
+
+    // Wait for threads
     udpServerThread.join();
+    simThread.join();
 
     std::cout << "Complete Consumption: " << verbraucher->getCompleteConsumption() << std::endl;
-
-    delete server;
-    delete sim;
     return 0;
 }

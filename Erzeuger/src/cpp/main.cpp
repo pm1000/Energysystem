@@ -141,12 +141,27 @@ int main(int argc, char* args[]) {
     server = new UDPServer();
     server->init(5001);
     server->setCallback(sim);
-    thread udpServerThread(*server);
 
-    // Start the loop
-    sim->start();
-    udpServerThread.join();
+    // Start threads
+    thread udpServerThread(ref(*server));
+    if (!argsMap.contains("test")) {
+        thread simThread(&Simulator::start, sim);
 
-    delete server;
+        // Wait for threads
+        udpServerThread.join();
+        simThread.join();
+    }
+    else {
+        if (argsMap.find("test")->second == "MISSING_MSG")
+            sim->startMissingMsgTest(100);
+        else if (argsMap.find("test")->second == "PERF_TEST")
+            sim->startPerformanceTest(100000);
+
+
+        sigTermHandler(SIGTERM);
+        // Wait for threads
+        udpServerThread.join();
+    }
+
     return 0;
 }

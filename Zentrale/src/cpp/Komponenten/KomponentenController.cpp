@@ -8,7 +8,6 @@ KomponentenController* KomponentenController::instance = nullptr;
 
 KomponentenController::KomponentenController() {
     this->sender = new KomponentenUdpSender();
-    std::srand(std::time(NULL));
 }
 
 KomponentenController::~KomponentenController() {
@@ -16,12 +15,14 @@ KomponentenController::~KomponentenController() {
 }
 
 void KomponentenController::processMessage(std::string ip, std::string message) {
+    ++msgCount;
+
     //format {"type": "Unternehmen", "name": "FLEISCHER", "id": 123,"value": 2006.550000}
     std::string type;
     std::string name;
     int id;
     double value;
-    unsigned long long time;
+    time_t time;
     int msgID;
     try{
         //get type
@@ -83,7 +84,6 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
 
         mtx.lock();
         Komponente* k;
-        int r = rand() % 10000;
 
         auto it = komponenten.find(id);
         if (it == komponenten.end()){
@@ -99,13 +99,12 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
 
         } else{
             k = it->second;
-            if (r > 1000) {
-                k->addNewValue(time, value);
-            }
+            k->addNewValue(time, value);
+
         }
 
         //check for missing message
-        if (r > 1000) {
+        if (this->enableMissingMessages) {
             vector<int> missingMsg = k->checkMissingMsg(msgID);
 
             if (missingMsg.size() > 0) {
@@ -119,10 +118,13 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
             }
         }
 
+
         mtx.unlock();
 
-        std::cout << "Type: " << type << "\tID: " << id << "\tName: " << name << "\tValue: " << value
-                    << "\tTime: " << time << std::endl;
+        if (this->enableDataOutput) {
+            std::cout << "Type: " << type << "\tID: " << id << "\tName: " << name << "\tValue: " << value
+                      << "\tTime: " << to_string(time) << std::endl;
+        }
     }catch (std::exception &e){
         std::cerr <<"Failed to process the message: " << message << std::endl << e.what() << std::endl;
     }
@@ -196,4 +198,22 @@ string KomponentenController::createMissingMessageJSON(int msgID) {
     message += to_string(msgID);
     message += "}";
     return message;
+}
+
+
+
+/**
+ *
+ */
+void KomponentenController::setTestMode(bool enableDataOutput, bool enableMissingMessages) {
+    this->enableDataOutput = enableDataOutput;
+    this->enableMissingMessages = enableMissingMessages;
+}
+
+unsigned long long int KomponentenController::getMsgCount() const {
+    return msgCount;
+}
+
+const unordered_map<int, Komponente *> &KomponentenController::getKomponenten() const {
+    return komponenten;
 }

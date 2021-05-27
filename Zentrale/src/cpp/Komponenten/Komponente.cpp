@@ -10,11 +10,11 @@ Komponente::~Komponente() {
 
 }
 
-const std::map<unsigned long long, double> &Komponente::getValues() const {
+const std::map<time_t , double> &Komponente::getValues() const {
     return values;
 }
 
-void Komponente::addNewValue(unsigned long long timestamp, double value) {
+void Komponente::addNewValue(time_t timestamp, double value) {
     mtx.lock();
     if (this->values.find(timestamp) == this->values.end())
         this->values.insert({timestamp,value});
@@ -109,5 +109,9 @@ std::string Komponente::getIp() const {
  */
 void Komponente::setIp(std::string ip) {
     this->ip = ip;
+}
+
+unsigned long long Komponente::getMsgCount() const {
+    return values.size();
 }
 

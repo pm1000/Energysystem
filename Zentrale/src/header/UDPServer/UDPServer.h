@@ -30,6 +30,7 @@ private:
     UDPCallback* callback {};
 
     int socket_fd {-1};
+    bool simulatePacketLoss = false;
 
     // Thread state
     bool stopped {false};
@@ -40,6 +41,8 @@ public:
 
     void setCallback(UDPCallback* callback);
     void init(int port);
+
+    void setPacketLoss(bool value);
 
     // Thread functions
     void operator()();

@@ -23,8 +23,12 @@ int main() {
     // Register a handler for programm termination
     signal(SIGTERM, sigTerm);
 
+    // Uncomment to enable testmode
+    zentrale->enableTestmode(false, true, true);
+
     // Start the application
     zentrale->start();
+
 
     return 0;
 }

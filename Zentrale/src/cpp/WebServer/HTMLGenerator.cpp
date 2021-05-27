@@ -50,7 +50,7 @@ string HTMLGenerator::generateSubPage(string& name, bool history) {
 
     if (history){
         s += generateTableHead(type);
-        std::map<unsigned long long, double> map = k->getValues();
+        std::map<time_t , double> map = k->getValues();
         for (auto it = map.begin(); it != map.end(); ++it){
             s += generateTableRow(t, name, k->getId(), it->second, it->first);
         }
@@ -175,7 +175,7 @@ string HTMLGenerator::generateTableHead(string& type) {
     return s;
 }
 
-string HTMLGenerator::generateTableRow(string& type, string name, int id, double value, unsigned long long time) {
+string HTMLGenerator::generateTableRow(string& type, string name, int id, double value, time_t time) {
     string s;
 
     s += "<tr>";
@@ -192,8 +192,8 @@ string HTMLGenerator::generateTableRow(string& type, string name, int id, double
     s += to_string(value);
     s += R"(</td>)";
     s += "<td>";
-    //todo cast time to readable string
-    s += to_string(time);
+    char* timeString  = ctime(&time);
+    s += timeString;
     s += R"(</td>)";
     s += R"(</tr>)";
     return s;

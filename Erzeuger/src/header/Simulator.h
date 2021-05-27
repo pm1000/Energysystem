@@ -26,7 +26,7 @@ private:
     Erzeuger* erzeuger;
     ZentralenKommunikation* interface;
     mutex mtx;
-    string messageToJSON(string type, string name, int id, double value, unsigned long long t);
+    string messageToJSON(string type, string name, int id, double value, time_t t);
     static int msgID;
 
     //helper methods
@@ -40,7 +40,10 @@ public:
     void processMessage(string ip, std::string string1) override;
 
     void start();
+    void startMissingMsgTest(int msgCount);
     void stop();
+
+    void startPerformanceTest(int msgCount);
 };
 
 

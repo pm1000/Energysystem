@@ -64,6 +64,7 @@ Zentrale::Zentrale() {
 
 
     // Init all services
+    this->udpServer.setPacketLoss(false);
     this->udpServer.setCallback(this->komponentenController);
     this->udpServer.init(5000);
 
@@ -103,6 +104,13 @@ void Zentrale::start() {
         cerr << e.what() << endl;
         exit(1);
     }
+
+    cout << "Insgesamt wurden " << komponentenController->getMsgCount() << " Nachrichten verarbeitet" << endl;
+
+    for (auto it = komponentenController->getKomponenten().begin(); it != komponentenController->getKomponenten().end(); ++it){
+        cout << "Komponente: " << it->second->getName() << "\t gespeicherte Nachrichten: \t" << it->second->getMsgCount() << endl;
+    }
+
 }
 
 
@@ -114,4 +122,14 @@ void Zentrale::stop() {
     cout << "[Zentrale] Stopping all services." << endl;
     this->webserver.stop();
     this->udpServer.stop();
+}
+
+
+
+/**
+ *
+ */
+void Zentrale::enableTestmode(bool packetLoss, bool enableOutputData, bool enableMissingmessages) {
+    this->udpServer.setPacketLoss(packetLoss);
+    this->komponentenController->setTestMode(enableOutputData, enableMissingmessages);
 }

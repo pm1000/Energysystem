@@ -35,6 +35,8 @@ public:
     virtual ~Zentrale();
     void start();
     void stop();
+
+    void enableTestmode(bool packetLoss, bool enableOutputData, bool enableMissingmessages);
 };
 
 
