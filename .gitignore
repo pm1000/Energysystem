@@ -1,0 +1,5 @@
+/Energieversorger/cmake-build-debug/
+.idea/
+cmake-build-*/
+out/
+.idea_modules/
