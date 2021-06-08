@@ -59,7 +59,7 @@ target_link_libraries(hw_grpc_proto
 
 
 
-add_executable(Energieversorger src/cpp/main.cpp src/cpp/Komponenten/Komponente.cpp src/header/Komponenten/Komponente.h src/cpp/Komponenten/KomponentenController.cpp src/header/Komponenten/KomponentenController.h src/cpp/Komponenten/Erzeuger.cpp src/header/Komponenten/Erzeuger.h src/cpp/Komponenten/Verbraucher.cpp src/header/Komponenten/Verbraucher.h src/cpp/Client.cpp src/header/Client.h)
+add_executable(Energieversorger src/cpp/main.cpp src/cpp/Komponenten/Komponente.cpp src/header/Komponenten/Komponente.h src/cpp/Komponenten/KomponentenController.cpp src/header/Komponenten/KomponentenController.h src/cpp/Komponenten/Erzeuger.cpp src/header/Komponenten/Erzeuger.h src/cpp/Komponenten/Verbraucher.cpp src/header/Komponenten/Verbraucher.h src/cpp/Client.cpp src/header/Client.h src/cpp/RpcController.cpp src/header/RpcController.h)
 
 target_link_libraries(Energieversorger
         hw_grpc_proto

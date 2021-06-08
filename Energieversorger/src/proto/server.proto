@@ -1,0 +1,20 @@
+syntax="proto2";
+
+package Energieversorger;
+
+message KomponentenIDs {
+  repeated int32 id = 1;
+}
+
+message Komponente {
+    required string type = 1;
+    required string name = 2;
+    required int32 id = 3;
+    optional bool status = 4;
+    repeated KomponentenWerte values = 5;
+}
+
+message KomponentenWerte {
+   required int64 time = 1;
+   required double value = 2;
+}
