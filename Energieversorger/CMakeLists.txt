@@ -25,14 +25,14 @@ else()
 endif()
 
 # Proto file
-get_filename_component(hw_proto "src/proto/server.proto" ABSOLUTE)
+get_filename_component(hw_proto "src/proto/energieversorger.proto" ABSOLUTE)
 get_filename_component(hw_proto_path "${hw_proto}" PATH)
 
 # Generated sources
-set(hw_proto_srcs "${CMAKE_CURRENT_SOURCE_DIR}/generated/server.pb.cc")
-set(hw_proto_hdrs "${CMAKE_CURRENT_SOURCE_DIR}/generated/server.pb.h")
-set(hw_grpc_srcs "${CMAKE_CURRENT_SOURCE_DIR}/generated/server.grpc.pb.cc")
-set(hw_grpc_hdrs "${CMAKE_CURRENT_SOURCE_DIR}/generated/server.grpc.pb.h")
+set(hw_proto_srcs "${CMAKE_CURRENT_SOURCE_DIR}/generated/energieversorger.pb.cc")
+set(hw_proto_hdrs "${CMAKE_CURRENT_SOURCE_DIR}/generated/energieversorger.pb.h")
+set(hw_grpc_srcs "${CMAKE_CURRENT_SOURCE_DIR}/generated/energieversorger.grpc.pb.cc")
+set(hw_grpc_hdrs "${CMAKE_CURRENT_SOURCE_DIR}/generated/energieversorger.grpc.pb.h")
 add_custom_command(
         OUTPUT "${hw_proto_srcs}" "${hw_proto_hdrs}" "${hw_grpc_srcs}" "${hw_grpc_hdrs}"
         COMMAND ${_PROTOBUF_PROTOC}
