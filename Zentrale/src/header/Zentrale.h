@@ -15,6 +15,7 @@
 #include "UDPServer/UDPServer.h"
 #include "Komponenten/KomponentenController.h"
 #include "../header/WebServer/HTMLGenerator.h"
+#include "Rpc/RpcServer.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ private:
     // Server for incoming connections.
     UDPServer udpServer = UDPServer();
     Webserver webserver = Webserver();
+    RpcServer rpcServer = RpcServer();
     KomponentenController* komponentenController;
 
 

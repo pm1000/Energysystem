@@ -9,11 +9,12 @@ Client::Client() {
 
     // Prepare rpc controller and get all components
     this->rpcController = new RpcController();
-    this->rpcController->initRpc("176.16.1.1", 6000);
-    this->rpcController->initKomponenten();
+    this->rpcController->initRpc("127.0.0.1", 6000);
+    auto komponenten = this->rpcController->initKomponenten();
 
     // Receive all data for all komponents
-    for (Komponente* tmp : this->komponentenController->getKomponenten()) {
+    for (Komponente* tmp : komponenten) {
+        this->komponentenController->addKomponente(tmp);
         this->rpcController->requestKomponentenWerte(tmp);
     }
 }

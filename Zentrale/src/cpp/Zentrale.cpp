@@ -72,6 +72,8 @@ Zentrale::Zentrale() {
     this->webserver.addContext("/", new MainPage());
     this->webserver.addContext("/Detail", new SubPage());
     this->webserver.init(9000);
+
+    this->rpcServer.init(this->komponentenController, 6000);
 };
 
 
@@ -98,8 +100,10 @@ void Zentrale::start() {
     try {
         thread webServerThread(ref(this->webserver));
         thread udpServerThread(ref(this->udpServer));
+        thread rpcServerThread(ref(this->rpcServer));
         webServerThread.join();
         udpServerThread.join();
+        rpcServerThread.join();
     } catch (system_error &e) {
         cerr << e.what() << endl;
         exit(1);
@@ -122,6 +126,7 @@ void Zentrale::stop() {
     cout << "[Zentrale] Stopping all services." << endl;
     this->webserver.stop();
     this->udpServer.stop();
+    this->rpcServer.stop();
 }
 
 

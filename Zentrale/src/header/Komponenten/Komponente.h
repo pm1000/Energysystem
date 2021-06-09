@@ -32,7 +32,7 @@ public:
     Komponente();
     virtual ~Komponente();
 
-    virtual virtual std::string getType() = 0;
+    virtual std::string getType() = 0;
     virtual const std::map<time_t , double> &getValues() const;
     virtual void addNewValue(time_t timestamp, double value);
     virtual double getLatestValue() const;

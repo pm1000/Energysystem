@@ -42,22 +42,22 @@ Komponente *RpcController::requestKomponentenData(int id) {
 
     // Send rpc command
     grpc::ClientContext context;
-    const::Energieversorger::KomponentenID komponentenId;
-    Energieversorger::Komponente* rpcResult = nullptr;
-    auto result = this->stub->GetKomponente(&context, komponentenId, rpcResult);
+    Energieversorger::KomponentenID komponentenId;
+    komponentenId.set_id(id);
+    Energieversorger::Komponente rpcResult;
+    auto status = this->stub->GetKomponente(&context, komponentenId, &rpcResult);
 
     // Error handling
-    auto status = result->Finish();
     if (!status.ok()) {
         std::cerr << status.error_message() << std::endl;
         exit(1);
     }
 
     Komponente* komponente;
-    if (rpcResult->type() == "Unternehmen" || rpcResult->type() == "Haushalt") {
-        komponente = new Verbraucher(rpcResult->id(), rpcResult->name(), rpcResult->type());
+    if (rpcResult.type() == "Unternehmen" || rpcResult.type() == "Haushalt") {
+        komponente = new Verbraucher(rpcResult.id(), rpcResult.name(), rpcResult.type());
     } else {
-        komponente = new Erzeuger(rpcResult->type(), rpcResult->name(), rpcResult->id());
+        komponente = new Erzeuger(rpcResult.type(), rpcResult.name(), rpcResult.id());
     }
 
     return komponente;
@@ -75,18 +75,18 @@ vector<int> RpcController::requestKomponentenIDs() {
     const::Energieversorger::Empty empty;
     auto result = this->stub->GetKomponentenIDs(&context, empty);
 
+    // Get every message
+    Energieversorger::KomponentenID msg;
+    vector<int> komponentenIds;
+    while (result->Read(&msg)) {
+        komponentenIds.push_back(msg.id());
+    }
+
     // Error handling
     auto status = result->Finish();
     if (!status.ok()) {
         std::cerr << status.error_message() << std::endl;
         exit(1);
-    }
-
-    // Get every message
-    Energieversorger::KomponentenID* msg {nullptr};
-    vector<int> komponentenIds;
-    while (result->Read(msg)) {
-        komponentenIds.push_back(msg->id());
     }
 
     return komponentenIds;
@@ -105,17 +105,16 @@ void RpcController::requestKomponentenWerte(Komponente *komponente) {
     komponentenId.set_id(komponente->getId());
     auto result = this->stub->GetKomponentenWerte(&context, komponentenId);
 
+    // Get every message
+    Energieversorger::KomponentenWert msg;
+    while (result->Read(&msg)) {
+        komponente->addNewValue(msg.time(), msg.value());
+    }
+
     // Error handling
     auto status = result->Finish();
     if (!status.ok()) {
         std::cerr << status.error_message() << std::endl;
-        exit(1);
-    }
-
-    // Get every message
-    Energieversorger::KomponentenWert* msg {nullptr};
-    while (result->Read(msg)) {
-        komponente->addNewValue(msg->time(), msg->value());
     }
 }
 
