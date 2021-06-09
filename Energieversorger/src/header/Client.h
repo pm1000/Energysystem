@@ -8,6 +8,7 @@
 #include "Komponenten/KomponentenController.h"
 #include "iostream"
 #include "ctime"
+#include "RpcController.h"
 
 using std::cout;
 using std::endl;
@@ -15,6 +16,7 @@ using std::endl;
 class Client {
 private:
     KomponentenController* komponentenController;
+    RpcController* rpcController {nullptr};
 
 
 public:
@@ -22,8 +24,6 @@ public:
     virtual ~Client();
 
     void printKomponenten();
-
-
 };
 
 

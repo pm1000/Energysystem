@@ -7,8 +7,8 @@
 
 #include "Komponente.h"
 
-class Erzeuger : public Komponente{
-
+class Erzeuger : public Komponente {
+public:
     Erzeuger(std::string type, std::string name, int id);
     ~Erzeuger();
 

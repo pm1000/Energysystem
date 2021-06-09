@@ -41,6 +41,7 @@ std::vector<Komponente *> KomponentenController::getKomponenten() {
     return list;
 }
 
-void KomponentenController::refreshKomponents() {
-    //todo rpc call
+void KomponentenController::addKomponente(Komponente * komponente) {
+    this->komponenten.insert({komponente->getId(), komponente});
+    this->nameMapping.insert({komponente->getName(), komponente->getId()});
 }

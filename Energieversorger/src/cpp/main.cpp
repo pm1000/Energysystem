@@ -1,6 +1,10 @@
 #include <iostream>
+#include "../header/Client.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+
+    Client c;
+    c.printKomponenten();
+
     return 0;
 }

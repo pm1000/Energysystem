@@ -25,7 +25,7 @@ private:
 public:
     static KomponentenController* getInstance();
 
-    void refreshKomponents();
+    void addKomponente(Komponente*);
     vector<Komponente*> getErzeuger();
     vector<Komponente*> getVerbraucher();
     vector<Komponente*> getKomponenten();

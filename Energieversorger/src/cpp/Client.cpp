@@ -6,6 +6,16 @@
 
 Client::Client() {
     komponentenController = KomponentenController::getInstance();
+
+    // Prepare rpc controller and get all components
+    this->rpcController = new RpcController();
+    this->rpcController->initRpc("176.16.1.1", 6000);
+    this->rpcController->initKomponenten();
+
+    // Receive all data for all komponents
+    for (Komponente* tmp : this->komponentenController->getKomponenten()) {
+        this->rpcController->requestKomponentenWerte(tmp);
+    }
 }
 
 Client::~Client() {
@@ -14,7 +24,6 @@ Client::~Client() {
 
 void Client::printKomponenten() {
 
-    komponentenController->refreshKomponents();
     vector<Komponente*> erzeuger = komponentenController->getErzeuger();
     vector<Komponente*> verbraucher = komponentenController->getVerbraucher();
 

@@ -4,17 +4,16 @@ package Energieversorger;
 
 service KomponentenData {
 
-  rpc GetKomponentenIDs(Empty) returns (stream KomponentenIDs) {}
-
-  rpc GetKomponente(KomponentenIDs) returns (stream Komponente) {}
-
+  rpc GetKomponentenIDs(Empty) returns (stream KomponentenID) {}
+  rpc GetKomponente(KomponentenID) returns (Komponente) {}
+  rpc GetKomponentenWerte(KomponentenID) returns (stream KomponentenWert) {}
 }
 
 message Empty {
 
 }
 
-message KomponentenIDs {
+message KomponentenID {
   int32 id = 1;
 }
 
@@ -23,10 +22,9 @@ message Komponente {
     string name = 2;
     int32 id = 3;
     bool status = 4;
-    KomponentenWerte values = 5;
 }
 
-message KomponentenWerte {
+message KomponentenWert {
    int64 time = 1;
    double value = 2;
 }

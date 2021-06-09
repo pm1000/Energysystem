@@ -4,31 +4,135 @@
 
 #include "../header/RpcController.h"
 
+
+/**
+ *
+ */
 RpcController::RpcController() = default;
 
+
+
+/**
+ *
+ */
 RpcController::~RpcController() = default;
 
-void RpcController::init(string ipAddress, int port) {
+
+
+/**
+ *
+ */
+void RpcController::initRpc(string ipAddress, int port) {
     try {
         string address = ipAddress + ":" + std::to_string(port);
         auto channel = grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
         stub = Energieversorger::KomponentenData::NewStub(channel);
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
+        exit(1);
     }
 }
 
 
-vector<Komponente *> RpcController::getKomponenten() {
-    return vector<Komponente *>();
+
+/**
+ *
+ */
+Komponente *RpcController::requestKomponentenData(int id) {
+
+    // Send rpc command
+    grpc::ClientContext context;
+    const::Energieversorger::KomponentenID komponentenId;
+    Energieversorger::Komponente* rpcResult = nullptr;
+    auto result = this->stub->GetKomponente(&context, komponentenId, rpcResult);
+
+    // Error handling
+    auto status = result->Finish();
+    if (!status.ok()) {
+        std::cerr << status.error_message() << std::endl;
+        exit(1);
+    }
+
+    Komponente* komponente;
+    if (rpcResult->type() == "Unternehmen" || rpcResult->type() == "Haushalt") {
+        komponente = new Verbraucher(rpcResult->id(), rpcResult->name(), rpcResult->type());
+    } else {
+        komponente = new Erzeuger(rpcResult->type(), rpcResult->name(), rpcResult->id());
+    }
+
+    return komponente;
 }
 
-Komponente *RpcController::getKomponentenData(int id) {
-    return nullptr;
+
+
+/**
+ *
+ */
+vector<int> RpcController::requestKomponentenIDs() {
+
+    // Send rpc command
+    grpc::ClientContext context;
+    const::Energieversorger::Empty empty;
+    auto result = this->stub->GetKomponentenIDs(&context, empty);
+
+    // Error handling
+    auto status = result->Finish();
+    if (!status.ok()) {
+        std::cerr << status.error_message() << std::endl;
+        exit(1);
+    }
+
+    // Get every message
+    Energieversorger::KomponentenID* msg {nullptr};
+    vector<int> komponentenIds;
+    while (result->Read(msg)) {
+        komponentenIds.push_back(msg->id());
+    }
+
+    return komponentenIds;
 }
 
-vector<int> RpcController::getKomponentenIDs(const Energieversorger::KomponentenIDs &komponentenIDs) {
-    
 
-    return vector<int>();
+
+/**
+ *
+ */
+void RpcController::requestKomponentenWerte(Komponente *komponente) {
+
+    // Send rpc command
+    grpc::ClientContext context;
+    Energieversorger::KomponentenID komponentenId;
+    komponentenId.set_id(komponente->getId());
+    auto result = this->stub->GetKomponentenWerte(&context, komponentenId);
+
+    // Error handling
+    auto status = result->Finish();
+    if (!status.ok()) {
+        std::cerr << status.error_message() << std::endl;
+        exit(1);
+    }
+
+    // Get every message
+    Energieversorger::KomponentenWert* msg {nullptr};
+    while (result->Read(msg)) {
+        komponente->addNewValue(msg->time(), msg->value());
+    }
+}
+
+
+
+/**
+ *
+ */
+vector<Komponente*> RpcController::initKomponenten() {
+
+    // Prepare all components
+    auto komponentenIds = this->requestKomponentenIDs();
+    vector<Komponente*> result;
+    for (auto komponenteId : komponentenIds) {
+        auto* komponente = this->requestKomponentenData(komponenteId);
+        result.push_back(komponente);
+    }
+
+    return result;
 }
