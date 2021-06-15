@@ -28,8 +28,8 @@ void RpcController::initRpc(Erzeuger* erzeuger, int port) {
     }
 }
 
-grpc::Status RpcController::SetStatus(::grpc::ServerContext *context, const ::Ereuger::KomponentenID *request,
-                                      ::Ereuger::Empty *response) {
+grpc::Status RpcController::SetStatus(::grpc::ServerContext *context, const ::ErzeugerRpc::KomponentenID *request,
+                                      ::ErzeugerRpc::Empty *response) {
 
     int kompID = request->id();
     if (kompID == erzeuger->getID())

@@ -1,6 +1,6 @@
 syntax="proto3";
 
-package Ereuger;
+package ErzeugerRpc;
 
 service ErzeugerStatus {
 

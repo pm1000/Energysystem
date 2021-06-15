@@ -2,4 +2,3 @@
 cmake-build-*/
 out/
 .idea_modules/
-generated/*

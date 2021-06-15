@@ -14,7 +14,7 @@
 
 using std::string;
 
-class RpcController : public Ereuger::ErzeugerStatus::Service{
+class RpcController : public ErzeugerRpc::ErzeugerStatus::Service{
 private:
     std::unique_ptr<grpc::Server> server;
     Erzeuger* erzeuger;
@@ -25,8 +25,8 @@ public:
     RpcController();
     virtual ~RpcController();
 
-    grpc::Status SetStatus(::grpc::ServerContext *context, const ::Ereuger::KomponentenID *request,
-                           ::Ereuger::Empty *response) override;
+    grpc::Status SetStatus(::grpc::ServerContext *context, const ::ErzeugerRpc::KomponentenID *request,
+                           ::ErzeugerRpc::Empty *response) override;
 
     void initRpc(Erzeuger* erzeuger, int port);
     void start();
