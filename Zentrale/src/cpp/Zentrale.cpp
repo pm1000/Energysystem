@@ -29,6 +29,27 @@ Zentrale::Zentrale() {
         }
     };
 
+    //Set Status
+    class SetStatus : public HttpContextHandler {
+    public:
+        string getContent(string &args) override {
+            HTMLGenerator htmlGenerator;
+            int id;
+            size_t pos = args.find("=");
+            if (pos != std::string::npos) {
+                pos++;
+                string tmp;
+                while (pos < args.length()){
+                    tmp += args[pos];
+                    ++pos;
+                }
+                id = stoi(tmp);
+            } else
+                return "";
+            return htmlGenerator.handleStatusChange(id);
+        }
+    };
+
     class SubPage : public HttpContextHandler {
     public:
         string getContent(string &args) override {
@@ -71,6 +92,7 @@ Zentrale::Zentrale() {
     this->webserver.setContextNotFoundErrorPage(new ErrorHandler());
     this->webserver.addContext("/", new MainPage());
     this->webserver.addContext("/Detail", new SubPage());
+    this->webserver.addContext("/SetStatus", new SetStatus());
     this->webserver.init(9000);
 
     this->rpcServer.init(this->komponentenController, 6000);

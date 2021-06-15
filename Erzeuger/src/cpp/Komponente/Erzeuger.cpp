@@ -40,16 +40,6 @@ string Erzeuger::getName() const {
 }
 
 
-
-/**
- *
- */
-bool Erzeuger::isTurnOffPossible() const {
-    return turnOffPossible;
-}
-
-
-
 /**
  *
  */
@@ -63,10 +53,13 @@ bool Erzeuger::isStatus() const {
  *
  */
 void Erzeuger::switchStatus() {
-    if (this->turnOffPossible)
-        this->status = !this->status;
-}
+    this->status = !this->status;
 
+    if (this->status)
+        cout << "Kraftwerk wurde angeschaltet." << endl;
+    else
+        cout << "Kraftwerk wurde ausgeschaltet." << endl;
+}
 
 
 /**

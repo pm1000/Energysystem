@@ -15,7 +15,6 @@ Solar::Solar(int id, string name, int size) {
     this->hour = 0;
     this->hourCount = 0;
     this->completeGeneration = 0;
-    this->turnOffPossible = false;
     this->status = true;
     this->type = "Solar";
 }

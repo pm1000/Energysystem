@@ -10,6 +10,7 @@
 #include "string"
 #include "algorithm"
 #include "chrono"
+#include "../../header/Rpc/ErzeugerRpcClient.h"
 
 using std::string;
 
@@ -26,7 +27,7 @@ private:
     string generateTableRow(string& type, string name, int id, double value, time_t time);
     string generateSubTabs(string type);
     string generateKomponentenListe(string type);
-    string generateKomptTableHead();
+    static string generateKomptTableHead(string type);
     string generateKompTableRow(string& type, string name, int id);
 
 public:
@@ -36,6 +37,7 @@ public:
 
     string generateMainPage();
     string generateSubPage(string& name, bool history);
+    string handleStatusChange(int id);
 };
 
 

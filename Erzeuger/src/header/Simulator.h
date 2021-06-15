@@ -14,6 +14,7 @@
 #include "unordered_map"
 #include "Kommunikation/UDPCallback.h"
 #include "mutex"
+#include "Kommunikation/RpcController.h"
 
 using namespace std;
 
@@ -28,6 +29,7 @@ private:
     mutex mtx;
     string messageToJSON(string type, string name, int id, double value, time_t t);
     static int msgID;
+    RpcController rpcController = RpcController();
 
     //helper methods
     void simulate();

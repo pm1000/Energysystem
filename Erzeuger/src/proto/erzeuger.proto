@@ -1,0 +1,17 @@
+syntax="proto3";
+
+package Ereuger;
+
+service ErzeugerStatus {
+
+  rpc SetStatus(KomponentenID) returns (Empty) {}
+
+}
+
+message Empty {
+
+}
+
+message KomponentenID {
+  int32 id = 1;
+}

@@ -7,6 +7,7 @@
 
 #include "string"
 #include "random"
+#include "iostream"
 
 using namespace std;
 
@@ -19,7 +20,6 @@ protected:
     int id;
     double completeGeneration;
     string name;
-    bool turnOffPossible;
     bool status;
 
 public:
@@ -30,7 +30,6 @@ public:
     string getType();
     int getID() const;
     string getName() const;
-    bool isTurnOffPossible() const;
     bool isStatus() const;
     void switchStatus();
 };
