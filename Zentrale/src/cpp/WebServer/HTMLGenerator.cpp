@@ -266,7 +266,9 @@ string HTMLGenerator::generateKompTableRow(string& type, string name, int id) {
         s += R"(<td>)";
         s += R"(<button id=")";
         s += to_string(id);
-        s += R"(" type="button" onclick="changeStatus(this.id)";
+        s += R"(" type="button"
+            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+            onclick="changeStatus(this.id)";
         s += ")";
         s += R"(">Status ändern </button>)";
         s += R"(</td>)";
