@@ -74,12 +74,12 @@ services:
     restart: "no"
     command: ["ip=172.16.1.1", "port=5000", "type=Kohle", "name=Braunenergie", "id=203", "size=777", "size=57896.3",  "communication=UDP"]
     
-    energieversorger1
-        image: energieversorger:latest
-        networks:
-           - backend
-         restart: "no"
-         command: ["ip=172.16.1.1"]
+  energieversorger1:
+    image: energieversorger:latest
+    networks:
+      - backend
+    restart: "no"
+    command: ["ip=172.16.1.1"]
 
 
 networks:

@@ -21,9 +21,12 @@ COPY src/ /app/src
 COPY CMakeLists.txt /app
 
 # Start build process
-WORKDIR /app
-RUN cmake .
-RUN make -f Makefile
+WORKDIR /app/build
+RUN cmake -B . ../
+RUN make -f Makefile grpc++_reflection
+RUN make -f Makefile grpc++
+RUN make -f Makefile libprotobuf
+RUN make -f Makefile Zentrale
 
 
 ###
@@ -35,7 +38,7 @@ LABEL maintainer = philipp.meier@stud.h-da.de
 LABEL maintainer = yannick.brilmayer@stud.h-da.de
 
 # Copy the exec
-COPY --from=buildStage /app/Zentrale /app/
+COPY --from=buildStage /app/build/Zentrale /app/
 
 # Mark ports to be exposed
 EXPOSE 5000
