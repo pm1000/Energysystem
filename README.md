@@ -21,11 +21,14 @@ Um das Projekt starten zu können wird Docker, Docker-Compose und Git auf dem Zi
 4. Docker-Container starten mit Compose
     * Im Vordergrund starten: `docker-compose up` ausführen
     * Im Hintergrund starten: `docker-compose up -d` ausführen
+    * Um den Energieversorger zu starten: `docker-compose run energieversorger1` ausführen (am besten mit den anderen Sachen im Hintergrund)
 5. Zum Beenden der Services
     * Im Vordergrund: **Ctrl + C ** auf der Tastatur drücken
     * Im Hintergrund: `docker-compose down` ausführen
 
 
 ## Sonstige Informationen
+Fertig gebaute Container werden in der Container-Registry vom h-da Gitlab bereitgestellt.
+Falls man die Projekte doch selber bauen möchte kann man auch den Befehl `make build` benutzen und sich die Images selber bauen.
 
 Erstellt von Philipp Meier und Yannick Brilmayer.

@@ -2,7 +2,7 @@ version: "3"
 
 services:
   zentrale:
-    image: zentrale:latest
+    image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/zentrale:latest
     networks:
       backend:
         ipv4_address: 172.16.1.1
@@ -12,70 +12,70 @@ services:
     restart: "no"
 
   verbraucher1:
-    image: verbraucher:latest
+    image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest
     networks:
       - backend
     restart: "no"
     command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=Fleischer-Ernst", "id=101", communication=UDP]
     
   verbraucher2:
-    image: verbraucher:latest
+    image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest
     networks:
       - backend
     restart: "no"
     command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=PM-Systems", "id=102", communication=UDP]
     
   verbraucher3:
-    image: verbraucher:latest
+    image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest
     networks:
       - backend
     restart: "no"
     command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=ARRR", "id=103", communication=UDP]
     
   verbraucher4:
-    image: verbraucher:latest
+    image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest
     networks:
       - backend
     restart: "no"
     command: ["ip=172.16.1.1", "port=5000", "type=Haushalt", "name=Yannick", "id=104", communication=UDP]
     
   erzeuger1:
-    image: erzeuger:latest
+    image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
     networks:
       - backend
     restart: "no"
     command: ["ip=172.16.1.1", "port=5000", "type=Solar", "name=Sonnenkraft", "id=201", "size=591",  "communication=UDP"]
     
   erzeuger2:
-    image: erzeuger:latest
+    image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
     networks:
       - backend
     restart: "no"
     command: ["ip=172.16.1.1", "port=5000", "type=Solar", "name=Lichtenergie", "id=202", "size=10000", "communication=UDP"]
     
   erzeuger3:
-    image: erzeuger:latest
+    image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
     networks:
       - backend
     restart: "no"
     command: ["ip=172.16.1.1", "port=5000", "type=Wind", "name=Windero", "id=203", "size=777",  "communication=UDP"]
     
   erzeuger4:
-    image: erzeuger:latest
+    image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
     networks:
       - backend
     restart: "no"
     command: ["ip=172.16.1.1", "port=5000", "type=Atom", "name=ATOOOOOOM", "id=204", "size=1000000.5",  "communication=UDP"]
     
   erzeuger5:
-    image: erzeuger:latest
+    image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
     networks:
       - backend
     restart: "no"
     command: ["ip=172.16.1.1", "port=5000", "type=Kohle", "name=Braunenergie", "id=203", "size=777", "size=57896.3",  "communication=UDP"]
     
   energieversorger1:
-    image: energieversorger:latest
+    image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/energieversorger:latest
     networks:
       - backend
     restart: "no"
