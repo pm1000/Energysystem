@@ -24,7 +24,7 @@ COPY CMakeLists.txt /app
 # Start build process
 WORKDIR /app
 RUN cmake -j .
-RUN make -f Makefile
+RUN make -j -f Makefile
 
 
 ###
@@ -40,5 +40,5 @@ COPY --from=buildStage /app/Erzeuger /app/
 
 # Start the app
 WORKDIR /app
-ENTRYPOINT ["./Erzeuger"]
+ENTRYPOINT ["./Energieversorger"]
 CMD ["ip=127.0.0.1", "port=5000"]

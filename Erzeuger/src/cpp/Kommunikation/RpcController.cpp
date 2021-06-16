@@ -40,7 +40,7 @@ grpc::Status RpcController::SetStatus(::grpc::ServerContext *context, const ::Er
     else
         cout << "Wurde ausgeschaltet" << endl;
 
-    return Service::SetStatus(context, request, response);
+    return grpc::Status::OK;
 }
 
 void RpcController::start() {
