@@ -14,7 +14,7 @@ RUN sh -c "mkdir -p /usr/opt && cd /usr/opt \
   && sh cmake.sh --skip-license --prefix=/usr/local"
 
 
-Run mkdir /app
+RUN mkdir /app
 RUN mkdir /app/generated
 
 # Copy the app

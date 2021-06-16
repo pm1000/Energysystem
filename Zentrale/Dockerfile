@@ -13,6 +13,9 @@ RUN sh -c "mkdir -p /usr/opt && cd /usr/opt \
   && curl -s -L https://github.com/Kitware/CMake/releases/download/v3.19.2/cmake-3.19.2-Linux-x86_64.sh -o cmake.sh \
   && sh cmake.sh --skip-license --prefix=/usr/local"
 
+RUN mkdir /app
+RUN mkdir /app/generated
+
 # Copy the app
 COPY src/ /app/src
 COPY CMakeLists.txt /app
