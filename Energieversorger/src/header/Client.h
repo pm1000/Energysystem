@@ -10,6 +10,7 @@
 #include "ctime"
 #include "RpcController.h"
 
+
 using std::cout;
 using std::endl;
 
@@ -20,7 +21,7 @@ private:
 
 
 public:
-    Client();
+    Client(string ip);
     virtual ~Client();
 
     void printKomponenten();

@@ -74,6 +74,3 @@ target_link_libraries(Erzeuger
         ${_REFLECTION}
         ${_GRPC_GRPCPP}
         ${_PROTOBUF_LIBPROTOBUF})
-
-
-

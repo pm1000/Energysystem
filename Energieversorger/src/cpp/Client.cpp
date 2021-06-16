@@ -4,12 +4,12 @@
 
 #include "../header/Client.h"
 
-Client::Client() {
+Client::Client(string ip) {
     komponentenController = KomponentenController::getInstance();
 
     // Prepare rpc controller and get all components
     this->rpcController = new RpcController();
-    this->rpcController->initRpc("127.0.0.1", 6000);
+    this->rpcController->initRpc(ip, 6000);
     auto komponenten = this->rpcController->initKomponenten();
 
     // Receive all data for all komponents
