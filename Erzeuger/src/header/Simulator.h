@@ -11,6 +11,7 @@
 #include "thread"
 #include "Kommunikation/UDPKommunikation.h"
 #include "Kommunikation/ZentralenKommunikation.h"
+#include "Kommunikation/MqttKommunikation.h"
 #include "unordered_map"
 #include "Kommunikation/UDPCallback.h"
 #include "mutex"
