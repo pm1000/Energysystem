@@ -4,8 +4,22 @@ project(Erzeuger)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
+# Main target
+add_executable(Erzeuger src/cpp/main.cpp src/cpp/Komponente/Erzeuger.cpp src/header/Komponente/Erzeuger.h src/cpp/Komponente/Solar.cpp src/header/Komponente/Solar.h src/cpp/Komponente/Wind.cpp src/header/Komponente/Wind.h src/cpp/Komponente/Kohle.cpp src/header/Komponente/Kohle.h src/cpp/Komponente/Atom.cpp src/header/Komponente/Atom.h src/cpp/Kommunikation/ZentralenKommunikation.cpp src/header/Kommunikation/ZentralenKommunikation.h src/cpp/Kommunikation/UDPKommunikation.cpp src/header/Kommunikation/UDPKommunikation.h src/cpp/Simulator.cpp src/header/Simulator.h src/header/Kommunikation/UDPServer.h src/cpp/Kommunikation/UDPServer.cpp src/header/Kommunikation/UDPCallback.h src/cpp/Kommunikation/RpcController.cpp src/header/Kommunikation/RpcController.h)
+
+
+# Threads
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package (Threads REQUIRED)
+target_link_libraries(Erzeuger ${CMAKE_THREAD_LIBS_INIT})
+
+
+#Mqtt stuff
+find_package(PahoMqttCpp REQUIRED)
+target_link_libraries(Erzeuger paho-mqttpp3)
+target_link_libraries(Erzeuger paho-mqtt3a)
+target_link_libraries(Erzeuger paho-mqtt3c)
 
 
 # RPC stuff
@@ -15,12 +29,11 @@ FetchContent_Declare(
         GIT_REPOSITORY https://github.com/grpc/grpc
         GIT_TAG        v1.38.0
 )
-
 set(FETCHCONTENT_QUIET OFF)
 FetchContent_MakeAvailable(gRPC)
 
-# Since FetchContent uses add_subdirectory under the hood, we can use
-# the grpc targets directly from this build.
+
+# Create the rpc files
 set(_PROTOBUF_LIBPROTOBUF libprotobuf)
 set(_REFLECTION grpc++_reflection)
 set(_PROTOBUF_PROTOC $<TARGET_FILE:protoc>)
