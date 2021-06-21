@@ -36,6 +36,9 @@ private:
     KomponentenController* komponentenController;
     mqtt::client* mqttServer;
 
+    string mqttServerAddress;
+    string mqttClientId;
+
 
 public:
     Zentrale();
@@ -44,6 +47,8 @@ public:
     void stop();
 
     void enableTestmode(bool packetLoss, bool enableOutputData, bool enableMissingmessages);
+
+    void setMqttProperties(string &server, string &id);
 };
 
 

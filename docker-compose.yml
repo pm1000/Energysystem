@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  zentrale:
+  zentrale1:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/zentrale:latest
     networks:
       backend:
@@ -10,6 +10,7 @@ services:
     - 5000:5000/udp
     - 9000:9000/tcp
     restart: "no"
+    command: ["mqttServerAddress=172.16.1.2", "mqttCLientId=zentrale1"]
 
   verbraucher1:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest

@@ -126,7 +126,7 @@ void Zentrale::start() {
 
         // mqtt stuff
         try {
-            this->mqttServer = new mqtt::client("tcp://localhost:1883", "zentrale_1");
+            this->mqttServer = new mqtt::client(this->mqttServerAddress, this->mqttClientId);
             auto connOpts = mqtt::connect_options_builder()
                     .automatic_reconnect(true)
                     .clean_session(false)
@@ -186,4 +186,14 @@ void Zentrale::stop() {
 void Zentrale::enableTestmode(bool packetLoss, bool enableOutputData, bool enableMissingmessages) {
     this->udpServer.setPacketLoss(packetLoss);
     this->komponentenController->setTestMode(enableOutputData, enableMissingmessages);
+}
+
+
+
+/*
+ *
+ */
+void Zentrale::setMqttProperties(string &server, string &id) {
+    this->mqttServerAddress = server;
+    this->mqttClientId = id;
 }

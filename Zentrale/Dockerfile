@@ -59,4 +59,4 @@ EXPOSE 9000
 # Start the app
 WORKDIR /app
 ENTRYPOINT ["./Zentrale"]
-CMD [""]
+CMD ["mqttServerAddress=127.0.0.1", "mqttClientId=zentrale"]
