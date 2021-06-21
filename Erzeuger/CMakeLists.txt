@@ -65,7 +65,7 @@ target_link_libraries(hw_grpc_proto
         ${_PROTOBUF_LIBPROTOBUF})
 
 # main target
-add_executable(Erzeuger src/cpp/main.cpp src/cpp/Komponente/Erzeuger.cpp src/header/Komponente/Erzeuger.h src/cpp/Komponente/Solar.cpp src/header/Komponente/Solar.h src/cpp/Komponente/Wind.cpp src/header/Komponente/Wind.h src/cpp/Komponente/Kohle.cpp src/header/Komponente/Kohle.h src/cpp/Komponente/Atom.cpp src/header/Komponente/Atom.h src/cpp/Kommunikation/ZentralenKommunikation.cpp src/header/Kommunikation/ZentralenKommunikation.h src/cpp/Kommunikation/UDPKommunikation.cpp src/header/Kommunikation/UDPKommunikation.h src/cpp/Simulator.cpp src/header/Simulator.h src/header/Kommunikation/UDPServer.h src/cpp/Kommunikation/UDPServer.cpp src/header/Kommunikation/UDPCallback.h src/cpp/Kommunikation/RpcController.cpp src/header/Kommunikation/RpcController.h)
+add_executable(Erzeuger src/cpp/main.cpp src/cpp/Komponente/Erzeuger.cpp src/header/Komponente/Erzeuger.h src/cpp/Komponente/Solar.cpp src/header/Komponente/Solar.h src/cpp/Komponente/Wind.cpp src/header/Komponente/Wind.h src/cpp/Komponente/Kohle.cpp src/header/Komponente/Kohle.h src/cpp/Komponente/Atom.cpp src/header/Komponente/Atom.h src/cpp/Kommunikation/ZentralenKommunikation.cpp src/header/Kommunikation/ZentralenKommunikation.h src/cpp/Kommunikation/UDPKommunikation.cpp src/header/Kommunikation/UDPKommunikation.h src/cpp/Simulator.cpp src/header/Simulator.h src/header/Kommunikation/UDPServer.h src/cpp/Kommunikation/UDPServer.cpp src/header/Kommunikation/UDPCallback.h src/cpp/Kommunikation/RpcController.cpp src/header/Kommunikation/RpcController.h src/cpp/Kommunikation/MqttKommunikation.cpp src/header/Kommunikation/MqttKommunikation.h)
 
 target_link_libraries(Erzeuger ${CMAKE_THREAD_LIBS_INIT})
 

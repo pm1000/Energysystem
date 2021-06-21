@@ -93,6 +93,12 @@ string Simulator::messageToJSON(string type, string name, int id, double value, 
         message += "1";
     else
         message += "0";
+
+    MqttKommunikation* mqtt = dynamic_cast<MqttKommunikation*>(this->interface);
+    if (mqtt != nullptr) {
+
+    }
+
     message += "}";
     return message;
 }

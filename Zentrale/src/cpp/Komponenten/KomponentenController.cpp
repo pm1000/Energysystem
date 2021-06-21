@@ -83,6 +83,8 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
         }
         msgID = std::stoi(tmp);
 
+
+        //check for status (only for erzeuger)
         pos = message.find("\"status\"");
 
         if (pos != string::npos) {
@@ -92,6 +94,17 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
                     status = false;
                 else
                     status = true;
+            }
+        }
+
+        //check for ip (needed for mqtt to get a clients ip address)
+        pos = message.find("\"ip\"");
+
+        if (pos != string::npos) {
+            pos += 7;
+            while (pos < message.length() && message[pos] != ' ' && message[pos] != ',' && message[pos] != '}') {
+                ip += message[pos];
+                ++pos;
             }
         }
 
@@ -238,15 +251,13 @@ const unordered_map<int, Komponente *> &KomponentenController::getKomponenten() 
  */
 void KomponentenController::connected(const string &message) {
     cout << "[MQTT] Connected to mqtt broker." << endl;
-    // TODO
 }
 
 void KomponentenController::connection_lost(const string &message) {
     cout << "[MQTT] Connection to mqtt broker lost." << endl;
-    // TODO
 }
 
 void KomponentenController::message_arrived(mqtt::const_message_ptr ptr) {
     cout << "[MQTT] Message arrived: " << ptr->to_string() << endl;
-    // TODO
+    processMessage("",ptr->get_payload_str());
 }
