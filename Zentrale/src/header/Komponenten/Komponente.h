@@ -16,6 +16,7 @@ protected:
     std::string type;
     std::string name;
     int id;
+    bool status;
     //timestamp, value
     std::map<time_t ,double> values;
     //max heap for msgID

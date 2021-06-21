@@ -73,12 +73,24 @@ string HTMLGenerator::generateHeader(bool mainPage, string title) {
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script type="text/javascript">
         function changeStatus(id) {
-            console.log(id);
-            var req = new XMLHttpRequest();
-            var url = "/SetStatus?id=";
-            url += id;
-            req.open("GET", url);
-            req.send();
+        console.log(id);
+
+        let button = document.getElementById(id);
+        console.log(button.getAttribute("class"));
+         if (button.getAttribute("class") == "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent") {
+            console.log("if");
+            button.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored");
+        } else {
+            console.log("else");
+            button.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent");
+        }
+
+
+        let req = new XMLHttpRequest();
+        let url = "/SetStatus?id=";
+        url += id;
+        req.open("GET", url);
+        req.send();
         }
     </script>
     <meta charset="UTF-8">
@@ -140,7 +152,13 @@ string HTMLGenerator::generateSubTabs(string type) {
         string t = list[i]->getType();
         string name = list[i]->getName();
         int id = list[i]->getId();
-        s+= generateKompTableRow(type, name, id);
+        bool status = false;
+        Erzeuger* erzeuger = dynamic_cast<Erzeuger*> (list[i]);
+        if (erzeuger != nullptr) {
+            status = erzeuger->isStatus();
+        }
+
+        s+= generateKompTableRow(type, name, id, status);
     }
     s += closeTable();
     return s;
@@ -245,7 +263,7 @@ string HTMLGenerator::generateKomptTableHead(string type) {
     return s;
 }
 
-string HTMLGenerator::generateKompTableRow(string& type, string name, int id) {
+string HTMLGenerator::generateKompTableRow(string& type, string name, int id, bool status) {
     string s;
 
     s += "<tr>";
@@ -266,9 +284,15 @@ string HTMLGenerator::generateKompTableRow(string& type, string name, int id) {
         s += R"(<td>)";
         s += R"(<button id=")";
         s += to_string(id);
-        s += R"(" type="button"
+        if (!status) {
+            s += R"(" type="button"
             class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
             onclick="changeStatus(this.id)";
+        } else {
+            s += R"(" type="button"
+            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+            onclick="changeStatus(this.id)";
+        }
         s += ")";
         s += R"(">Status ändern </button>)";
         s += R"(</td>)";

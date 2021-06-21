@@ -55,7 +55,8 @@ void Simulator::simulate() {
     double cons = erzeuger->getLastHourGeneration();
     time_t t = time(nullptr);
 
-    string message = messageToJSON(erzeuger->getType(), erzeuger->getName(), erzeuger->getID(), cons, t);
+    string message = messageToJSON(erzeuger->getType(), erzeuger->getName(), erzeuger->getID(), cons, t,
+                                   erzeuger->isStatus());
 
     mtx.lock();
     interface->sendData(message);
@@ -73,7 +74,7 @@ void Simulator::simulate() {
 /**
  *
  */
-string Simulator::messageToJSON(string type, string name, int id, double value, time_t time) {
+string Simulator::messageToJSON(string type, string name, int id, double value, time_t time, bool status) {
     std::string message = "{";
     message += "\"type\": ";
     message += "\"" + type + "\", ";
@@ -86,7 +87,12 @@ string Simulator::messageToJSON(string type, string name, int id, double value, 
     message += "\"time\": ";
     message += to_string(time) + ", ";
     message += "\"msgID\": ";
-    message += to_string(msgID);
+    message += to_string(msgID) + ", ";
+    message += "\"status\": ";
+    if (status)
+        message += "1";
+    else
+        message += "0";
     message += "}";
     return message;
 }

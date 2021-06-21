@@ -27,7 +27,7 @@ private:
     Erzeuger* erzeuger;
     ZentralenKommunikation* interface;
     mutex mtx;
-    string messageToJSON(string type, string name, int id, double value, time_t t);
+    string messageToJSON(string type, string name, int id, double value, time_t t, bool status);
     static int msgID;
     RpcController rpcController = RpcController();
 
