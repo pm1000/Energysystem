@@ -73,19 +73,24 @@ string HTMLGenerator::generateHeader(bool mainPage, string title) {
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script type="text/javascript">
         function changeStatus(id) {
-            console.log(id);
+        console.log(id);
 
-            var button = document.getElementById(id);
-            console.log(button.class.toString());
-            if (button.class.toString() == "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent")
-                button.class = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored";
-            else
-                button.class = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent";
-            var req = new XMLHttpRequest();
-            var url = "/SetStatus?id=";
-            url += id;
-            req.open("GET", url);
-            req.send();
+        let button = document.getElementById(id);
+        console.log(button.getAttribute("class"));
+         if (button.getAttribute("class") == "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent") {
+            console.log("if");
+            button.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored");
+        } else {
+            console.log("else");
+            button.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent");
+        }
+
+
+        let req = new XMLHttpRequest();
+        let url = "/SetStatus?id=";
+        url += id;
+        req.open("GET", url);
+        req.send();
         }
     </script>
     <meta charset="UTF-8">

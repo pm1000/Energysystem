@@ -77,6 +77,12 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
         i = pos;
         tmp = "";
 
+        while (i < message.size() && message[i] >= '0' && message[i] <= '9'){
+            tmp += message[i];
+            ++i;
+        }
+        msgID = std::stoi(tmp);
+
         pos = message.find("\"status\"");
 
         if (pos != string::npos) {
@@ -88,12 +94,6 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
                     status = true;
             }
         }
-
-        while (i < message.size() && message[i] >= '0' && message[i] <= '9'){
-            tmp += message[i];
-            ++i;
-        }
-        msgID = std::stoi(tmp);
 
         mtx.lock();
         Komponente* k;

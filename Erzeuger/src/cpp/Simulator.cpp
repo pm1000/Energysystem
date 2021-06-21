@@ -90,9 +90,9 @@ string Simulator::messageToJSON(string type, string name, int id, double value, 
     message += to_string(msgID) + ", ";
     message += "\"status\": ";
     if (status)
-        message += "0";
-    else
         message += "1";
+    else
+        message += "0";
     message += "}";
     return message;
 }
