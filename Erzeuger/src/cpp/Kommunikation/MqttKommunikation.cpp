@@ -4,10 +4,10 @@
 
 #include "../../header/Kommunikation/MqttKommunikation.h"
 
-MqttKommunikation::MqttKommunikation(string zentralenIP, string name) {
+MqttKommunikation::MqttKommunikation(string brokerIP, string name) {
     findOutLocalIp();
     this->name = name;
-    const string zentralenAddress = zentralenIP + ":1883";
+    const string zentralenAddress = "tcp://" + brokerIP + ":1883";
     try {
         this->mqttClient = new mqtt::client(zentralenAddress, name);
         auto connOpts = mqtt::connect_options_builder()

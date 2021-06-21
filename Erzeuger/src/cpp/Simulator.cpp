@@ -10,13 +10,14 @@ int Simulator::msgID = 0;
 /**
  *
  */
-Simulator::Simulator(Erzeuger *erzeuger, const std::string& communicationType, int port, std::string address) {
+Simulator::Simulator(Erzeuger *erzeuger, const std::string& communicationType, int port, std::string address,
+                     string brokerIP) {
     this->erzeuger = erzeuger;
     rpcController.initRpc(erzeuger, 7000);
     if (communicationType == "UDP") {
         this->interface = new UDPKommunikation(port, address);
     } else if (communicationType == "MQTT") {
-        this->interface = new MqttKommunikation(address, erzeuger->getName());
+        this->interface = new MqttKommunikation(brokerIP, erzeuger->getName());
     } else {
         cout << "Unknown communication type: \"" + communicationType +"\". Only UDP or MQTT are valid" << endl;
         exit(5);

@@ -27,7 +27,7 @@ private:
     void findOutLocalIp();
 
 public:
-    MqttKommunikation(string zentralenIP, string name);
+    MqttKommunikation(string brokerIP, string name);
     virtual ~MqttKommunikation();
 
     const string &getIp() const;
