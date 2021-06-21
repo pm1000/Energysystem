@@ -14,6 +14,9 @@ target_link_libraries(Zentrale ${CMAKE_THREAD_LIBS_INIT})
 
 #Mqtt stuff
 find_package(PahoMqttCpp REQUIRED)
+target_link_libraries(Zentrale paho-mqttpp3)
+target_link_libraries(Zentrale paho-mqtt3a)
+target_link_libraries(Zentrale paho-mqtt3c)
 
 
 # RPC stuff

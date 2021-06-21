@@ -217,3 +217,23 @@ unsigned long long int KomponentenController::getMsgCount() const {
 const unordered_map<int, Komponente *> &KomponentenController::getKomponenten() const {
     return komponenten;
 }
+
+
+
+/**
+ *
+ */
+void KomponentenController::connected(const string &message) {
+    cout << "[MQTT] Connected to mqtt broker." << endl;
+    // TODO
+}
+
+void KomponentenController::connection_lost(const string &message) {
+    cout << "[MQTT] Connection to mqtt broker lost." << endl;
+    // TODO
+}
+
+void KomponentenController::message_arrived(mqtt::const_message_ptr ptr) {
+    cout << "[MQTT] Message arrived: " << ptr->to_string() << endl;
+    // TODO
+}

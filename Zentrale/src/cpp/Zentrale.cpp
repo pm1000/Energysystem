@@ -123,6 +123,28 @@ void Zentrale::start() {
         thread webServerThread(ref(this->webserver));
         thread udpServerThread(ref(this->udpServer));
         thread rpcServerThread(ref(this->rpcServer));
+
+        // mqtt stuff
+        try {
+            this->mqttServer = new mqtt::client("tcp://localhost:1883", "zentrale_1");
+            auto connOpts = mqtt::connect_options_builder()
+                    .automatic_reconnect(true)
+                    .clean_session(false)
+                    .finalize();
+            this->mqttServer->set_callback(*this->komponentenController);
+
+            // Try the connection
+            this->mqttServer->connect(connOpts);
+
+            // Subscribe to topics
+            this->mqttServer->subscribe("komponente/#");
+
+        } catch (exception &e) {
+            cerr << "[MQTT] Connection not possible." << endl << e.what();
+            exit(1);
+        }
+
+        // wait for all threads to join
         webServerThread.join();
         udpServerThread.join();
         rpcServerThread.join();
@@ -149,6 +171,11 @@ void Zentrale::stop() {
     this->webserver.stop();
     this->udpServer.stop();
     this->rpcServer.stop();
+    try {
+        this->mqttServer->disconnect();
+    } catch (exception &e) {
+        cerr << e.what();
+    }
 }
 
 

@@ -17,6 +17,10 @@
 #include "../header/WebServer/HTMLGenerator.h"
 #include "Rpc/RpcServer.h"
 
+#include "mqtt/client.h"
+#include "mqtt/connect_options.h"
+#include "mqtt/properties.h"
+
 using namespace std;
 
 
@@ -30,6 +34,7 @@ private:
     Webserver webserver = Webserver();
     RpcServer rpcServer = RpcServer();
     KomponentenController* komponentenController;
+    mqtt::client* mqttServer;
 
 
 public:
