@@ -80,7 +80,14 @@ services:
       - backend
     restart: "no"
     command: ["ip=172.16.1.1"]
-
+    
+  mqtt:
+    image: eclipse-mosquitto
+    restart: "no"
+#    volumes: 
+#        - mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf eclipse-mosquitto
+    ports:
+        - 1883:1883
 
 networks:
   backend:

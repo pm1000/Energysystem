@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.8)
 project(Zentrale)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -35,6 +35,7 @@ if(CMAKE_CROSSCOMPILING)
 else()
     set(_GRPC_CPP_PLUGIN_EXECUTABLE $<TARGET_FILE:grpc_cpp_plugin>)
 endif()
+
 
 
 
@@ -78,8 +79,6 @@ foreach(filename ${protoFiles})
             ${_GRPC_GRPCPP}
             ${_PROTOBUF_LIBPROTOBUF})
 endforeach()
-
-
 
 # Include generated *.pb.h files
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/generated")
