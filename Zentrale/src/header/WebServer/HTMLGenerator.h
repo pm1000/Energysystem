@@ -28,7 +28,7 @@ private:
     string generateSubTabs(string type);
     string generateKomponentenListe(string type);
     static string generateKomptTableHead(string type);
-    string generateKompTableRow(string& type, string name, int id);
+    string generateKompTableRow(string& type, string name, int id, bool status);
 
 public:
 

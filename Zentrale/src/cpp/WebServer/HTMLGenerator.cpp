@@ -74,6 +74,13 @@ string HTMLGenerator::generateHeader(bool mainPage, string title) {
     <script type="text/javascript">
         function changeStatus(id) {
             console.log(id);
+
+            var button = document.getElementById(id);
+            console.log(button.class.toString());
+            if (button.class.toString() == "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent")
+                button.class = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored";
+            else
+                button.class = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent";
             var req = new XMLHttpRequest();
             var url = "/SetStatus?id=";
             url += id;
@@ -140,7 +147,13 @@ string HTMLGenerator::generateSubTabs(string type) {
         string t = list[i]->getType();
         string name = list[i]->getName();
         int id = list[i]->getId();
-        s+= generateKompTableRow(type, name, id);
+        bool status = false;
+        Erzeuger* erzeuger = dynamic_cast<Erzeuger*> (list[i]);
+        if (erzeuger != nullptr) {
+            status = erzeuger->isStatus();
+        }
+
+        s+= generateKompTableRow(type, name, id, status);
     }
     s += closeTable();
     return s;
@@ -245,7 +258,7 @@ string HTMLGenerator::generateKomptTableHead(string type) {
     return s;
 }
 
-string HTMLGenerator::generateKompTableRow(string& type, string name, int id) {
+string HTMLGenerator::generateKompTableRow(string& type, string name, int id, bool status) {
     string s;
 
     s += "<tr>";
@@ -266,9 +279,15 @@ string HTMLGenerator::generateKompTableRow(string& type, string name, int id) {
         s += R"(<td>)";
         s += R"(<button id=")";
         s += to_string(id);
-        s += R"(" type="button"
+        if (!status) {
+            s += R"(" type="button"
             class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
             onclick="changeStatus(this.id)";
+        } else {
+            s += R"(" type="button"
+            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+            onclick="changeStatus(this.id)";
+        }
         s += ")";
         s += R"(">Status ändern </button>)";
         s += R"(</td>)";

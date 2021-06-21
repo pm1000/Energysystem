@@ -24,6 +24,7 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
     double value;
     time_t time;
     int msgID;
+    bool status;
     try{
         //get type
         std::size_t pos = message.find("\"type\"");
@@ -76,6 +77,18 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
         i = pos;
         tmp = "";
 
+        pos = message.find("\"status\"");
+
+        if (pos != string::npos) {
+            pos += 10;
+            if (pos < message.size()) {
+                if (message.at(pos) == '0')
+                    status = false;
+                else
+                    status = true;
+            }
+        }
+
         while (i < message.size() && message[i] >= '0' && message[i] <= '9'){
             tmp += message[i];
             ++i;
@@ -90,7 +103,7 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
             if (type == "Unternehmen" || type == "Haushalt") {
                 k = new Verbraucher(id, name, type);
             } else {
-                k = new Erzeuger(type, name, id);
+                k = new Erzeuger(type, name, id, status);
             }
             k->setIp(ip);
             nameMapping.insert({name, id});
