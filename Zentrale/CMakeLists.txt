@@ -6,27 +6,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package (Threads REQUIRED)
-find_package(PahoMqttC REQUIRED)
 
 # main target
 add_executable(Zentrale src/cpp/main.cpp src/cpp/Zentrale.cpp src/header/Zentrale.h src/cpp/WebServer/Webserver.cpp src/header/WebServer/Webserver.h src/cpp/Komponenten/Komponente.cpp src/header/Komponenten/Komponente.h src/cpp/Komponenten/Erzeuger.cpp src/header/Komponenten/Erzeuger.h src/cpp/Komponenten/Verbraucher.cpp src/header/Komponenten/Verbraucher.h src/cpp/UDPServer/UDPServer.cpp src/header/UDPServer/UDPServer.h src/header/UDPServer/UDPCallback.h src/cpp/WebServer/HTTPIntepreter.cpp src/header/WebServer/HTTPIntepreter.h src/cpp/Komponenten/KomponentenController.cpp src/header/Komponenten/KomponentenController.h src/cpp/WebServer/HttpContextHandlerController.cpp src/header/WebServer/HttpContextHandlerController.h src/header/WebServer/HttpContextHandler.h  src/cpp/WebServer/HTMLGenerator.cpp src/header/WebServer/HTMLGenerator.h src/cpp/UDPSender/UDPSender.cpp src/header/UDPSender/UDPSender.h src/cpp/UDPSender/KomponentenUdpSender.cpp src/header/UDPSender/KomponentenUdpSender.h src/cpp/Rpc/RpcServer.cpp src/header/Rpc/RpcServer.h src/cpp/Rpc/ErzeugerRpcClient.cpp src/header/Rpc/ErzeugerRpcClient.h)
-
 target_link_libraries(Zentrale ${CMAKE_THREAD_LIBS_INIT})
 
-#MQTT
-include(FetchContent)
-FetchContent_Declare(
-        mqttC
-        GIT_REPOSITORY https://github.com/eclipse/paho.mqtt.c
-        GIT_TAG v1.3.9
-)
 
-include(FetchContent)
-FetchContent_Declare(
-        mqtt
-        GIT_REPOSITORY https://github.com/eclipse/paho.mqtt.cpp
-        GIT_TAG v1.2.0
-)
+#Mqtt stuff
+find_package(PahoMqttCpp REQUIRED)
+
 
 # RPC stuff
 include(FetchContent)
@@ -38,8 +26,6 @@ FetchContent_Declare(
 
 set(FETCHCONTENT_QUIET OFF)
 FetchContent_MakeAvailable(gRPC)
-FetchContent_MakeAvailable(mqttC)
-FetchContent_MakeAvailable(mqtt)
 
 # Since FetchContent uses add_subdirectory under the hood, we can use
 # the grpc targets directly from this build.
