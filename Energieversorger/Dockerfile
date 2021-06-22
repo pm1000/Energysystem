@@ -30,19 +30,6 @@ RUN make -f Makefile libprotobuf
 RUN make -f Makefile hw_grpc_proto
 RUN make -f Makefile Energieversorger
 
-
-###
-### Run Stage
-###
-FROM ubuntu:latest
-
-LABEL maintainer = philipp.meier@stud.h-da.de
-LABEL maintainer = yannick.brilmayer@stud.h-da.de
-
-# Copy the exec
-COPY --from=buildStage /app/build/Energieversorger /app/
-
 # Start the app
-WORKDIR /app
 ENTRYPOINT ["./Energieversorger"]
 CMD ["ip=127.0.0.1", "port=5000"]

@@ -10,70 +10,70 @@ services:
     - 5000:5000/udp
     - 9000:9000/tcp
     restart: "no"
-    command: ["mqttServerAddress=172.16.0.1", "mqttCLientId=zentrale1"]
+    command: ["mqttServerAddress=172.16.0.2", "mqttClientId=zentrale1"]
 
   verbraucher1:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest
     networks:
       - backend
     restart: "no"
-    command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=Fleischer-Ernst", "id=101", "communication=MQTT", "brokerIp=172.16.0.1"]
+    command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=Fleischer-Ernst", "id=101", "communication=MQTT", "brokerIp=172.16.0.2"]
     
   verbraucher2:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest
     networks:
       - backend
     restart: "no"
-    command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=PM-Systems", "id=102", "communication=MQTT", "brokerIp=172.16.0.1"]
+    command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=PM-Systems", "id=102", "communication=MQTT", "brokerIp=172.16.0.2"]
     
   verbraucher3:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest
     networks:
       - backend
     restart: "no"
-    command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=ARRR", "id=103", "communication=MQTT", "brokerIp=172.16.0.1"]
+    command: ["ip=172.16.1.1", "port=5000", "type=Unternehmen", "name=ARRR", "id=103", "communication=MQTT", "brokerIp=172.16.0.2"]
     
   verbraucher4:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest
     networks:
       - backend
     restart: "no"
-    command: ["ip=172.16.1.1", "port=5000", "type=Haushalt", "name=Yannick", "id=104", "communication=MQTT", "brokerIp=172.16.0.1"]
+    command: ["ip=172.16.1.1", "port=5000", "type=Haushalt", "name=Yannick", "id=104", "communication=MQTT", "brokerIp=172.16.0.2"]
     
   erzeuger1:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
     networks:
       - backend
     restart: "no"
-    command: ["ip=172.16.1.1", "port=5000", "type=Solar", "name=Sonnenkraft", "id=201", "size=591", "communication=MQTT", "brokerIp=172.16.0.1"]
+    command: ["ip=172.16.1.1", "port=5000", "type=Solar", "name=Sonnenkraft", "id=201", "size=591", "communication=MQTT", "brokerIp=172.16.0.2"]
     
   erzeuger2:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
     networks:
       - backend
     restart: "no"
-    command: ["ip=172.16.1.1", "port=5000", "type=Solar", "name=Lichtenergie", "id=202", "size=10000", "communication=MQTT", "brokerIp=172.16.0.1"]
+    command: ["ip=172.16.1.1", "port=5000", "type=Solar", "name=Lichtenergie", "id=202", "size=10000", "communication=MQTT", "brokerIp=172.16.0.2"]
     
   erzeuger3:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
     networks:
       - backend
     restart: "no"
-    command: ["ip=172.16.1.1", "port=5000", "type=Wind", "name=Windero", "id=203", "size=777",  "communication=MQTT", "brokerIp=172.16.0.1"]
+    command: ["ip=172.16.1.1", "port=5000", "type=Wind", "name=Windero", "id=203", "size=777",  "communication=MQTT", "brokerIp=172.16.0.2"]
     
   erzeuger4:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
     networks:
       - backend
     restart: "no"
-    command: ["ip=172.16.1.1", "port=5000", "type=Atom", "name=ATOOOOOOM", "id=204", "size=1000000.5",  "communication=MQTT", "brokerIp=172.16.0.1"]
+    command: ["ip=172.16.1.1", "port=5000", "type=Atom", "name=ATOOOOOOM", "id=204", "size=1000000.5",  "communication=MQTT", "brokerIp=172.16.0.2"]
     
   erzeuger5:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
     networks:
       - backend
     restart: "no"
-    command: ["ip=172.16.1.1", "port=5000", "type=Kohle", "name=Braunenergie", "id=203", "size=777", "size=57896.3",  "communication=MQTT", "brokerIp=172.16.0.1"]
+    command: ["ip=172.16.1.1", "port=5000", "type=Kohle", "name=Braunenergie", "id=203", "size=777", "size=57896.3",  "communication=MQTT", "brokerIp=172.16.0.2"]
     
   energieversorger1:
     image: registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/energieversorger:latest
@@ -91,7 +91,7 @@ services:
         - 1883:1883
     networks:
       backend:
-        ipv4_address: 172.16.0.1
+        ipv4_address: 172.16.0.2
 
 networks:
   backend:

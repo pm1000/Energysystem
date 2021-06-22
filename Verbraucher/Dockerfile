@@ -35,19 +35,6 @@ WORKDIR /app
 RUN cmake .
 RUN make -f Makefile
 
-
-###
-### Run Stage
-###
-FROM ubuntu:latest
-
-LABEL maintainer = philipp.meier@stud.h-da.de
-LABEL maintainer = yannick.brilmayer@stud.h-da.de
-
-# Copy the exec
-COPY --from=buildStage /app/Verbraucher /app/
-
 # Start the app
-WORKDIR /app
 ENTRYPOINT ["./Verbraucher"]
 CMD ["ip=127.0.0.1", "port=5000"]

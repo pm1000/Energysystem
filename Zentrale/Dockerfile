@@ -40,23 +40,10 @@ RUN make -f Makefile grpc++
 RUN make -f Makefile libprotobuf
 RUN make -f Makefile Zentrale
 
-
-###
-### Run Stage
-###
-FROM ubuntu:latest
-
-LABEL maintainer = philipp.meier@stud.h-da.de
-LABEL maintainer = yannick.brilmayer@stud.h-da.de
-
-# Copy the exec
-COPY --from=buildStage /app/build/Zentrale /app/
-
 # Mark ports to be exposed
 EXPOSE 5000
 EXPOSE 9000
 
 # Start the app
-WORKDIR /app
 ENTRYPOINT ["./Zentrale"]
 CMD ["mqttServerAddress=127.0.0.1", "mqttClientId=zentrale"]
