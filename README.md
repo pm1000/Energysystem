@@ -10,6 +10,8 @@ Sie verwaltet alle Komponenten, die sich bei ihr angemeldet haben und stellt ein
 [Link zum Projekt](Erzeuger/)
 * `Verbraucher`: Der Verbraucher sorgt dafür, dass koninuierlich Daten an die entsprechende Zentrale gesendet werden. Diese werden Dabei berechnet und sollen eine möglichst genaue Simulation darstellen. 
 [Link zum Projekt](Verbraucher/)
+* `Energieversorger`: Mit dem Energieversorger als externen Client kann man sich per RPC die Daten der Komponenten und die Werte aller Komponenten abfragen lassen.
+  [Link zum Projekt](Energieversorger/)  
 
 
 ## Projekt starten
@@ -23,7 +25,7 @@ Um das Projekt starten zu können wird Docker, Docker-Compose und Git auf dem Zi
     * Im Hintergrund starten: `docker-compose up -d` ausführen
     * Um den Energieversorger zu starten: `docker-compose run energieversorger1` ausführen (am besten mit den anderen Sachen im Hintergrund)
 5. Zum Beenden der Services
-    * Im Vordergrund: **Ctrl + C ** auf der Tastatur drücken
+    * Im Vordergrund: **Ctrl + C** auf der Tastatur drücken
     * Im Hintergrund: `docker-compose down` ausführen
 
 
