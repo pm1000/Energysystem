@@ -14,6 +14,7 @@
 #include <chrono>
 #include "unordered_map"
 #include "Kommunikation/UDPCallback.h"
+#include "Kommunikation/MqttKommunikation.h"
 #include "mutex"
 
 using namespace std;
@@ -27,7 +28,7 @@ class Simulator : public UDPCallback {
 private:
     unordered_map<int,string> msgBuffer;
     Verbraucher* verbraucher;
-    UDPKommunikation* interface;
+    ZentralenKommunikation* interface;
     static int msgID;
     bool stopped = false;
     mutex mtx;
@@ -37,7 +38,7 @@ private:
     void simulate();
 
 public:
-    Simulator(Verbraucher *verbraucher, string communicationType, int port, string address);
+    Simulator(Verbraucher *verbraucher, string communicationType, int port, string address, string brokerIp);
     virtual ~Simulator();
 
     void processMessage(string ip, std::string string1) override;
