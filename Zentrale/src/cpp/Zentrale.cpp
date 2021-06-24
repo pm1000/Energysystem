@@ -125,24 +125,7 @@ void Zentrale::start() {
         thread rpcServerThread(ref(this->rpcServer));
 
         // mqtt stuff
-        try {
-            this->mqttServer = new mqtt::client(this->mqttServerAddress, this->mqttClientId);
-            auto connOpts = mqtt::connect_options_builder()
-                    .automatic_reconnect(true)
-                    .clean_session(false)
-                    .finalize();
-            this->mqttServer->set_callback(*this->komponentenController);
-
-            // Try the connection
-            this->mqttServer->connect(connOpts);
-
-            // Subscribe to topics
-            this->mqttServer->subscribe("komponente/#");
-
-        } catch (exception &e) {
-            cerr << "[MQTT] Connection not possible." << endl << e.what();
-            exit(1);
-        }
+        connectToMqttBroker(3);
 
         // wait for all threads to join
         webServerThread.join();
@@ -196,4 +179,31 @@ void Zentrale::enableTestmode(bool packetLoss, bool enableOutputData, bool enabl
 void Zentrale::setMqttProperties(string &server, string &id) {
     this->mqttServerAddress = server;
     this->mqttClientId = id;
+}
+
+void Zentrale::connectToMqttBroker(int waitTime) {
+// mqtt stuff
+    try {
+        sleep(waitTime);
+        this->mqttServer = new mqtt::client(this->mqttServerAddress, this->mqttClientId);
+        auto connOpts = mqtt::connect_options_builder()
+                .automatic_reconnect(true)
+                .clean_session(false)
+                .finalize();
+        this->mqttServer->set_callback(*this->komponentenController);
+
+        // Try the connection
+        this->mqttServer->connect(connOpts);
+
+        // Subscribe to topics
+        this->mqttServer->subscribe("komponente/#");
+
+    } catch (exception &e) {
+        cerr << "[MQTT] Connection not possible." << endl << e.what();
+        if (waitTime > 30)
+            exit(-1);
+        waitTime *= 2;
+        cout << "Retry connection in " << waitTime << " seconds." << endl;
+        connectToMqttBroker(waitTime);
+    }
 }

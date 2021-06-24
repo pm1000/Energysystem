@@ -8,18 +8,7 @@ MqttKommunikation::MqttKommunikation(string brokerIP, string name) {
     findOutLocalIp();
     this->name = name;
     const string zentralenAddress = "tcp://" + brokerIP + ":1883";
-    try {
-        this->mqttClient = new mqtt::client(zentralenAddress, name);
-        auto connOpts = mqtt::connect_options_builder()
-                .automatic_reconnect(true)
-                .clean_session(false)
-                .finalize();
-        this->mqttClient->connect(connOpts);
-
-    } catch (exception &e) {
-        cout << "Failed to connect to the Zentrale via MQTT." << endl << e.what() << endl;
-    }
-
+    connectToMqttBroker(3, zentralenAddress, name);
 }
 
 
@@ -82,5 +71,26 @@ void MqttKommunikation::findOutLocalIp() {
         close(sock);
     } catch (exception &e) {
         cout << "Failed to find out my own IP:(";
+    }
+}
+
+void MqttKommunikation::connectToMqttBroker(int waitTime, string address, string name) {
+    try {
+        sleep(3);
+        this->mqttClient = new mqtt::client(address, name);
+        auto connOpts = mqtt::connect_options_builder()
+                .automatic_reconnect(true)
+                .clean_session(false)
+                .finalize();
+        this->mqttClient->connect(connOpts);
+
+    } catch (exception &e) {
+        cout << "Failed to connect to the Zentrale via MQTT." << endl << e.what() << endl;
+        if (waitTime > 30) {
+            exit(-1);
+        }
+        waitTime *= 2;
+        cout << "Retry mqtt connection in " << waitTime << " seconds." << endl;
+        connectToMqttBroker(waitTime,address,name);
     }
 }
