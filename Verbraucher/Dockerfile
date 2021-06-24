@@ -63,7 +63,7 @@ RUN sh -c "git clone https://github.com/eclipse/paho.mqtt.cpp \
     && ldconfig"
 
 # Copy the exec
-COPY --from=buildStage /app/build/Verbraucher /app/
+COPY --from=buildStage /app/Verbraucher /app/
 
 # Start the app
 WORKDIR /app
