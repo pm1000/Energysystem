@@ -25,6 +25,7 @@ private:
     mqtt::client* mqttClient;
     string name;
     void findOutLocalIp();
+    void connectToMqttBroker(int waitTime, string address, string name);
 
 public:
     MqttKommunikation(string brokerIP, string name);

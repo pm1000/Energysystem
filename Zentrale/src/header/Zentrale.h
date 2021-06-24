@@ -40,6 +40,9 @@ private:
     string mqttClientId;
 
 
+    void connectToMqttBroker(int waitTime);
+
+
 public:
     Zentrale();
     virtual ~Zentrale();
