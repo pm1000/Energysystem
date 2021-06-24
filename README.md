@@ -15,7 +15,7 @@ Sie verwaltet alle Komponenten, die sich bei ihr angemeldet haben und stellt ein
 
 
 ## Projekt starten
-Um das Projekt starten zu können wird Docker, Docker-Compose und Git auf dem Zielrechner benötigt.
+Um das Projekt starten zu können wird Docker, Docker-Compose und Git auf dem Zielrechner benötigt. Alle Befehle müssen mit einem User ausgeführt werden, der Docker verwenden darf.
 
 1. Git-Repo clonen.
 2. In das Hauptverzeichnis des Git-Repos navigieren.
@@ -27,6 +27,9 @@ Um das Projekt starten zu können wird Docker, Docker-Compose und Git auf dem Zi
 5. Zum Beenden der Services
     * Im Vordergrund: **Ctrl + C** auf der Tastatur drücken
     * Im Hintergrund: `docker-compose down` ausführen
+   
+
+Zugriff auf die Webseite auf das Projekt, wenn per docker-compose.yml File gestartet: http://172.16.1.1:9000/
 
 
 ## Sonstige Informationen
