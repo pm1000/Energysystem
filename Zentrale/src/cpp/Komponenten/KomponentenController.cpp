@@ -101,7 +101,7 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
         pos = message.find("\"ip\"");
 
         if (pos != string::npos) {
-            pos += 7;
+            pos += 6;
             while (pos < message.length() && message[pos] != ' ' && message[pos] != ',' && message[pos] != '}') {
                 ip += message[pos];
                 ++pos;
