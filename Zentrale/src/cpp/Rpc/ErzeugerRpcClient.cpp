@@ -3,6 +3,7 @@
 //
 
 #include "../../header/Rpc/ErzeugerRpcClient.h"
+#include "../../header/Komponenten/KomponentenController.h"
 
 ErzeugerRpcClient::ErzeugerRpcClient() {}
 
@@ -19,6 +20,14 @@ void ErzeugerRpcClient::changeStatus(int id) {
 
     if (!status.ok())
         std::cerr << status.error_message() << std::endl;
+    else {
+        KomponentenController* komponentenController = KomponentenController::getInstance();
+        Komponente* komponente = komponentenController->getKomponenteById(id);
+        Erzeuger* erzeuger = dynamic_cast<Erzeuger*>(komponente);
+        if (komponente != nullptr) {
+            erzeuger->setStatus(!erzeuger->isStatus());
+        }
+    }
 
 }
 

@@ -22,3 +22,7 @@ std::string Erzeuger::getType() {
 bool Erzeuger::isStatus() const {
     return status;
 }
+
+void Erzeuger::setStatus(bool status) {
+    Erzeuger::status = status;
+}

@@ -9,14 +9,16 @@
 class Erzeuger : public Komponente{
 private:
     bool status;
-public:
-    bool isStatus() const;
+
 
 public:
     Erzeuger(std::string type, std::string name, int id, bool status);
     ~Erzeuger();
 
     virtual std::string getType() override;
+
+    void setStatus(bool status);
+    bool isStatus() const;
 
 };
 
