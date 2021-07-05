@@ -11,6 +11,7 @@ ErzeugerRpcClient::~ErzeugerRpcClient() {
 }
 
 void ErzeugerRpcClient::changeStatus(int id) {
+    std::cout << "i am here" << std::endl;
     grpc::ClientContext context;
     ErzeugerRpc::KomponentenID kompId;
     kompId.set_id(id);

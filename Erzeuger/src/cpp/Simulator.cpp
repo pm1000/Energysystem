@@ -13,7 +13,8 @@ int Simulator::msgID = 0;
 Simulator::Simulator(Erzeuger *erzeuger, const std::string& communicationType, int port, std::string address,
                      string brokerIP) {
     this->erzeuger = erzeuger;
-    rpcController.initRpc(erzeuger, 7000);
+    rpcController = new RpcController;
+    rpcController->initRpc(erzeuger, 7000);
     if (communicationType == "UDP") {
         this->interface = new UDPKommunikation(port, address);
     } else if (communicationType == "MQTT") {
@@ -32,6 +33,7 @@ Simulator::Simulator(Erzeuger *erzeuger, const std::string& communicationType, i
 Simulator::~Simulator() {
     delete erzeuger;
     delete interface;
+    delete rpcController;
 }
 
 
@@ -41,7 +43,8 @@ Simulator::~Simulator() {
  */
 void Simulator::start() {
     try {
-        thread rpcThread(ref(this->rpcController));
+        thread rpcThread(&RpcController::start, rpcController);
+        cout << "x0" << endl;
         while(!stopped) {
             this->simulate();
             sleep(2);
@@ -118,7 +121,7 @@ string Simulator::messageToJSON(string type, string name, int id, double value, 
  */
 void Simulator::stop() {
     this->stopped = true;
-    this->rpcController.stop();
+    this->rpcController->stop();
 }
 
 

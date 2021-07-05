@@ -61,9 +61,9 @@ void RpcController::run() {
     builder.RegisterService(this);
     this->server = builder.BuildAndStart();
     server->Wait();
-
 }
 
 void RpcController::operator()() {
+    cout << "operator" << endl;
     run();
 }
