@@ -13,6 +13,8 @@
 TcpServerSocket::TcpServerSocket(int sourceSocket, int targetSocket) {
     this->sourceSocket = sourceSocket;
     this->targetSocket = targetSocket;
+
+    //cout << "[Socket] Von " << to_string(sourceSocket) << " nach " << to_string(targetSocket) << " wurde geöffnet." << endl;
 }
 
 
@@ -22,7 +24,9 @@ TcpServerSocket::TcpServerSocket(int sourceSocket, int targetSocket) {
 /**
  * Destructor.
  */
-TcpServerSocket::~TcpServerSocket() = default;
+TcpServerSocket::~TcpServerSocket() {
+    //cout << "[Socket] Von " << to_string(sourceSocket) << " nach " << to_string(targetSocket) << " wurde geschlossen." << endl;
+}
 
 
 /**
@@ -32,32 +36,36 @@ void TcpServerSocket::run() {
 
     // Save the message
     char buffer[MESSAGE_SIZE];
-    bool conOpen = true;
+    bool connOpen = true;
 
-    while (conOpen) {
+    while (connOpen) {
         int readResult = recv(this->sourceSocket, &buffer, MESSAGE_SIZE, 0);
         if (readResult < 0) {
             int errorNr = errno;
             if (errorNr != 11) {
-                cerr << "[UDPServer] Socket receive failed with err no: " << errorNr << endl;
+                cerr << "[TCPSocket] Socket receive failed with err no: " << errorNr << endl;
+            } else {
+                connOpen = false;
             }
-            close(this->sourceSocket);
-            return;
-        } else if (readResult == 0)
-            conOpen = !conOpen;
+
+        } else if (readResult == 0) {
+            connOpen = false;
+        }
 
         send(targetSocket, buffer, readResult, 0);
-
     }
-
 
     // Close the socket and exit this thread
     int closeResult = close(sourceSocket);
+    //cout << "[Socket] Close Result von " << to_string(sourceSocket) << " ist " << to_string(closeResult) << endl;
     if (closeResult < 0) {
         int errorNr = errno;
         cerr << "Socket call failed with err no: " << errorNr << endl;
         exit(1);
     }
+
+    // Socket is finished, delete this element
+    delete this;
 }
 
 

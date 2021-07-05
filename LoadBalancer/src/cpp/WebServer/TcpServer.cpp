@@ -55,15 +55,20 @@ void TcpServer::run() {
             // TODO
             string ip = "127.0.0.1";
 
+            //cout << "[TcpServer] Accepted Socket " << to_string(acceptedSocket) << endl;
+
             // Open a target socket
             int targetSocket = this->openNewTargetSocket(ip, this->targetPort);
 
             // Create a bridge between those sockets in separate threads
-            TcpServerSocket inboundTraffic(acceptedSocket, targetSocket);
-            TcpServerSocket outboundTraffic(targetSocket, acceptedSocket);
+            auto* inboundTraffic = new TcpServerSocket(acceptedSocket, targetSocket);
+            auto* outboundTraffic = new TcpServerSocket(targetSocket, acceptedSocket);
 
-            thread inboundTrafficThread(&TcpServerSocket::run, &inboundTraffic);
-            thread outboundTrafficThread(&TcpServerSocket::run, &outboundTraffic);
+            thread inboundTrafficThread(&TcpServerSocket::run, inboundTraffic);
+            thread outboundTrafficThread(&TcpServerSocket::run, outboundTraffic);
+
+            this->setSocketTimeout(acceptedSocket);
+            this->setSocketTimeout(targetSocket);
 
             inboundTrafficThread.detach();
             outboundTrafficThread.detach();
@@ -106,7 +111,7 @@ void TcpServer::stop() {
 void TcpServer::init(int sourcePort, int targetPort) {
 
     // Save the sourcePort number
-    this->targetPort = sourcePort;
+    this->targetPort = targetPort;
 
     // Create the socket.
     this->listenSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -167,6 +172,8 @@ int TcpServer::openNewTargetSocket(const string &ip, const int port) {
         cerr << "[TcpServer] Socket connect failed with err no: " << errorNr << endl;
         exit(1);
     }
+
+    //cout << "[TcpServer] Target Socket " << to_string(socket_fd) << " verbunden." << endl;
 
     return socket_fd;
 }

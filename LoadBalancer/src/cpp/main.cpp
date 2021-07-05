@@ -4,7 +4,7 @@
 int main() {
 
     TcpServer tcpServer;
-    tcpServer.init(100, 9000);
+    tcpServer.init(10000, 9000);
     tcpServer();
 
 
