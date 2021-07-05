@@ -2,7 +2,7 @@
 // Created by philipp on 05.07.21.
 //
 
-#include "../header/Zentrale.h"
+#include "../../header/Zentrale/Zentrale.h"
 
 Zentrale::Zentrale(const string &ip, const vector<string> &mqttAddresses, const string &mqttClientId, int id) {
     this->ip = ip;

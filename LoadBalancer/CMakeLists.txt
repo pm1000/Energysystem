@@ -4,7 +4,7 @@ project(LoadBalancer)
 set(CMAKE_CXX_STANDARD 20)
 
 # Main target
-add_executable(LoadBalancer src/cpp/main.cpp src/cpp/Zentrale.cpp src/header/Zentrale.h src/cpp/WebServer/TcpServer.cpp src/cpp/WebServer/TcpServerSocket.cpp)
+add_executable(LoadBalancer src/cpp/main.cpp src/cpp/Zentrale/Zentrale.cpp src/header/Zentrale/Zentrale.h src/cpp/WebServer/TcpServer.cpp src/cpp/WebServer/TcpServerSocket.cpp src/cpp/Zentrale/ZentralenController.cpp src/header/Zentrale/ZentralenController.h)
 
 # Thread stuff
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
