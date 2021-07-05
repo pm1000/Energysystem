@@ -13,30 +13,33 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
-#include "HttpContextHandlerController.h"
+#include <arpa/inet.h>
 #include "../../header/WebServer/TcpServerSocket.h"
 
 
 using namespace std;
 
 /**
- * Webserver implementation for incoming http/tcp connections.
+ * TcpServer implementation for incoming http/tcp connections.
  */
-class Webserver : public HttpContextHandlerController {
+class TcpServer {
 private:
-    void run();
+    int openNewTargetSocket(const string &ip, const int port);
+    void setSocketTimeout(int socket_fd);
+    int listenSocket {-1};
+    int targetPort;
 
-    int socket_fd {-1};
+    void run();
 
     // Thread state
     bool stopped;
 
 
 public:
-    Webserver();
-    virtual ~Webserver();
+    TcpServer();
+    virtual ~TcpServer();
 
-    void init(int port);
+    void init(int sourcePort, int targetPort);
 
     // Thread functions
     void operator()();

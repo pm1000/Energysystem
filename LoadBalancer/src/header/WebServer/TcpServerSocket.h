@@ -25,14 +25,12 @@ using namespace std;
 class TcpServerSocket {
 
 private:
-    int sock_id {-1};
-    void run();
-    int openNewSocket();
-    int port;
+    int sourceSocket {-1}, targetSocket {-1};
 
 public:
-    TcpServerSocket(int sockId, int port);
+    TcpServerSocket(int sourceSocket, int targetSocket);
     virtual ~TcpServerSocket();
+    void run();
     void operator()();
 };
 
