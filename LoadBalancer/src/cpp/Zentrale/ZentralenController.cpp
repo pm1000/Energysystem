@@ -49,7 +49,7 @@ void ZentralenController::zentraleNotActive(shared_ptr<Zentrale> zentrale) {
 shared_ptr<Zentrale> ZentralenController::getActiveZentraleAt(int loc) {
     shared_ptr<Zentrale> zentrale = nullptr;
     m.lock();
-    if (loc >= this->zentralenCount) {
+    if (loc <= this->zentralenCount) {
         zentrale = activeZentralen[loc];
     }
     m.unlock();

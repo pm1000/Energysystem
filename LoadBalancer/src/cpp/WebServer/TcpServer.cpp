@@ -54,43 +54,51 @@ void TcpServer::run() {
             // Get a valid ip address from the pool
             string senderIp = to_string(client_addr.sin_addr.s_addr);
             std::hash<string> hash_fn;
-            int hashedIP = (int) hash_fn(senderIp) % this->zController->getZentralenCount();
-            shared_ptr<Zentrale> zentrale = zController->getActiveZentraleAt(hashedIP);
+            if (this->zController->getZentralenCount() == 0) {
+                cerr << "Keine Zentrale verfügbar" << endl;
+            } else {
+                int hashedIP = (int) hash_fn(senderIp) % this->zController->getZentralenCount();
+                shared_ptr<Zentrale> zentrale = zController->getActiveZentraleAt(hashedIP);
 
-            //cout << "[TcpServer] Accepted Socket " << to_string(acceptedSocket) << endl;
-            int targetSocket = -1;
-            // Open a target socket
-            int attempts = 0;
-            bool successful = false;
+                //cout << "[TcpServer] Accepted Socket " << to_string(acceptedSocket) << endl;
+                int targetSocket = -1;
+                // Open a target socket
+                int attempts = 0;
+                bool successful = false;
 
-            while (attempts < 5 && !successful) {
-                try {
-                    targetSocket = this->openNewTargetSocket(zentrale->getIp(), this->targetPort);
-                    successful = true;
-                } catch (std::exception& e) {
-                    this->zController->zentraleNotActive(zentrale);
-                    hashedIP = (int) hash_fn(senderIp) % this->zController->getZentralenCount();
-                    zentrale = this->zController->getActiveZentraleAt(hashedIP);
+                while (attempts < 5 && !successful) {
+                    try {
+                        targetSocket = this->openNewTargetSocket(zentrale->getIp(), this->targetPort);
+                        successful = true;
+                    } catch (std::exception &e) {
+                        this->zController->zentraleNotActive(zentrale);
+                        if (this->zController->getZentralenCount() == 0) {
+                            cerr << "Keine aktive Zentrale verfügbar" << endl;
+                        } else {
+                            hashedIP = (int) hash_fn(senderIp) % this->zController->getZentralenCount();
+                            zentrale = this->zController->getActiveZentraleAt(hashedIP);
+                        }
+                    }
                 }
+
+                if (!successful) {
+                    cerr << "Heute läuft es gar nicht, alles ist down" << endl;
+                    exit(1);
+                }
+
+                // Create a bridge between those sockets in separate threads
+                auto *inboundTraffic = new TcpServerSocket(acceptedSocket, targetSocket);
+                auto *outboundTraffic = new TcpServerSocket(targetSocket, acceptedSocket);
+
+                thread inboundTrafficThread(&TcpServerSocket::run, inboundTraffic);
+                thread outboundTrafficThread(&TcpServerSocket::run, outboundTraffic);
+
+                this->setSocketTimeout(acceptedSocket);
+                this->setSocketTimeout(targetSocket);
+
+                inboundTrafficThread.detach();
+                outboundTrafficThread.detach();
             }
-
-            if (!successful) {
-                cerr << "Heute läuft es gar nicht, alles ist down" << endl;
-                exit(1);
-            }
-
-            // Create a bridge between those sockets in separate threads
-            auto* inboundTraffic = new TcpServerSocket(acceptedSocket, targetSocket);
-            auto* outboundTraffic = new TcpServerSocket(targetSocket, acceptedSocket);
-
-            thread inboundTrafficThread(&TcpServerSocket::run, inboundTraffic);
-            thread outboundTrafficThread(&TcpServerSocket::run, outboundTraffic);
-
-            this->setSocketTimeout(acceptedSocket);
-            this->setSocketTimeout(targetSocket);
-
-            inboundTrafficThread.detach();
-            outboundTrafficThread.detach();
         }
     }
 
