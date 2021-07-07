@@ -62,6 +62,7 @@ void TcpServer::run() {
             // Open a target socket
             int attempts = 0;
             bool successful = false;
+
             while (attempts < 5 && !successful) {
                 try {
                     targetSocket = this->openNewTargetSocket(zentrale->getIp(), this->targetPort);
