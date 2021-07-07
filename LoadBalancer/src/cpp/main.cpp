@@ -16,7 +16,7 @@ int main(int argc, char* args[]) {
 
     //expected format zentrale1=102.234.123.121 zentrale2 = 192.168.178.1
     shared_ptr<ZentralenController> zentralenController = ZentralenController::getInstance();
-    int count = 0;
+    int count = 1;
     string name = "zentrale";
     while (argsMap.contains(name + to_string(count))) {
         auto it = argsMap.find(name + to_string(count));
