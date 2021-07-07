@@ -15,14 +15,13 @@ class Zentrale {
 private:
 
     string ip;
-    int udpPort;
-    int tcpPort;
-    vector<string> mqttAddresses;
-    string mqttClientId;
     int id;
+    string name;
+    static int count;
+
 
 public:
-    Zentrale(const string &ip, const vector<string> &mqttAddresses, const string &mqttClientId, int id);
+    Zentrale(const string &ip, const string &name);
     virtual ~Zentrale();
 
 

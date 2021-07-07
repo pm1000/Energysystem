@@ -4,13 +4,13 @@
 
 #include "../../header/Zentrale/Zentrale.h"
 
-Zentrale::Zentrale(const string &ip, const vector<string> &mqttAddresses, const string &mqttClientId, int id) {
+int Zentrale::count = 0;
+
+Zentrale::Zentrale(const string &ip, const string &name) {
     this->ip = ip;
-    this->mqttAddresses = mqttAddresses;
-    this->mqttClientId = mqttClientId;
-    this->id = id;
-    this->udpPort = 5000;
-    this->tcpPort = 9000;
+    this->id = count;
+    this->name = name;
+    ++count;
 }
 
 Zentrale::~Zentrale() {
