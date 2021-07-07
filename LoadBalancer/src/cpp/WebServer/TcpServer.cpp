@@ -84,7 +84,6 @@ void TcpServer::run() {
 
                 if (!successful) {
                     cerr << "Heute läuft es gar nicht, alles ist down" << endl;
-                    exit(1);
                 }
 
                 // Create a bridge between those sockets in separate threads
