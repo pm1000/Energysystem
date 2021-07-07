@@ -7,7 +7,7 @@ services:
       backend:
         ipv4_address: 172.16.0.3
     restart: "no"
-    command: [ "zentrale1=172.16.1.1", "zentrale2=172.16.1.2", "zentrale3=172.16.1.3" ]
+    command: [ "sourcePort=10000", "targetPort=9000", "zentrale1=172.16.1.1", "zentrale2=172.16.1.2", "zentrale3=172.16.1.3" ]
 
 
 

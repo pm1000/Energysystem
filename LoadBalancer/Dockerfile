@@ -40,4 +40,4 @@ EXPOSE 10000
 # Start the app
 WORKDIR /app
 ENTRYPOINT ["./LoadBalancer"]
-CMD [""]
+CMD ["sourcePort=10000", "targetPort=9000", "zentrale1=127.0.0.1"]
