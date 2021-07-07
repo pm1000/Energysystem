@@ -31,7 +31,7 @@ int main(int argc, char* args[]) {
     if (it != argsMap.end()) {
         sourcePort = stoi(it->second);
     } else {
-        cerr << "Expected source Port" << endl;
+        cerr << "Expected sourcePort" << endl;
         exit(1);
     }
 
@@ -39,7 +39,7 @@ int main(int argc, char* args[]) {
     if (it != argsMap.end()) {
         targetPort = stoi(it->second);
     } else {
-        cerr << "Expected target Prot" << endl;
+        cerr << "Expected targetPort" << endl;
         exit(1);
     }
 
