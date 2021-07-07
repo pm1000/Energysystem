@@ -9,6 +9,7 @@ install:
 	docker pull registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
 	docker pull registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest
 	docker pull registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/energieversorger:latest
+	docker pull registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/loadbalancer:latest
 
 
 build:
@@ -20,6 +21,8 @@ build_erzeuger:
 	-docker build -t registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest Erzeuger/
 build_verbraucher:
 	-docker build -t registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest Verbraucher/
+build_loadbalancer:
+	-docker build -t registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/loadbalancer:latest LoadBalancer/
 build_energieversorger:
 	-docker build -t registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/energieversorger:latest Energieversorger/
 
@@ -29,6 +32,7 @@ clean:
 	-docker image rm verbraucher
 	-docker image rm erzeuger
 	-docker image rm energieversorger
+	-docker image rm loadbalancer
 
 
 pushContainer:
@@ -37,3 +41,4 @@ pushContainer:
 	docker push registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/erzeuger:latest
 	docker push registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/verbraucher:latest
 	docker push registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/energieversorger:latest
+	docker push registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/loadbalancer:latest
