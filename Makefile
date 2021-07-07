@@ -13,7 +13,7 @@ install:
 
 
 build:
-	-make -j build_zentrale build_erzeuger build_verbraucher build_energieversorger
+	-make -j build_zentrale build_erzeuger build_verbraucher build_energieversorger build_loadbalancer
 
 build_zentrale:
 	-docker build -t registry.code.fbi.h-da.de/istyabril/verteiltesysteme-burchard-ss21-brilmayermeier/zentrale:latest Zentrale/
