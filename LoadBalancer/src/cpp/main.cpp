@@ -1,6 +1,21 @@
 #include <iostream>
+#include <csignal>
 #include "../header/WebServer/TcpServer.h"
 #include "../header/Zentrale/ZentralenController.h"
+
+
+/*
+ * Global variables
+ */
+TcpServer* tcpServer;
+
+/**
+ * Function to execute when SIGTERM arrives
+ */
+void sigTerm (int sig) {
+    tcpServer->stop();
+}
+
 
 
 int main(int argc, char* args[]) {
@@ -43,9 +58,12 @@ int main(int argc, char* args[]) {
         exit(1);
     }
 
-    TcpServer tcpServer;
-    tcpServer.init(sourcePort, targetPort);
-    tcpServer();
+    // Register a handler for programm termination
+    signal(SIGTERM, sigTerm);
+
+    tcpServer = new TcpServer();
+    tcpServer->init(sourcePort, targetPort);
+    (*tcpServer)();
 
     return 0;
 }
