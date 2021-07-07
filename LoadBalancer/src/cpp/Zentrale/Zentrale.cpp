@@ -16,3 +16,7 @@ Zentrale::Zentrale(const string &ip, const string &name) {
 Zentrale::~Zentrale() {
 
 }
+
+const string &Zentrale::getIp() const {
+    return ip;
+}

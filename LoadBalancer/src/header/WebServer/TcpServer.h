@@ -8,14 +8,14 @@
 #include <string>
 #include <iostream>
 #include <thread>
-
+#include "functional"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <arpa/inet.h>
 #include "../../header/WebServer/TcpServerSocket.h"
-
+#include "../../header/Zentrale/ZentralenController.h"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ private:
     void setSocketTimeout(int socket_fd);
     int listenSocket {-1};
     int targetPort;
-
+    shared_ptr<ZentralenController> zController;
     void run();
 
     // Thread state

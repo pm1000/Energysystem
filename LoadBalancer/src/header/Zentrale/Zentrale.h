@@ -24,6 +24,7 @@ public:
     Zentrale(const string &ip, const string &name);
     virtual ~Zentrale();
 
+    const string &getIp() const;
 
 };
 

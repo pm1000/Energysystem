@@ -8,7 +8,7 @@
  * Constructor
  */
 TcpServer::TcpServer() : stopped(false) {
-
+    this->zController = ZentralenController::getInstance();
 }
 
 
@@ -52,13 +52,31 @@ void TcpServer::run() {
         } else {
 
             // Get a valid ip address from the pool
-            // TODO
-            string ip = "127.0.0.1";
+            string senderIp = to_string(client_addr.sin_addr.s_addr);
+            std::hash<string> hash_fn;
+            int hashedIP = (int) hash_fn(senderIp) % this->zController->getZentralenCount();
+            shared_ptr<Zentrale> zentrale = zController->getActiveZentraleAt(hashedIP);
 
             //cout << "[TcpServer] Accepted Socket " << to_string(acceptedSocket) << endl;
-
+            int targetSocket = -1;
             // Open a target socket
-            int targetSocket = this->openNewTargetSocket(ip, this->targetPort);
+            int attempts = 0;
+            bool successful = false;
+            while (attempts < 5 && !successful) {
+                try {
+                    targetSocket = this->openNewTargetSocket(zentrale->getIp(), this->targetPort);
+                    successful = true;
+                } catch (std::exception& e) {
+                    this->zController->zentraleNotActive(zentrale);
+                    hashedIP = (int) hash_fn(senderIp) % this->zController->getZentralenCount();
+                    zentrale = this->zController->getActiveZentraleAt(hashedIP);
+                }
+            }
+
+            if (!successful) {
+                cerr << "Heute läuft es gar nicht, alles ist down" << endl;
+                exit(1);
+            }
 
             // Create a bridge between those sockets in separate threads
             auto* inboundTraffic = new TcpServerSocket(acceptedSocket, targetSocket);
@@ -169,6 +187,11 @@ int TcpServer::openNewTargetSocket(const string &ip, const int port) {
     int connectResult = connect(socket_fd, (struct sockaddr*) &targetAddress, sizeof(struct sockaddr));
     if (connectResult < 0) {
         int errorNr = errno;
+
+        if (errorNr == ECONNREFUSED) {
+            throw std::runtime_error("Server prob down");
+        }
+
         cerr << "[TcpServer] Socket connect failed with err no: " << errorNr << endl;
         exit(1);
     }
