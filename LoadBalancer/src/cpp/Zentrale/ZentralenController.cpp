@@ -8,11 +8,6 @@ shared_ptr<ZentralenController> ZentralenController::instance = nullptr;
 
 ZentralenController::ZentralenController() {
     this->zentralenCount = 0;
-
-    vector<int> x;
-    for (auto i : x) {
-
-    }
 }
 
 ZentralenController::~ZentralenController() {
@@ -24,8 +19,10 @@ int ZentralenController::getZentralenCount() {
 }
 
 shared_ptr<ZentralenController> ZentralenController::getInstance() {
-    if (instance == nullptr)
-        ZentralenController();
+    if (instance == nullptr) {
+        shared_ptr<ZentralenController> z( new ZentralenController());
+        instance = z;
+    }
     return instance;
 }
 
