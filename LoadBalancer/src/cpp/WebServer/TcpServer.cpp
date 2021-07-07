@@ -73,7 +73,8 @@ void TcpServer::run() {
                     } catch (std::exception &e) {
                         this->zController->zentraleNotActive(zentrale);
                         if (this->zController->getZentralenCount() == 0) {
-                            cerr << "Keine aktive Zentrale verfügbar" << endl;
+                            //cerr << "Keine aktive Zentrale verfügbar" << endl;
+                            break;
                         } else {
                             hashedIP = (int) hash_fn(senderIp) % this->zController->getZentralenCount();
                             zentrale = this->zController->getActiveZentraleAt(hashedIP);
