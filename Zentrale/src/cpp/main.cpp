@@ -37,6 +37,15 @@ int main(int argc, char* args[]) {
     zentrale = new Zentrale();
     zentrale->setMqttProperties(argsMap.at("mqttServerAddress"), argsMap.at("mqttClientId"));
 
+
+    //expected format zentrale1=102.234.123.121 zentrale2=192.168.178.1
+    for (const auto& it : argsMap) {
+        if (it.first.find("zentrale") <= it.first.length()) {
+            zentrale->addOtherZentrale(it.first, it.second);
+        }
+    }
+
+
     // Register a handler for programm termination
     signal(SIGTERM, sigTerm);
 

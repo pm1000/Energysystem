@@ -24,11 +24,12 @@ private:
     string ip;
     mqtt::client* mqttClient;
     string name;
+    string brokerChannel;
     void findOutLocalIp();
     void connectToMqttBroker(int waitTime, string address, string name);
 
 public:
-    MqttKommunikation(string brokerIP, string name);
+    MqttKommunikation(string brokerIP, string brokerChannel, string name);
     virtual ~MqttKommunikation();
 
     const string &getIp() const;

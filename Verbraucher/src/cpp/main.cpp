@@ -81,6 +81,16 @@ int main(int argc, char* args[]) {
         brokerIp = iter->second;
     }
 
+    //check for broker channel
+    string brokerChannel;
+    iter = argsMap.find("brokerChannel");
+    if (iter == argsMap.end() && comType == "MQTT") {
+        cout << "Keine MQTT Broker-Channel angegeben" << endl;
+        return -1;
+    } else {
+        brokerChannel = iter->second;
+    }
+
     // Verbraucher erstellen
     long t = (std::chrono::system_clock::now().time_since_epoch().count());
     srand(t);
@@ -100,7 +110,7 @@ int main(int argc, char* args[]) {
         return -1;
     }
     sim = new Simulator(verbraucher, comType, stoi(argsMap.at("port")),
-                        argsMap.at("ip"), brokerIp);
+                        argsMap.at("ip"), brokerIp, brokerChannel);
 
     // Signal handler mit SIGTERM
     signal(SIGTERM, sigTermHandler);

@@ -4,9 +4,10 @@
 
 #include "../../header/Kommunikation/MqttKommunikation.h"
 
-MqttKommunikation::MqttKommunikation(string brokerIP, string name) {
+MqttKommunikation::MqttKommunikation(string brokerIP, string brokerChannel, string name) {
     findOutLocalIp();
     this->name = name;
+    this->brokerChannel = brokerChannel;
     const string zentralenAddress = "tcp://" + brokerIP + ":1883";
     connectToMqttBroker(3,zentralenAddress,name);
 }
@@ -16,7 +17,7 @@ MqttKommunikation::~MqttKommunikation() = default;
 
 
 void MqttKommunikation::sendData(string message) {
-    string channel = "komponente/" + name;
+    string channel = brokerChannel + "/" + name;
     try {
         auto mqttMsg = mqtt::make_message(channel, message,2, false);
         this->mqttClient->publish(mqttMsg);

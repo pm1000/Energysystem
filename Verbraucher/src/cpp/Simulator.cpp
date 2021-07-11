@@ -6,12 +6,12 @@
 
 int Simulator::msgID = 0;
 
-Simulator::Simulator(Verbraucher *verbraucher, string communicationType, int port, string address, string brokerIp) {
+Simulator::Simulator(Verbraucher *verbraucher, string communicationType, int port, string address, string brokerIp, string brokerChannel) {
     this->verbraucher = verbraucher;
     if (communicationType == "UDP") {
         this->interface = new UDPKommunikation(port, address);
     } else if (communicationType == "MQTT") {
-        this->interface = new MqttKommunikation(brokerIp, verbraucher->getName());
+        this->interface = new MqttKommunikation(brokerIp, brokerChannel, verbraucher->getName());
     } else {
         cout << "Unknown communication type: \"" + communicationType +"\". Only UDP or MQTT are valid" << endl;
         exit(5);

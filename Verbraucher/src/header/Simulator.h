@@ -38,7 +38,7 @@ private:
     void simulate();
 
 public:
-    Simulator(Verbraucher *verbraucher, string communicationType, int port, string address, string brokerIp);
+    Simulator(Verbraucher *verbraucher, string communicationType, int port, string address, string brokerIp, string brokerChannel);
     virtual ~Simulator();
 
     void processMessage(string ip, std::string string1) override;

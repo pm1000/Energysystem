@@ -37,7 +37,7 @@ private:
     bool stopped = false;
 
 public:
-    Simulator(Erzeuger *erzeuger, const string& communicationType, int port, string address, string brokerIP);
+    Simulator(Erzeuger *erzeuger, const string& communicationType, int port, string address, string brokerIP, string brokerChannel);
     virtual ~Simulator();
 
     void processMessage(string ip, std::string string1) override;

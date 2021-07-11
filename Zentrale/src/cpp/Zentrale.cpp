@@ -181,6 +181,11 @@ void Zentrale::setMqttProperties(string &server, string &id) {
     this->mqttClientId = id;
 }
 
+
+
+/**
+ *
+ */
 void Zentrale::connectToMqttBroker(int waitTime) {
 // mqtt stuff
     try {
@@ -196,7 +201,8 @@ void Zentrale::connectToMqttBroker(int waitTime) {
         this->mqttServer->connect(connOpts);
 
         // Subscribe to topics
-        this->mqttServer->subscribe("komponente/#");
+        // Use mqttClientId as the topic to subscribe
+        this->mqttServer->subscribe(this->mqttClientId + "/#");
 
     } catch (exception &e) {
         cerr << "[MQTT] Connection not possible." << endl << e.what();
@@ -206,4 +212,13 @@ void Zentrale::connectToMqttBroker(int waitTime) {
         cout << "Retry connection in " << waitTime << " seconds." << endl;
         connectToMqttBroker(waitTime);
     }
+}
+
+
+
+/**
+ *
+ */
+void Zentrale::addOtherZentrale(string name, string ip) {
+    this->otherZentralen.insert({name, ip});
 }

@@ -39,6 +39,8 @@ private:
     string mqttServerAddress;
     string mqttClientId;
 
+    unordered_map<string, string> otherZentralen;
+
 
     void connectToMqttBroker(int waitTime);
 
@@ -52,6 +54,7 @@ public:
     void enableTestmode(bool packetLoss, bool enableOutputData, bool enableMissingmessages);
 
     void setMqttProperties(string &server, string &id);
+    void addOtherZentrale(string name, string ip);
 };
 
 
