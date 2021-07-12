@@ -103,7 +103,8 @@ void ZentralenSyncRpcServer::startSync(string channel) {
 /**
 *
 */
-string ZentralenSyncRpcServer::messageToJSON(string type, string name, int id, double value, time_t time, bool status, string ip) {
+string ZentralenSyncRpcServer::messageToJSON(string type, string name, int id, double value, time_t time, bool status,
+                                             string ip) {
     std::string message = "{";
     message += "\"type\": ";
     message += "\"" + type + "\", ";

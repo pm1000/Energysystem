@@ -23,11 +23,9 @@ private:
     std::unique_ptr<grpc::Server> server;
     KomponentenController* komponentenController;
     MqttInterfaceZentrale* zentrale;
-
     int port;
 
     void run();
-
     string messageToJSON(string type, string name, int id, double value, time_t time, bool status, string ip);
 
 public:

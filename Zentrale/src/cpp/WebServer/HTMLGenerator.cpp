@@ -305,10 +305,10 @@ string HTMLGenerator::generateKompTableRow(string& type, string name, int id, bo
 string HTMLGenerator::handleStatusChange(int id) {
     string retMsg = "Status der Komponente erfolgreich geändert";
     try {
-        ErzeugerRpcClient* rpcClient = new ErzeugerRpcClient();
         Komponente* komp = komponentenController->getKomponenteById(id);
         if (komp == nullptr)
             throw invalid_argument("Es ist keine Komponente mit der ID " + to_string(id) + "vorhanden");
+        ErzeugerRpcClient* rpcClient = new ErzeugerRpcClient();
         rpcClient->initRpc(komp->getIp(), 7000);
         rpcClient->changeStatus(id);
         delete rpcClient;
