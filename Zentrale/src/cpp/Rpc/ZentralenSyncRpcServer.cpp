@@ -91,7 +91,7 @@ void ZentralenSyncRpcServer::startSync(string channel) {
         for (const auto &dataMap : komponentenIt.second->getValues()) {
 
             string payload = messageToJSON(komponentenIt.second->getType(), komponentenIt.second->getName(),
-                                           komponentenIt.second->getId(), dataMap.first, dataMap.second, true,
+                                           komponentenIt.second->getId(), dataMap.second, dataMap.first, true,
                                            komponentenIt.second->getIp());
             this->zentrale->sendWithMqtt(channel + komponentenIt.second->getName(), payload);
         }
