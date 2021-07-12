@@ -17,7 +17,7 @@ MqttKommunikation::~MqttKommunikation() = default;
 
 
 void MqttKommunikation::sendData(string message) {
-    string channel = brokerChannel + "/" + name;
+    string channel = brokerChannel + "/data/" + name;
     try {
         auto mqttMsg = mqtt::make_message(channel, message,2, false);
         this->mqttClient->publish(mqttMsg);
