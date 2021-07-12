@@ -45,7 +45,7 @@ Wurden Bytes empfangen (kein Timout/Fehler erkannt) wird die Objekt-Callback Met
 Bei dem Verlassen der Schleife ist die Aufgabe des Threads fertig (Server kann geschlossen werden) und der Socket wird probiert zu schließen.
 
 Die Klasse `UDPCallback` dient als Interface für andere Klassen eine Nachricht zu verarbeiten. Sie wird aufgerufen, wenn in der run()-Methode des UDPServer eine Nachricht empfangen wird.
-* `processMessage (string)`: Zu überschreibende Funktion, die aufgerufen wird, wenn eine Nachricht empfangen wird.
+* `processMessageUdp (string)`: Zu überschreibende Funktion, die aufgerufen wird, wenn eine Nachricht empfangen wird.
 
 
 
@@ -186,7 +186,7 @@ Komponente zurück. Auf dieser Übersichtsseite sind alle gemeldeten Daten der j
 Der `KomponentenController` dient zur Verwaltung von allen Komponenten. Die Komponenten sind in einer Map gespeichert.
 Die ID jeder Komponente dient dazu als Key. Außerdem findet ein Mapping zwischen dem Namen der Komponente und der ID 
 statt. Außerdem implementiert die Klasse `KomponentenController` die Methode
-`void processMessage(std::string ip, std::string message)` vom Interface `UDPCallback`. Diese Methode wird bei jeder
+`void processMessageUdp(std::string ip, std::string message)` vom Interface `UDPCallback`. Diese Methode wird bei jeder
 neu eingegangen Nachricht aufgerufen. Innerhalb der Methode findet ein Parsing der Nachricht statt und die übermittelten
 Werte werden der jeweiligen Komponente zugeordnet. Falls die Komponente noch unbekannt ist, so wird diese angelegt und
 in der Map gespeichert. Außerdem wird nach dem Einfügen von neuen Daten bei jeder Komponente geprüft, ob die Nachrichtenids

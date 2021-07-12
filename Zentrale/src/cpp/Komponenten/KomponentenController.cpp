@@ -14,7 +14,7 @@ KomponentenController::~KomponentenController() {
     delete sender;
 }
 
-void KomponentenController::processMessage(std::string ip, std::string message) {
+void KomponentenController::processMessageUdp(std::string ip, std::string message) {
     ++msgCount;
 
     //format {"type": "Unternehmen", "name": "FLEISCHER", "id": 123,"value": 2006.550000}
@@ -23,7 +23,7 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
     int id;
     double value;
     time_t time;
-    int msgID;
+    int msgID = -1;
     bool status;
     try{
         //get type
@@ -73,15 +73,17 @@ void KomponentenController::processMessage(std::string ip, std::string message) 
 
         //get msgID
         pos = message.find("\"msgID\"");
-        pos += 9;
-        i = pos;
-        tmp = "";
+        if (pos != message.npos) {
+            pos += 9;
+            i = pos;
+            tmp = "";
 
-        while (i < message.size() && message[i] >= '0' && message[i] <= '9'){
-            tmp += message[i];
-            ++i;
+            while (i < message.size() && message[i] >= '0' && message[i] <= '9') {
+                tmp += message[i];
+                ++i;
+            }
+            msgID = std::stoi(tmp);
         }
-        msgID = std::stoi(tmp);
 
 
         //check for status (only for erzeuger)
@@ -259,5 +261,27 @@ void KomponentenController::connection_lost(const string &message) {
 
 void KomponentenController::message_arrived(mqtt::const_message_ptr ptr) {
     cout << "[MQTT] Message arrived: " << ptr->to_string() << endl;
-    processMessage("",ptr->get_payload_str());
+
+    // Check topic  "<id>/zentrale/<name>" or "<id>/data/<name>"
+    string topic = ptr->get_topic();
+    long firstSlash = topic.find('/');
+    long length = topic.substr(firstSlash + 1).find('/');
+    string type = topic.substr(firstSlash + 1, length);
+    if (type == "data") {
+        // Forward to other zentralen
+        cout << "[Message] Forwarding message." << endl;
+        thread t(&MqttInterfaceZentrale::sendToOtherZentralen, zentrale, ptr->get_payload());
+        t.detach();
+    }
+
+    processMessageUdp("", ptr->get_payload_str());
+}
+
+
+
+/**
+ *
+ */
+void KomponentenController::setZentraleInterface(MqttInterfaceZentrale *zentrale) {
+    this->zentrale = zentrale;
 }

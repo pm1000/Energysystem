@@ -1,0 +1,17 @@
+syntax="proto3";
+
+package ZentraleRpc;
+
+service ZentraleKoordination {
+
+  rpc RequestSync(Source) returns (Empty) {}
+
+}
+
+message Empty {
+
+}
+
+message Source {
+  string targetChannel = 1;
+}

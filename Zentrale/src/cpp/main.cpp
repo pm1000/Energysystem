@@ -50,7 +50,7 @@ int main(int argc, char* args[]) {
     signal(SIGTERM, sigTerm);
 
     // Uncomment to enable testmode
-    zentrale->enableTestmode(false, true, true);
+    zentrale->enableTestmode(false, true, false);
 
     // Start the application
     zentrale->start();

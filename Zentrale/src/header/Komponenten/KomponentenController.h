@@ -15,6 +15,7 @@
 #include "../UDPServer/UDPCallback.h"
 #include "vector"
 #include "../UDPSender/KomponentenUdpSender.h"
+#include "../Rpc/MqttInterfaceZentrale.h"
 #include "time.h"
 #include "random"
 
@@ -32,6 +33,8 @@ private:
     unsigned long long msgCount = 0;
     KomponentenController();
     static KomponentenController* instance;
+    MqttInterfaceZentrale *zentrale;
+
 
     bool enableDataOutput = true;
     bool enableMissingMessages = true;
@@ -42,7 +45,7 @@ public:
     static KomponentenController* getInstance();
     virtual ~KomponentenController();
 
-
+    // Getter
     Komponente* getKomponenteById(int id);
     Komponente* getKomponenteByName (string name);
     std::vector<std::string> getKomponentenNamen();
@@ -52,8 +55,10 @@ public:
     unsigned long long int getMsgCount() const;
     const unordered_map<int, Komponente *> &getKomponenten() const;
 
+    void setZentraleInterface(MqttInterfaceZentrale* zentrale);
+
     // Callback function for udp server
-    void processMessage(std::string ip, std::string message) override;
+    void processMessageUdp(std::string ip, std::string message) override;
 
     // Callback functions for mqtt
     void connected(const string &message) override;
