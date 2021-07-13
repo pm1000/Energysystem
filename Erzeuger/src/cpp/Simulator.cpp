@@ -67,6 +67,8 @@ void Simulator::simulate() {
     string message = messageToJSON(erzeuger->getType(), erzeuger->getName(), erzeuger->getID(), cons, t,
                                    erzeuger->isStatus());
 
+    cout << message << endl;
+    cout << std::chrono::system_clock::now().time_since_epoch().count() << endl;
     mtx.lock();
     interface->sendData(message);
 

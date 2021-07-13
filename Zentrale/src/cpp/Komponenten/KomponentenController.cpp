@@ -261,7 +261,7 @@ void KomponentenController::connection_lost(const string &message) {
 
 void KomponentenController::message_arrived(mqtt::const_message_ptr ptr) {
     cout << "[MQTT] Message arrived: " << ptr->to_string() << endl;
-
+    cout << std::chrono::system_clock::now().time_since_epoch().count() << endl;
     // Check topic  "<id>/zentrale/<name>" or "<id>/data/<name>"
     string topic = ptr->get_topic();
     long firstSlash = topic.find('/');
