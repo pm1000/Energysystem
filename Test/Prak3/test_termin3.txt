@@ -1,0 +1,42 @@
+Funktionaler Test:
+
+Kriterium:
+	Eine mit MQTT gesendete Nachricht sollte bei der Ankunft den gleichen Nachrichteninhalt wie beim versenden haben (Integrität).
+	
+	
+Umsetzung:
+	Senden einer Nachricht von einem Erzeuger an die Zentrale. Dabei wird der Textinhalt vor dem Senden gespeichert und mit der empfangenen Nachricht veglichen.
+	
+
+Test:
+	gesendet: {"type": "Atom", "name": "pm-Systems", "id": 101, "value": 10000.000000, "time": 1626181854, "msgID": 1, "status": 1, "ip": 192.168.0.55}
+	empfangen: {"type": "Atom", "name": "pm-Systems", "id": 101, "value": 10000.000000, "time": 1626181854, "msgID": 1, "status": 1, "ip": 192.168.0.55}
+	
+--> empfangene Nachricht == gesendete Nachricht --> Test erfüllt
+
+####################################################################################
+####################################################################################
+
+Performance Test:
+
+Kriterium:
+	Die Latenzzeit vom Senden einer Nachricht via MQTT bis zum empfangen einer Nachricht sollte unter 0,01 Sekunden liegen. Dabei wird das Netzwerk ignoriert (Durchführung
+	im selben Netzwerk).
+	
+Umsetzung:
+	Zeitmessung vor dem Senden einer Nachricht. Anschließend wird die Nachricht versendet. Beim empfangen der Nachricht gibt die Zentrale die aktuelle Zeit raus.
+	Die Differenz zwischen beiden Zeiten ist die Latenzzeit.
+	
+Test:
+	
+	Latenzzeiten von 6 gesendeten Nachrichten in ns:
+	660.330
+	896.167
+	782.141
+	808.511
+	837.284
+	782.686
+	
+	Durchschnitt 794.520ns (ca. 0,0008s)
+	
+--> Test erfolgreich. Die Latenzzeit liegt weit unter der Mindestanforderung.
