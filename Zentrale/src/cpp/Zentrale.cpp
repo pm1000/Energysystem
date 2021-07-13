@@ -145,9 +145,6 @@ void Zentrale::start() {
 
         thread syncThread(ref(this->zentralenSync));
 
-        // First time start try to sync with all other known zentralen.
-        this->syncCallWithRpc();
-
         // Then start all services
         thread webServerThread(ref(this->webserver));
         thread udpServerThread(ref(this->udpServer));
@@ -158,6 +155,8 @@ void Zentrale::start() {
         this->mqttServer->subscribe(this->mqttClientId + "/#");
 
         // Sync to other Zentralen
+        // First time start try to sync with all other known zentralen.
+        this->syncCallWithRpc();
 
         // wait for all threads to join
         webServerThread.join();
