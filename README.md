@@ -1,6 +1,6 @@
 # Projekt zum Modul Verteilte Systeme
 
-Anmerkungen für den Prof zu zusätzlichen erledigten Aufgaben befinden sich in [Anmerkungen für den Prof.txt](Anmerkungen für den Prof.txt)
+Anmerkungen für den Prof zu zusätzlichen erledigten Aufgaben befinden sich in [Anmerkungen für den Prof.txt](Anmerkung für Prof.txt)
 
 ## Projektaufbau
 Das Projekt besteht aus folgenden Unterprojekten:
