@@ -1,0 +1,31 @@
+Funktionaler Test:
+
+Kriterium:
+	Nach einem Ausfall einer Zentrale soll diese Zentrale beim Wiederhochfahren die Daten der anderen Zentralen synchronisieren, sodass nur die in dieser Zeit gesendeten Daten fehlen.
+
+
+Umsetzung:
+	Bei einem Start einer Zentrale wird ein RPC-Call ausgeführt, der eine Synchronisierung mit den anderen zentralen auslöst. In der zentrale ist das mit syncCallWithRpc() gemacht.
+	Die andere Zentrale sendet sobald ein Sync-Aufruf kommt alle ihre Daten per MQTT an genau diese Zentrale(Topic).
+
+
+Test:
+	Ein Erzeuger sendet X Nachrichten an eine Zentrale1. Eine Zentrale2 soll sich mit Zentrale1 synchronisieren und genau diese X vorher gesendeten Nachrichten anzeigen.
+
+--> Ist erfüllt. Siehe Screenshots.
+
+####################################################################################
+####################################################################################
+
+Performance Test:
+
+Kriterium:
+	Die Synchronisierung soll in einem Überschaubaren Zeitraum stattfinden. Der Aufruf zum Start des Syncs soll maximal eine Latenz von 15ms haben. Die Synchronisierung soll innerhalb von 10 Sekunden fertig sein.
+
+Umsetzung:
+	Vor und nach dem Aufruf des Sync-Calls werden Timestamps aufgezeichnet. Vor und Nach dem Synchronisierungsvorgang werden Timestamps aufgenommen. Die Differenz bildet die Dauer.
+
+Test:
+	Die Synchronisierung wird mit ca 100 Nachrichten durchgeführt.
+
+--> Die Ergebnisse befinden sich alle im Rahmen. Der Aufruf findet innerhalb von 3ms statt. Die Synchronisierung dauert 10ms. Der Test ist somit erfolgreich.
