@@ -9,6 +9,15 @@ Der Port des Webservers kann man über einen Parameter beim Programmstart abänd
 
 Über den UDP Port 5000 können Geräte ihre Daten melden. Die Kommunikation wird per String im JSON-Format geparst übertragen.
 
+## Synchronisierung und Verteilen der Daten
+Bei einem Start einer Zentralen werden die Daten von anderen Zentralen (per Programmparameter übergeben) über einen RPC-Call angefordert.
+Ist die Zentrale hochgefahren bereit und hat Daten, so werden diese an die anfragende Zentrale per MQTT gesendet.
+
+Während der gesamten Dauer empfängt eine Zentrale auch nur Daten von ihren Komponenten. 
+Diese werden dann per MQTT auch an die anderen bekannten Zentralen gesendet.
+Fällt eine Zentrale aus, so stehen die Daten der Komponenten, die nur an diese Zentrale senden nicht mehr zur Verfügung über den zeitraum hinweg.
+
+
 ## Klassenstruktur
 
 ### Zentrale

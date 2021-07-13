@@ -1,0 +1,7 @@
+Zusätzliche Leistungen im Projekt:
+
+- Fehlende Nachrichten in UDP werden vom Erzeuger/Verbraucher nachgesendet
+- Ein zusätzliches Projekt für einen Loadbalancer wurde angelegt. Dieser soll den eingehenden Traffic auf die Webpages auf die Zentralen aufteilen.
+- Ein Google CSS-Sytlesheet wurde für eine schönere Webseite eingebunden
+- Das komplette Projekt läuft komplett Multithreaded und ist komplett nicht-blockieren.
+
