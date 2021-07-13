@@ -3,8 +3,11 @@
 //
 
 #include "../header/Client.h"
+#include "chrono"
 
 Client::Client(string ip) {
+    auto s = std::chrono::system_clock::now().time_since_epoch().count();
+    cout << "start:\t" << s << endl;
     komponentenController = KomponentenController::getInstance();
 
     // Prepare rpc controller and get all components
@@ -17,6 +20,9 @@ Client::Client(string ip) {
         this->komponentenController->addKomponente(tmp);
         this->rpcController->requestKomponentenWerte(tmp);
     }
+    auto end = std::chrono::system_clock::now().time_since_epoch().count();
+    cout << "end:\t" << end << endl;
+    cout << "dauer:\t" << end - s << endl;
 }
 
 Client::~Client() {
@@ -50,5 +56,4 @@ void Client::printKomponenten() {
             cout << "\t\t\t Zeit: " << timeString << "\t Wert: " << it->second << endl;
         }
     }
-
 }
