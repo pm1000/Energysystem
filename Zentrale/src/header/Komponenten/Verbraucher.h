@@ -9,8 +9,6 @@
 #include "Komponente.h"
 
 class Verbraucher : public Komponente{
-
-private:
 public:
     Verbraucher();
     Verbraucher(int id, std::string name, std::string type);

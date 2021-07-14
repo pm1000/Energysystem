@@ -6,13 +6,17 @@
 
 int Simulator::msgID = 0;
 
-Simulator::Simulator(Verbraucher *verbraucher, string communicationType, int port, string address) {
+Simulator::Simulator(Verbraucher *verbraucher, string communicationType, int port, string address, string brokerIp, string brokerChannel) {
     this->verbraucher = verbraucher;
-    if (communicationType == "UDP"){
+    if (communicationType == "UDP") {
         this->interface = new UDPKommunikation(port, address);
+    } else if (communicationType == "MQTT") {
+        this->interface = new MqttKommunikation(brokerIp, brokerChannel, verbraucher->getName());
+    } else {
+        cout << "Unknown communication type: \"" + communicationType +"\". Only UDP or MQTT are valid" << endl;
+        exit(5);
     }
 }
-
 
 
 /**
@@ -80,6 +84,14 @@ string Simulator::messageToJSON(string type, string name, int id, double value, 
     message += to_string(time) + ", ";
     message += "\"msgID\": ";
     message += to_string(msgID);
+
+    //if communication type is mqtt then the ip needs to be send as well (needed for rpc calls from the Zentrale)
+    MqttKommunikation* mqtt = dynamic_cast<MqttKommunikation*>(this->interface);
+    if (mqtt != nullptr) {
+        message += ", \"ip\": ";
+        message += mqtt->getIp();
+    }
+
     message += "}";
     return message;
 }

@@ -4,6 +4,7 @@
 
 #include "../../header/WebServer/HTMLGenerator.h"
 
+
 HTMLGenerator::HTMLGenerator(){
     komponentenController = KomponentenController::getInstance();
 };
@@ -70,6 +71,28 @@ string HTMLGenerator::generateHeader(bool mainPage, string title) {
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script type="text/javascript">
+        function changeStatus(id) {
+        console.log(id);
+
+        let button = document.getElementById(id);
+        console.log(button.getAttribute("class"));
+         if (button.getAttribute("class") == "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent") {
+            console.log("if");
+            button.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored");
+        } else {
+            console.log("else");
+            button.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent");
+        }
+
+
+        let req = new XMLHttpRequest();
+        let url = "/SetStatus?id=";
+        url += id;
+        req.open("GET", url);
+        req.send();
+        }
+    </script>
     <meta charset="UTF-8">
     <title>)";
     header += title;
@@ -118,7 +141,7 @@ string HTMLGenerator::generateMainTab() {
 }
 
 string HTMLGenerator::generateSubTabs(string type) {
-    string s = generateKomptTableHead();
+    string s = generateKomptTableHead(type);
     std::vector<Komponente*> list;
     if (type == "Erzeuger")
         list = komponentenController->getErzeuger();
@@ -129,7 +152,13 @@ string HTMLGenerator::generateSubTabs(string type) {
         string t = list[i]->getType();
         string name = list[i]->getName();
         int id = list[i]->getId();
-        s+= generateKompTableRow(type, name, id);
+        bool status = false;
+        Erzeuger* erzeuger = dynamic_cast<Erzeuger*> (list[i]);
+        if (erzeuger != nullptr) {
+            status = erzeuger->isStatus();
+        }
+
+        s+= generateKompTableRow(type, name, id, status);
     }
     s += closeTable();
     return s;
@@ -207,7 +236,7 @@ string HTMLGenerator::generateKomponentenListe(string type) {
     return std::string();
 }
 
-string HTMLGenerator::generateKomptTableHead() {
+string HTMLGenerator::generateKomptTableHead(string type) {
     string s = R"(<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">)";
     s += "<tr>";
     s += R"(<th>)";
@@ -222,11 +251,19 @@ string HTMLGenerator::generateKomptTableHead() {
     s += R"(<th>)";
     s += "Details";
     s += R"(</th>)";
+
+    //button hinzufügen
+    if (type == "Erzeuger") {
+        s += R"(<th>)";
+        s += "Status ändern";
+        s += R"(</th>)";
+    }
+
     s += R"(</tr>)";
     return s;
 }
 
-string HTMLGenerator::generateKompTableRow(string& type, string name, int id) {
+string HTMLGenerator::generateKompTableRow(string& type, string name, int id, bool status) {
     string s;
 
     s += "<tr>";
@@ -242,6 +279,42 @@ string HTMLGenerator::generateKompTableRow(string& type, string name, int id) {
     s += "<td>";
     s += R"(<a href="/Detail?name=)" + name + R"(&history=true">Details</a>)";
     s += R"(</td>)";
+
+    if (type == "Erzeuger") {
+        s += R"(<td>)";
+        s += R"(<button id=")";
+        s += to_string(id);
+        if (!status) {
+            s += R"(" type="button"
+            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+            onclick="changeStatus(this.id)";
+        } else {
+            s += R"(" type="button"
+            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+            onclick="changeStatus(this.id)";
+        }
+        s += ")";
+        s += R"(">Status ändern </button>)";
+        s += R"(</td>)";
+    }
+
     s += R"(</tr>)";
     return s;
+}
+
+string HTMLGenerator::handleStatusChange(int id) {
+    string retMsg = "Status der Komponente erfolgreich geändert";
+    try {
+        Komponente* komp = komponentenController->getKomponenteById(id);
+        if (komp == nullptr)
+            throw invalid_argument("Es ist keine Komponente mit der ID " + to_string(id) + "vorhanden");
+        ErzeugerRpcClient* rpcClient = new ErzeugerRpcClient();
+        rpcClient->initRpc(komp->getIp(), 7000);
+        rpcClient->changeStatus(id);
+        delete rpcClient;
+    } catch (exception &e) {
+        cerr << e.what() << endl;
+        retMsg = e.what();
+    }
+    return retMsg;
 }

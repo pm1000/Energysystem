@@ -1,0 +1,30 @@
+syntax="proto3";
+
+package Energieversorger;
+
+service KomponentenData {
+
+  rpc GetKomponentenIDs(Empty) returns (stream KomponentenID) {}
+  rpc GetKomponente(KomponentenID) returns (Komponente) {}
+  rpc GetKomponentenWerte(KomponentenID) returns (stream KomponentenWert) {}
+}
+
+message Empty {
+
+}
+
+message KomponentenID {
+  int32 id = 1;
+}
+
+message Komponente {
+    string type = 1;
+    string name = 2;
+    int32 id = 3;
+    bool status = 4;
+}
+
+message KomponentenWert {
+   int64 time = 1;
+   double value = 2;
+}

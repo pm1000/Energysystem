@@ -10,10 +10,18 @@ int Simulator::msgID = 0;
 /**
  *
  */
-Simulator::Simulator(Erzeuger *erzeuger, const std::string& communicationType, int port, std::string address) {
+Simulator::Simulator(Erzeuger *erzeuger, const std::string& communicationType, int port, std::string address,
+                     string brokerIP, string brokerChannel) {
     this->erzeuger = erzeuger;
+    rpcController = new RpcController;
+    rpcController->initRpc(erzeuger, 7000);
     if (communicationType == "UDP") {
         this->interface = new UDPKommunikation(port, address);
+    } else if (communicationType == "MQTT") {
+        this->interface = new MqttKommunikation(brokerIP, brokerChannel, erzeuger->getName());
+    } else {
+        cout << "Unknown communication type: \"" + communicationType +"\". Only UDP or MQTT are valid" << endl;
+        exit(5);
     }
 }
 
@@ -25,6 +33,7 @@ Simulator::Simulator(Erzeuger *erzeuger, const std::string& communicationType, i
 Simulator::~Simulator() {
     delete erzeuger;
     delete interface;
+    delete rpcController;
 }
 
 
@@ -34,11 +43,13 @@ Simulator::~Simulator() {
  */
 void Simulator::start() {
     try {
+        thread rpcThread(&RpcController::start, rpcController);
+        cout << "x0" << endl;
         while(!stopped) {
             this->simulate();
             sleep(2);
         }
-
+        rpcThread.join();
     } catch (exception &e) {
         cout << e.what() << endl;
     }
@@ -53,8 +64,11 @@ void Simulator::simulate() {
     double cons = erzeuger->getLastHourGeneration();
     time_t t = time(nullptr);
 
-    string message = messageToJSON(erzeuger->getType(), erzeuger->getName(), erzeuger->getID(), cons, t);
+    string message = messageToJSON(erzeuger->getType(), erzeuger->getName(), erzeuger->getID(), cons, t,
+                                   erzeuger->isStatus());
 
+    cout << message << endl;
+    cout << std::chrono::system_clock::now().time_since_epoch().count() << endl;
     mtx.lock();
     interface->sendData(message);
 
@@ -71,7 +85,7 @@ void Simulator::simulate() {
 /**
  *
  */
-string Simulator::messageToJSON(string type, string name, int id, double value, time_t time) {
+string Simulator::messageToJSON(string type, string name, int id, double value, time_t time, bool status) {
     std::string message = "{";
     message += "\"type\": ";
     message += "\"" + type + "\", ";
@@ -84,7 +98,20 @@ string Simulator::messageToJSON(string type, string name, int id, double value, 
     message += "\"time\": ";
     message += to_string(time) + ", ";
     message += "\"msgID\": ";
-    message += to_string(msgID);
+    message += to_string(msgID) + ", ";
+    message += "\"status\": ";
+    if (status)
+        message += "1";
+    else
+        message += "0";
+
+    //if communication type is mqtt then the ip needs to be send as well (needed for rpc calls from the Zentrale)
+    MqttKommunikation* mqtt = dynamic_cast<MqttKommunikation*>(this->interface);
+    if (mqtt != nullptr) {
+        message += ", \"ip\": ";
+        message += mqtt->getIp();
+    }
+
     message += "}";
     return message;
 }
@@ -96,6 +123,7 @@ string Simulator::messageToJSON(string type, string name, int id, double value, 
  */
 void Simulator::stop() {
     this->stopped = true;
+    this->rpcController->stop();
 }
 
 

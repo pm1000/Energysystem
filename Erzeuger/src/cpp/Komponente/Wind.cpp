@@ -13,7 +13,6 @@ Wind::Wind(int id, string name, int size) {
     this->name = name;
     this->size = size;
     this->completeGeneration = 0;
-    this->turnOffPossible = false;
     this->status = true;
     this->type = "Wind";
 }

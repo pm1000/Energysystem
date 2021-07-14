@@ -13,7 +13,6 @@ Atom::Atom(int id, string name, double maxGeneration) {
     this->name = name;
     this->maximumGeneration = maxGeneration;
     this->completeGeneration = 0;
-    this->turnOffPossible = true;
     this->status = true;
     this->type = "Atom";
 }

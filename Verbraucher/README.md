@@ -22,10 +22,14 @@ Dieses Programm wird von jedem Verbraucher verwendet.
   rufen die Verbraucher die Methode `sendData(string message)` des Interfaces auf.
     - Das Interface `ZentralenKommunikation` wird durch die Klassen `UDPKommunikation` und `MQTTKommunikation`
       implementiert.
-        - Funktion von `UDPKommunikation`:
+        * Funktion von `UDPKommunikation`:
             - Die IPv4 Adresse und der Port der Zentrale wird bei der Initialisierung des UPDKommunikationsobjektes
               übergeben (Aufruf des Konstruktors `UDPKommunikation(int port, std::string address)`).
             - Ein Socket wird mit der Funktion `initSocket()` initialisiert. Der Deskriptor des geöffneten Sockets
               wird in dem Attribut `socketFD` gespeichert.
             - Die Methode `sendData(string message)` wurde so implementiert, dass der vorher geöffnete Socket verwendet
               wird, um die Daten zur Zentrale zu senden.
+        * Funktion von `MqttKommunikation`:
+            - In der Klasse wird eine Verbindung zu dem MQTT-Server mit den übergebenen Parametern hergestellt (`MqttKommunikation(string brokerIP, string name)`).
+              Danach wird die Methode `sendData(string message)`, welche die Methode aus ZentralenKommunikation überschreibt, benutzt, um Nachrichten an den Channel des MQTT-Servers zu schicken.
+                    

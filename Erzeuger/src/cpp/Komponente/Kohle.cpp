@@ -12,7 +12,6 @@ Kohle::Kohle(int id, string name, double maximumGeneration){
     this->id = id;
     this->name = name;
     this->maximumGeneration = maximumGeneration;
-    this->turnOffPossible = true;
     this->status = true;
     this->completeGeneration = 0;
     this->type = "Kohle";

@@ -9,6 +9,15 @@ Der Port des Webservers kann man über einen Parameter beim Programmstart abänd
 
 Über den UDP Port 5000 können Geräte ihre Daten melden. Die Kommunikation wird per String im JSON-Format geparst übertragen.
 
+## Synchronisierung und Verteilen der Daten
+Bei einem Start einer Zentralen werden die Daten von anderen Zentralen (per Programmparameter übergeben) über einen RPC-Call angefordert.
+Ist die Zentrale hochgefahren bereit und hat Daten, so werden diese an die anfragende Zentrale per MQTT gesendet.
+
+Während der gesamten Dauer empfängt eine Zentrale auch nur Daten von ihren Komponenten. 
+Diese werden dann per MQTT auch an die anderen bekannten Zentralen gesendet.
+Fällt eine Zentrale aus, so stehen die Daten der Komponenten, die nur an diese Zentrale senden nicht mehr zur Verfügung über den zeitraum hinweg.
+
+
 ## Klassenstruktur
 
 ### Zentrale
@@ -45,7 +54,65 @@ Wurden Bytes empfangen (kein Timout/Fehler erkannt) wird die Objekt-Callback Met
 Bei dem Verlassen der Schleife ist die Aufgabe des Threads fertig (Server kann geschlossen werden) und der Socket wird probiert zu schließen.
 
 Die Klasse `UDPCallback` dient als Interface für andere Klassen eine Nachricht zu verarbeiten. Sie wird aufgerufen, wenn in der run()-Methode des UDPServer eine Nachricht empfangen wird.
-* `processMessage (string)`: Zu überschreibende Funktion, die aufgerufen wird, wenn eine Nachricht empfangen wird.
+* `processMessageUdp (string)`: Zu überschreibende Funktion, die aufgerufen wird, wenn eine Nachricht empfangen wird.
+
+
+
+### RPCServer
+
+#### Proto File
+Die Proto files finden sich in dem `src/proto` Ordner wieder und beschreiben die RPC-Aufrufe.
+- `erzeuger.proto` beschreibt die Kommunikation zwischen Erzeuger und Zentrale.
+  Hier kann man mit `SetStatus()` den jeweiligen Erzeuger ein- und ausschalten
+- `rpcServer.proto` beschreibt die Kommunikation zwischen Energieversorger und Zentrale.
+  Hier können aktuelle Daten der Erzeuger/Verbaucher angefragt werden.
+  `GetKomponentenIDs` liefert eine Liste nur mit den Ids aller Komponenten zurück.
+  `GetKomponente` liefert die genauen Daten der Komponenten zurück.
+  `GetKomponentenWerte` liefert die Werte/Daten der jeweiligen Komponente zurück.
+  
+Die Proto-Files werden automatisch beim Build-Vorgang in den generated Ordner abgelegt und eingebunden.
+
+#### RpcServer
+Die Klasse RpcServer kümmert sich um die Verbindung/Bereitstellung des RPC-Dienstes für den Energieversorger.
+Sie wird in der Klasse Zentrale gestartet und verwaltet.
+Sie erbt von der Klasse `Komponente::Service`, die aus dem Service aus der Proto-File entsteht.
+Die beinhaltet folgende Methoden:
+
+- `init()`: Initialisiert die Klasse.
+  Übergibt einen Port, wo der RPC-Server gestartet werden soll und den Komponentencontroller, der für Datenzugriffe benutzt werden soll.
+- `run()`: Startet den eigentlichen Prozess, der in einem Thread gestartet werden kann.
+- `stop()`: Stoppt den RPC-Server und beendet den Dienst.
+- Die Methoden `GetKomponentenIDs()`, `GetKomponente()` und `GetKomponentenWerte()` sind überschriebene Methoden aus der Service Klasse unseres Packages aus der Proto File.
+  Sie werden bei einem Remote-Call aufgerufen.
+  Hier finden die eigentlichen Datenaufrufe statt.
+
+#### ErzeugerRpcClient
+Die Klasse ErzeugerRpcClient ist für die Remote Calls auf die Erzeuger zuständig. 
+Sie wird aus einem Zugriff über HTTP aufgerufen.
+Die Verbindung des HTTP-Aufrufes und des RPC-Calls finden in der Zentrale statt, wo Pfad des Webservers ein besonderes Verhalten zugeordnet wird (ähnlich einem REST-Call, interne SetStatus-Klasse).
+Hier wird die Verbindung zu den Erzeugern per RPC verwaltet.
+Sie hat folgende Methoden:
+
+- `initRpc()`: Hier wird die Verbindung zu dem RPC-Server im Erzeuger deklariert und ein Channel (Stub) erzeugt.
+- `changeStatus()`: Über die eindeutige Komponenten-ID wird hier die SetStatus()-Methode aus der Proto-File aufgerufen und ein Remote-Call abgesetzt.
+  Der Status der jeweiligen Komponente wird dabei geändert.
+
+
+### MQTT
+
+#### Einbinden
+Die MQTT-Funktion bedarf beim Bauen einer Installation auf dem Host-Rechner. 
+Bei einem Bauen in den Dockerfiles wird es automatisch installiert.
+
+#### Server
+Die MQTT Funktionalität bedarf keiner eigenen Klasse.
+Der MQTT-Client wird in der Zentrale gestartet und verwaltet.
+Die `start()`-Methode der Zentrale startet den MQTT-Client, der sich auf den MQTT-Server verbindet, der als Attribut in der Zentrale gespeichert wird.
+Die Serveradresse und Client-Id werden als Parameter in der Methode `setMqttProperties()` gesetzt.
+Als Callback für Connection-Events und eingehende Nachrichten wird die Klasse `KomponentenController` verwendet.
+Sie verwaltet die Events und verarbeitet die Nachrichten.
+Die `stop()`-Methode stoppt den Server.
+
 
 
 ### WebServer
@@ -128,12 +195,14 @@ Komponente zurück. Auf dieser Übersichtsseite sind alle gemeldeten Daten der j
 Der `KomponentenController` dient zur Verwaltung von allen Komponenten. Die Komponenten sind in einer Map gespeichert.
 Die ID jeder Komponente dient dazu als Key. Außerdem findet ein Mapping zwischen dem Namen der Komponente und der ID 
 statt. Außerdem implementiert die Klasse `KomponentenController` die Methode
-`void processMessage(std::string ip, std::string message)` vom Interface `UDPCallback`. Diese Methode wird bei jeder
+`void processMessageUdp(std::string ip, std::string message)` vom Interface `UDPCallback`. Diese Methode wird bei jeder
 neu eingegangen Nachricht aufgerufen. Innerhalb der Methode findet ein Parsing der Nachricht statt und die übermittelten
 Werte werden der jeweiligen Komponente zugeordnet. Falls die Komponente noch unbekannt ist, so wird diese angelegt und
 in der Map gespeichert. Außerdem wird nach dem Einfügen von neuen Daten bei jeder Komponente geprüft, ob die Nachrichtenids
 in der richtigen Reihenfolge sind, oder ob Nachrichten verloren gegangen sind. Falls dies passiert ist, wird ein neuer
 Thread gestartet, der die fehlenden Nachrichten bei den Komponenten nochmals anfordert. 
+Die Methode `message_arrived()`, die von der Vererbung von `mqtt::callback` kommt ist eine Callback-Funktion für den MQTT-Service und kümmert sich um eingehende Nachrichten.
+Sie verarbeitet eingehende Nachrichten.
 
 #### Komponenten
 In dieser Klasse werden alle grundlegenden Informationen zu einer Komponente gespeichert (`string name`, `int id`, 

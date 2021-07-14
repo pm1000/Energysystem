@@ -7,13 +7,18 @@
 #include "Komponente.h"
 
 class Erzeuger : public Komponente{
+private:
+    bool status;
+
 
 public:
-
-    Erzeuger(std::string type, std::string name, int id);
+    Erzeuger(std::string type, std::string name, int id, bool status);
     ~Erzeuger();
 
-    std::string getType() override;
+    virtual std::string getType() override;
+
+    void setStatus(bool status);
+    bool isStatus() const;
 
 };
 
