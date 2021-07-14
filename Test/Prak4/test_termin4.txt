@@ -1,17 +1,15 @@
 Funktionaler Test:
 
 Kriterium:
-	Nach dem klicken von Status abschalten, sollte die Zentrale einen RPC_Call an den jeweiligen Erzeuger sendne, um diesen abzuschalten. WEnn dieser abgeschaltet wurde, wollte der Erzeuger nur	 noch 0.0 als erzeugt Strommenge senden.
-	
+	Nach dem klicken von Status abschalten, sollte die Zentrale einen RPC-Call an den jeweiligen Erzeuger senden, um diesen abzuschalten. Nach dem abschalten, sollte
+	der Erzeuger nur noch 0.0 als erzeugt Strommenge an die Zentrale senden.
 	
 Umsetzung:
-	Die Zentrale besitzt die Methode std::vector<int> Komponente::checkMissingMsg(int msgID) in der Klasse Komponente. Diese kontrolliert, ob alle Nachrichten ankamen. Dafür 
-	sind die Nachrichten durchnummeriert. Die Methode gibt einen Vektor mit allen fehlenden Nachrichten zurück.
+	Über das Zentralen Gui wird der Button "Status ändern" für den Erzeuger "ATOOOOOOM" geklickt. Anschließend wird ein Moment gewartet und der Button wird noch einmal geklickt.
+	Dies simuliert das abschalten und wiederhochfahren des Kraftwerks.
 	
-
 Test:
-	Ein Erzeuger sendet 100 Nachrichten an die Zentrale. In der Zentrale wird ein Paketverlust von 80% simuliert. Am Ende müssen in der Zentrale die 100 Nachrichten
-	des Erzeugers vorhanden sein.
+	Nach dem abschalten sendete das Kraftwerk nur noch 0.0 als erzeugte Strommenge. Nach dem anschalten liefert das Kraftwerk wieder Strom. (Siehe Screenshot)
 	
 --> Ist erfüllt.
 
@@ -21,12 +19,42 @@ Test:
 Performance Test:
 
 Kriterium:
-	Die Zentrale soll ca 100000 Nachrichten pro Minut verarbeiten können, sodass ausreichend Kapazitäten vorhanden sind, um alle Nachrichten von den Verbrauchern zu speichern.
+	Innerhalb von 0,1 Sekunden sollte der externe Energieversorger die 100 letzten Senderdaten empfangen können. 
 	
 Umsetzung:
-	Der Erzeuger schickt in einer startPerformanceTest-Methode im Abstand von 1ns 100000 Nachrichten. Dadurch kommt man auf eine Ausführungszeit von ca. 1 Minute. Die Zentrale empfängt alle Nachrichten und verarbeitet sie.
+	Es wird die Zeit vor dem Starten des RPC-Calls in Richtung der Zentrale gestoppt. Anschließend wird der RPC-Call ausgeführt. Nachdem alle Daten empfangen wurden, wird
+	erneut die Zeit gemessen. Das Netzwerk wird dabei ignoriert (Datenaustausch findet im lokalen Netzwerk statt).
 	
-Test:
-	Erzeuger starttet die Testmessung und sendet alle Nachrichten. Zentrale verarbeitet alle nachrichten.
+Test (Werte in ns):
+
+	Test1:
+		start:	1626217421959644909
+		end:	1626217421962549660
+		dauer:	2904751
 	
---> Test erfolgreich. Alle 100000 Nachrichten wurden innerhalb einer Minute empfangen und verarbeitet.
+	Test2:
+		start:	1626217312578117823
+		end:	1626217312580719360
+		dauer:	2601537
+		
+	Test3:
+		start:	1626217324135435687
+		end:	1626217324137824304
+		dauer:	2388617
+		
+	Test4:
+		start:	1626217334034494605
+		end:	1626217334036857034
+		dauer:	2362429
+		
+	Test5:
+		start:	1626217344690415495
+		end:	1626217344693388522
+		dauer:	2973027
+		
+	Test6:
+		start:	1626217355134323097
+		end:	1626217355136772582
+		dauer:	2449485
+	
+--> Durchschnitt: 2613307ns (0,0026s) --> Testkriterium erfüllt
